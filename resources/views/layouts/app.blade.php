@@ -247,9 +247,15 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ url('/logout') }}" class="nav-link" onclick="return confirm('Are You Sure?')">
-                                    <span style="{{ Request::is('logout*') ? 'color: blue' : '' }}">Log Out</span>
-                                </a>
+                                @if (auth()->user())
+                                    <a href="{{ url('/logout') }}" class="nav-link" onclick="return confirm('Are You Sure?')">
+                                        <span style="{{ Request::is('logout*') ? 'color: blue' : '' }}">Log Out</span>
+                                    </a>
+                                @else
+                                    <a href="{{ url('/login') }}" class="nav-link">
+                                        <span style="{{ Request::is('login*') ? 'color: blue' : '' }}">Log In</span>
+                                    </a>
+                                @endif
                             </li>
                         </ul>
                     </div>

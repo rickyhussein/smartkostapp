@@ -67,7 +67,7 @@
                         </li>
 
                         <li class="wallet-card-item">
-                            <a class="fw_6" href="#" id="btn-logout">
+                            <a class="fw_6" href="{{ auth()->user() ? '#' : url('/login') }}" id="{{ auth()->user() ? 'btn-logout' : ''  }}">
                                 <svg style="width: 40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 512 512" xml:space="preserve">
                                 <polygon style="fill:#F4A026;" points="20.677,256 188.13,383.348 175.002,294.072 371.856,294.072 371.856,215.303
@@ -86,7 +86,7 @@
                                     c0,7.117-5.625,13.128-13.06,13.128H134.236v-26.256h305.231c7.249,0,12.472-5.879,12.472-13.128V65.641
                                     c0-7.249-5.222-13.128-12.472-13.128H134.236V26.256h330.899c7.435,0,13.06,6.011,13.06,13.128V472.615z"/>
                                 </svg>
-                                <p>Log Out</p>
+                                <p>{{ auth()->user() ? 'Log Out' : 'Log In' }}</p>
                             </a>
                         </li>
                     </ul>
