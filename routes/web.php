@@ -29,7 +29,7 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-Route::get('/', [DashboardController::class, 'userDashboard'])->middleware('guest');
+Route::get('/', [AuthController::class, 'index'])->middleware('guest');
 Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login/store', [AuthController::class, 'storeLogin'])->middleware('guest');
 Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
@@ -167,6 +167,7 @@ Route::delete('/properties/owner/delete/{id}', [PropertyController::class, 'dele
 
 Route::get('/properties/user', [PropertyController::class, 'userProperties']);
 Route::get('/properties/user/show/{id}', [PropertyController::class, 'showUserProperties']);
+Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

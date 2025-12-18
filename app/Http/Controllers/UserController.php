@@ -18,6 +18,12 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('permission:users_admin', ['only' => ['index']]);
+        $this->middleware('permission:profile_admin', ['only' => ['adminProfile']]);
+        $this->middleware('permission:profile_user', ['only' => ['userProfile']]);
+        $this->middleware('permission:profile_owner', ['only' => ['ownerProfile']]);
+        $this->middleware('permission:ganti_password_admin', ['only' => ['editPasswordAdmin']]);
+        $this->middleware('permission:ganti_password_owner', ['only' => ['editPasswordOwner']]);
+        $this->middleware('permission:ganti_password_user', ['only' => ['editPasswordUser']]);
     }
 
     public function index()

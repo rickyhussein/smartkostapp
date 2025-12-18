@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use App\Models\User;
+use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class authController extends Controller
 {
+    public function index()
+    {
+        $title = 'Home';
+        $properties = Property::where('status', 'Disetujui')->orderBy('count_click', 'DESC')->limit(10)->get();
+        $news = News::orderBy('id', 'DESC')->limit(10)->get();
+        return view('dashboard.userDashboard', compact(
+            'title',
+            'properties',
+            'news',
+        ));
+    }
+
     public function login()
     {
         $title = "Log In";
@@ -33,7 +48,7 @@ class authController extends Controller
             if (auth()->user()->hasAnyPermission(['dashboard_admin'])) {
                 return redirect()->intended('/dashboard');
             } else if (auth()->user()->hasAnyPermission(['dashboard_owner'])) {
-                return redirect()->intended('/dashboard/owner');
+                return redirect('/dashboard/owner');
             } else {
                 return redirect()->intended('/dashboard/user');
             }
@@ -72,7 +87,7 @@ class authController extends Controller
         $user = User::create($validated);
         $user->assignRole('user');
         Auth::loginUsingId($user->id);
-        return redirect('/dashboard/user')->with('success', 'Register Berhasil!');
+        return redirect()->intended('/dashboard/user')->with('success', 'Register Berhasil!');
     }
 
     public function ownerRegister()

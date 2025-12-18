@@ -548,6 +548,38 @@ class PropertyController extends Controller
         ));
     }
 
+    public function rentUserProperties($id)
+    {
+        $title = 'Pengajuan Sewa';
+        $property = Property::find($id);
+        if (old('room_id')) {
+            $room = PropertyRoom::find(old('room_id'));
+            $one_month_price = $room->one_month_price;
+            $three_month_price = $room->three_month_price;
+            $six_month_price = $room->six_month_price;
+            $twelve_month_price = $room->twelve_month_price;
+            $deposit_price = $room->deposit_price;
+        } else {
+            $room = null;
+            $one_month_price = 0;
+            $three_month_price = 0;
+            $six_month_price = 0;
+            $twelve_month_price = 0;
+            $deposit_price = 0;
+        }
+
+        return view('properties.rentUserProperties', compact(
+            'title',
+            'property',
+            'room',
+            'one_month_price',
+            'three_month_price',
+            'six_month_price',
+            'twelve_month_price',
+            'deposit_price',
+        ));
+    }
+
     public function getCity(Request $request)
     {
         $cities = City::where('province_id', $request->province_id)->orderBy('name')->get();

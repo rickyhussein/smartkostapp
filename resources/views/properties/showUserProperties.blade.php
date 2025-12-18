@@ -206,7 +206,7 @@
         <div class="tf-container">
             <div class="row">
                 <div class="col">
-                    <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ auth()->user() ? url('/property-user/rent/'.$property->id) : url('/login') }}">Sewa Kos Ini</a>
+                    <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ url('/properties/user/rent/'.$property->id) }}">Sewa Kos Ini</a>
                 </div>
             </div>
         </div>

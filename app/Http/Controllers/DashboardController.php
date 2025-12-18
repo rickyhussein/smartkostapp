@@ -12,6 +12,8 @@ class DashboardController extends Controller
     function __construct()
     {
         $this->middleware('permission:dashboard_admin', ['only' => ['index']]);
+        $this->middleware('permission:dashboard_user', ['only' => ['userDashboard']]);
+        $this->middleware('permission:dashboard_owner', ['only' => ['ownerDashboard']]);
     }
 
     public function index()
