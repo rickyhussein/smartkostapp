@@ -14,6 +14,7 @@ use App\Models\PropertyRoom;
 use Illuminate\Http\Request;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyFacility;
+use App\Models\PropertyRoomPhoto;
 use App\Models\PropertyRegulation;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\UserNotification;
@@ -441,14 +442,15 @@ class PropertyController extends Controller
 
             $old_room_file_path = $request->input('old_room_file_path', []);
             $old_room_file_name = $request->input('old_room_file_name', []);
+            $old_room_id = $request->input('old_room_id', []);
             $room_file_path  = $request->file('room_file_path', []);
-
-            PropertyRoom::where('property_id', $property->id)->delete();
 
             $all_rooms = array_unique(array_merge(
                 array_keys($old_room_file_path),
                 array_keys($room_file_path)
             ));
+
+            PropertyRoom::where('property_id', $property->id)->whereNotIn('id', $old_room_id)->delete();
 
             foreach ($all_rooms as $ar) {
                 if (isset($room_file_path[$ar]) && $room_file_path[$ar] && $room_file_path[$ar]->isValid()) {
@@ -461,7 +463,9 @@ class PropertyController extends Controller
                     continue;
                 }
 
-                PropertyRoom::create([
+                $room_photos = PropertyRoomPhoto::where('room_id', $old_room_id[$ar])->get();
+
+                $room = PropertyRoom::create([
                     'property_id' => $property->id,
                     'room_name' => $room_name[$ar],
                     'room_type' => $room_type[$ar],
@@ -478,6 +482,13 @@ class PropertyController extends Controller
                     'room_file_name' => $rfn,
                 ]);
 
+                foreach($room_photos as $rp) {
+                    $rp->update([
+                        'room_id' => $room->id
+                    ]);
+                }
+
+                PropertyRoom::where('id', $old_room_id[$ar])->delete();
             }
 
             $message = 'Permintaan penambahan properti oleh ' . auth()->user()->name . ' membutuhkan persetujuan dari anda.';
@@ -503,13 +514,92 @@ class PropertyController extends Controller
 
     public function showOwnerProperties($id)
     {
-        $title = 'Kelola Properti';
         $property = Property::find($id);
+        $title = $property->name ? ucwords(strtolower($property->name)) : '';
 
         return view('properties.showOwnerProperties', compact(
             'title',
             'property',
         ));
+    }
+
+    public function showRoomOwnerProperties($room_id, $property_id)
+    {
+        $room = PropertyRoom::find($room_id);
+        $property = Property::find($property_id);
+        $room_photos = PropertyRoomPhoto::where('room_id', $room_id)->get();
+        $room_name = $room->room_name ? ucwords(strtolower($room->room_name)) : '';
+        $room_type = $room->room_type ? ucwords(strtolower($room->room_type)) : '';
+        $title = 'Kamar ' . $room_name . ' Tipe ' . $room_type;
+
+        return view('properties.showRoomOwnerProperties', compact(
+            'title',
+            'property',
+            'room',
+            'room_photos',
+        ));
+    }
+
+    public function createRoomOwnerProperties($room_id, $property_id)
+    {
+        $room = PropertyRoom::find($room_id);
+        $property = Property::find($property_id);
+        $room_photos = PropertyRoomPhoto::where('room_id', $room_id)->get();
+        $room_name = $room->room_name ? ucwords(strtolower($room->room_name)) : '';
+        $room_type = $room->room_type ? ucwords(strtolower($room->room_type)) : '';
+        $title = 'Kamar ' . $room_name . ' Tipe ' . $room_type;
+
+        return view('properties.createRoomOwnerProperties', compact(
+            'title',
+            'property',
+            'room',
+            'room_photos',
+        ));
+    }
+
+    public function storeRoomOwnerProperties(Request $request, $room_id, $property_id)
+    {
+        $room = PropertyRoom::find($room_id);
+        $property = Property::find($property_id);
+        DB::transaction(function ()  use ($request, $room, $property) {
+            $request->validate([
+                'property_id' => 'required',
+                'room_id' => 'required',
+            ]);
+
+            $old_room_photo_file_path = $request->input('old_room_photo_file_path', []);
+            $old_room_photo_file_name = $request->input('old_room_photo_file_name', []);
+            $room_photo_file_path = $request->file('room_photo_file_path', []);
+
+            PropertyRoomPhoto::where('room_id', $room->id)->delete();
+
+            $all_photos = array_unique(array_merge(
+                array_keys($old_room_photo_file_path),
+                array_keys($room_photo_file_path)
+            ));
+
+            foreach ($all_photos as $ap) {
+                if (isset($room_photo_file_path[$ap]) && $room_photo_file_path[$ap] && $room_photo_file_path[$ap]->isValid()) {
+                    $rpfp = $room_photo_file_path[$ap]->store('room_photo_file_path');
+                    $rpfn = $room_photo_file_path[$ap]->getClientOriginalName();
+                } elseif (!empty($old_room_photo_file_path[$ap]) && !empty($old_room_photo_file_name[$ap])) {
+                    $rpfp = $old_room_photo_file_path[$ap];
+                    $rpfn = $old_room_photo_file_name[$ap];
+                } else {
+                    continue;
+                }
+
+                PropertyRoomPhoto::create([
+                    'property_id' => $property->id,
+                    'room_id' => $room->id,
+                    'room_photo_file_path' => $rpfp,
+                    'room_photo_file_name' => $rpfn,
+                ]);
+            }
+
+        });
+
+        return redirect('/properties/owner/room/show/'.$room->id.'/'.$property->id)->with('success', 'Data Berhasil Disimpan');
     }
 
     public function userProperties()

@@ -352,42 +352,38 @@
                         </div>
                         <br>
 
-                        @php
-                            $old = session()->getOldInput();
-                        @endphp
-
                         <div class="card" style="border-radius: 10px; border: 1px solid #acacac; font-size: 14px;">
                             <div class="card-body">
                                 <h4 class="mb-4">Detail Kamar</h4>
                                 <div id="roomContainer">
-                                    @if(isset($old['room_name']))
-                                        @foreach ($old['room_name'] as $key => $roomName)
+                                    @if (count($property->rooms) > 0)
+                                        @foreach ($property->rooms as $room)
                                             <div class="card text-dark bg-light roomItem" style="border-radius: 15px; margin-bottom: 15px;">
                                                 <div class="card-body">
                                                     <label for="room_name">Nama / Nomor Kamar</label>
                                                     <div class="group-input">
-                                                        <input type="text" name="room_name[]" class="room_name" value="1" value="{{ old('room_name')[$key] }}" required>
+                                                        <input type="text" name="room_name[]" class="room_name" value="{{ $room->room_name }}" required>
                                                     </div>
                                                     <label for="room_type">Tipe Kamar</label>
                                                     <div class="group-input">
-                                                        <input type="text" name="room_type[]" class="room_type" value="{{ old('room_type')[$key] }}">
+                                                        <input type="text" name="room_type[]" class="room_type" value="{{ $room->room_type }}">
                                                     </div>
                                                     <label for="floor">Lantai</label>
                                                     <div class="group-input">
-                                                        <input type="text" name="floor[]" class="floor" value="{{ old('floor')[$key] }}">
+                                                        <input type="text" name="floor[]" class="floor" value="{{ $room->floor }}">
                                                     </div>
                                                     <div class="row mb-6">
                                                         <div class="col-6">
                                                             <label for="room_height">Panjang Ruangan</label>
                                                             <div class="input-group">
-                                                                <input type="number" class="form-control" name="room_height[]" style="border: 1px solid #acacac;" value="{{ old('room_height')[$key] }}">
+                                                                <input type="number" class="form-control" name="room_height[]" style="border: 1px solid #acacac;"  value="{{ $room->room_height }}">
                                                                 <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
                                                             <label for="room_width">Lebar Ruangan</label>
                                                             <div class="input-group">
-                                                                <input type="number" class="form-control" name="room_width[]" style="border: 1px solid #acacac;" value="{{ old('room_width')[$key] }}">
+                                                                <input type="number" class="form-control" name="room_width[]" style="border: 1px solid #acacac;"  value="{{ $room->room_width }}">
                                                                 <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
                                                             </div>
                                                         </div>
@@ -395,232 +391,150 @@
                                                     <label for="one_month_price">Harga Per Bulan</label>
                                                     <div class="input-group mb-6">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="one_month_price[]" style="border: 1px solid #acacac;" required value="{{ old('one_month_price')[$key] }}">
+                                                        <input type="text" class="form-control money" name="one_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->one_month_price }}" required>
                                                         <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
                                                     </div>
                                                     <label for="three_month_price">Harga Per 3 Bulan</label>
                                                     <div class="input-group mb-6">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="three_month_price[]" style="border: 1px solid #acacac;" value="{{ old('three_month_price')[$key] }}">
+                                                        <input type="text" class="form-control money" name="three_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->three_month_price }}">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
                                                     </div>
                                                     <label for="six_month_price">Harga Per 6 Bulan</label>
                                                     <div class="input-group mb-6">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="six_month_price[]" style="border: 1px solid #acacac;" value="{{ old('six_month_price')[$key] }}">
+                                                        <input type="text" class="form-control money" name="six_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->six_month_price }}">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
                                                     </div>
                                                     <label for="twelve_month_price">Harga Per 12 Bulan</label>
                                                     <div class="input-group mb-6">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="twelve_month_price[]" style="border: 1px solid #acacac;" value="{{ old('twelve_month_price')[$key] }}">
+                                                        <input type="text" class="form-control money" name="twelve_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->twelve_month_price }}">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
                                                     </div>
                                                     <label for="deposit_price">Biaya Deposit</label>
                                                     <div class="input-group mb-6">
                                                         <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="deposit_price[]" style="border: 1px solid #acacac;" value="{{ old('deposit_price')[$key] }}">
+                                                        <input type="text" class="form-control money" name="deposit_price[]" style="border: 1px solid #acacac;" value="{{ $room->deposit_price }}">
                                                     </div>
                                                     <label for="room_file_path">Foto Kamar</label>
                                                     <div class="group-input">
                                                         <div class="file-input-wrapper">
-                                                            <input class="form-control room_file_path" required type="file" name="room_file_path[]" accept="image/*">
+                                                            <input class="form-control room_file_path" type="file" name="room_file_path[]" accept="image/*">
                                                             <div class="file-name-display">
-                                                                <span class="room_display">Belum ada file dipilih</span>
+                                                                <span class="room_display">{{ $room->room_file_name ? basename($room->room_file_name) : 'Belum ada file dipilih' }}</span>
                                                             </div>
                                                         </div>
+                                                        @if ($room->room_file_path)
+                                                            <div class="image-preview-container mt-2">
+                                                                <a href="{{ url('/storage/'.$room->room_file_path) }}">
+                                                                    <img src="{{ asset('storage/'.$room->room_file_path) }}" alt="Preview Foto" style="max-width: 200px; max-height: 200px;">
+                                                                </a>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="box-card">
                                                         <div class="tf-card-list medium">
                                                             <div class="info">
                                                                 <h4 class="fw_6">Kamar Sudah Terisi</h4>
                                                             </div>
-                                                            <input type="checkbox" name="select_available[]" {{ old('is_available')[$key] == 1 ? 'checked' : ''}} class="tf-checkbox circle-check select_available">
+                                                            <input type="checkbox" name="select_available[]" {{ $room->is_available == 1 ? 'checked' : ''}} class="tf-checkbox circle-check select_available">
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="is_available[]" class="is_available" value="{{ old('is_available')[$key] }}">
+                                                    <input type="hidden" name="is_available[]" class="is_available" value="{{ $room->is_available }}">
+                                                    <input type="hidden" name="old_room_file_path[]" value="{{ $room->room_file_path }}">
+                                                    <input type="hidden" name="old_room_file_name[]" value="{{ $room->room_file_name }}">
+                                                    <input type="hidden" name="old_room_id[]" value="{{ $room->id }}">
                                                     <br>
                                                     <button class="tf-btn danger large deleteRoom" style="font-size: 12px"><i class="fa fa-trash me-1"></i>Hapus</button>
                                                 </div>
                                             </div>
                                         @endforeach
                                     @else
-                                        @if (count($property->rooms) > 0)
-                                            @foreach ($property->rooms as $room)
-                                                <div class="card text-dark bg-light roomItem" style="border-radius: 15px; margin-bottom: 15px;">
-                                                    <div class="card-body">
-                                                        <label for="room_name">Nama / Nomor Kamar</label>
-                                                        <div class="group-input">
-                                                            <input type="text" name="room_name[]" class="room_name" value="{{ $room->room_name }}" required>
+                                        <div class="card text-dark bg-light roomItem" style="border-radius: 15px; margin-bottom: 15px;">
+                                            <div class="card-body">
+                                                <label for="room_name">Nama / Nomor Kamar</label>
+                                                <div class="group-input">
+                                                    <input type="text" name="room_name[]" class="room_name" value="1" required>
+                                                </div>
+                                                <label for="room_type">Tipe Kamar</label>
+                                                <div class="group-input">
+                                                    <input type="text" name="room_type[]" class="room_type">
+                                                </div>
+                                                <label for="floor">Lantai</label>
+                                                <div class="group-input">
+                                                    <input type="text" name="floor[]" class="floor">
+                                                </div>
+                                                <div class="row mb-6">
+                                                    <div class="col-6">
+                                                        <label for="room_height">Panjang Ruangan</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" name="room_height[]" style="border: 1px solid #acacac;">
+                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
                                                         </div>
-                                                        <label for="room_type">Tipe Kamar</label>
-                                                        <div class="group-input">
-                                                            <input type="text" name="room_type[]" class="room_type" value="{{ $room->room_type }}">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="room_width">Lebar Ruangan</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" name="room_width[]" style="border: 1px solid #acacac;">
+                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
                                                         </div>
-                                                        <label for="floor">Lantai</label>
-                                                        <div class="group-input">
-                                                            <input type="text" name="floor[]" class="floor" value="{{ $room->floor }}">
-                                                        </div>
-                                                        <div class="row mb-6">
-                                                            <div class="col-6">
-                                                                <label for="room_height">Panjang Ruangan</label>
-                                                                <div class="input-group">
-                                                                    <input type="number" class="form-control" name="room_height[]" style="border: 1px solid #acacac;"  value="{{ $room->room_height }}">
-                                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <label for="room_width">Lebar Ruangan</label>
-                                                                <div class="input-group">
-                                                                    <input type="number" class="form-control" name="room_width[]" style="border: 1px solid #acacac;"  value="{{ $room->room_width }}">
-                                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <label for="one_month_price">Harga Per Bulan</label>
-                                                        <div class="input-group mb-6">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                            <input type="text" class="form-control money" name="one_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->one_month_price }}" required>
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                        </div>
-                                                        <label for="three_month_price">Harga Per 3 Bulan</label>
-                                                        <div class="input-group mb-6">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                            <input type="text" class="form-control money" name="three_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->three_month_price }}">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                        </div>
-                                                        <label for="six_month_price">Harga Per 6 Bulan</label>
-                                                        <div class="input-group mb-6">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                            <input type="text" class="form-control money" name="six_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->six_month_price }}">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                        </div>
-                                                        <label for="twelve_month_price">Harga Per 12 Bulan</label>
-                                                        <div class="input-group mb-6">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                            <input type="text" class="form-control money" name="twelve_month_price[]" style="border: 1px solid #acacac;" value="{{ $room->twelve_month_price }}">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                        </div>
-                                                        <label for="deposit_price">Biaya Deposit</label>
-                                                        <div class="input-group mb-6">
-                                                            <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                            <input type="text" class="form-control money" name="deposit_price[]" style="border: 1px solid #acacac;" value="{{ $room->deposit_price }}">
-                                                        </div>
-                                                        <label for="room_file_path">Foto Kamar</label>
-                                                        <div class="group-input">
-                                                            <div class="file-input-wrapper">
-                                                                <input class="form-control room_file_path" type="file" name="room_file_path[]" accept="image/*">
-                                                                <div class="file-name-display">
-                                                                    <span class="room_display">{{ $room->room_file_name ? basename($room->room_file_name) : 'Belum ada file dipilih' }}</span>
-                                                                </div>
-                                                            </div>
-                                                            @if ($room->room_file_path)
-                                                                <div class="image-preview-container mt-2">
-                                                                    <a href="{{ url('/storage/'.$room->room_file_path) }}">
-                                                                        <img src="{{ asset('storage/'.$room->room_file_path) }}" alt="Preview Foto" style="max-width: 200px; max-height: 200px;">
-                                                                    </a>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                        <div class="box-card">
-                                                            <div class="tf-card-list medium">
-                                                                <div class="info">
-                                                                    <h4 class="fw_6">Kamar Sudah Terisi</h4>
-                                                                </div>
-                                                                <input type="checkbox" name="select_available[]" {{ $room->is_available == 1 ? 'checked' : ''}} class="tf-checkbox circle-check select_available">
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden" name="is_available[]" class="is_available" value="{{ $room->is_available }}">
-                                                        <input type="hidden" name="old_room_file_path[]" value="{{ $room->room_file_path }}">
-                                                        <input type="hidden" name="old_room_file_name[]" value="{{ $room->room_file_name }}">
-                                                        <br>
-                                                        <button class="tf-btn danger large deleteRoom" style="font-size: 12px"><i class="fa fa-trash me-1"></i>Hapus</button>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @else
-                                            <div class="card text-dark bg-light roomItem" style="border-radius: 15px; margin-bottom: 15px;">
-                                                <div class="card-body">
-                                                    <label for="room_name">Nama / Nomor Kamar</label>
-                                                    <div class="group-input">
-                                                        <input type="text" name="room_name[]" class="room_name" value="1" required>
-                                                    </div>
-                                                    <label for="room_type">Tipe Kamar</label>
-                                                    <div class="group-input">
-                                                        <input type="text" name="room_type[]" class="room_type">
-                                                    </div>
-                                                    <label for="floor">Lantai</label>
-                                                    <div class="group-input">
-                                                        <input type="text" name="floor[]" class="floor">
-                                                    </div>
-                                                    <div class="row mb-6">
-                                                        <div class="col-6">
-                                                            <label for="room_height">Panjang Ruangan</label>
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" name="room_height[]" style="border: 1px solid #acacac;">
-                                                                <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label for="room_width">Lebar Ruangan</label>
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" name="room_width[]" style="border: 1px solid #acacac;">
-                                                                <span class="input-group-text" style="border: 1px solid #acacac; width: 50px;">M</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <label for="one_month_price">Harga Per Bulan</label>
-                                                    <div class="input-group mb-6">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="one_month_price[]" style="border: 1px solid #acacac;" required>
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                    </div>
-                                                    <label for="three_month_price">Harga Per 3 Bulan</label>
-                                                    <div class="input-group mb-6">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="three_month_price[]" style="border: 1px solid #acacac;">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                    </div>
-                                                    <label for="six_month_price">Harga Per 6 Bulan</label>
-                                                    <div class="input-group mb-6">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="six_month_price[]" style="border: 1px solid #acacac;">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                    </div>
-                                                    <label for="twelve_month_price">Harga Per 12 Bulan</label>
-                                                    <div class="input-group mb-6">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="twelve_month_price[]" style="border: 1px solid #acacac;">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
-                                                    </div>
-                                                    <label for="deposit_price">Biaya Deposit</label>
-                                                    <div class="input-group mb-6">
-                                                        <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
-                                                        <input type="text" class="form-control money" name="deposit_price[]" style="border: 1px solid #acacac;">
-                                                    </div>
-                                                    <label for="room_file_path">Foto Kamar</label>
-                                                    <div class="group-input">
-                                                        <div class="file-input-wrapper">
-                                                            <input class="form-control room_file_path" required type="file" name="room_file_path[]" accept="image/*">
-                                                            <div class="file-name-display">
-                                                                <span class="room_display">Belum ada file dipilih</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-card">
-                                                        <div class="tf-card-list medium">
-                                                            <div class="info">
-                                                                <h4 class="fw_6">Kamar Sudah Terisi</h4>
-                                                            </div>
-                                                            <input type="checkbox" name="select_available[]" class="tf-checkbox circle-check select_available">
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" name="is_available[]" class="is_available">
-                                                    <br>
-                                                    <button class="tf-btn danger large deleteRoom" style="font-size: 12px"><i class="fa fa-trash me-1"></i>Hapus</button>
+                                                <label for="one_month_price">Harga Per Bulan</label>
+                                                <div class="input-group mb-6">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
+                                                    <input type="text" class="form-control money" name="one_month_price[]" style="border: 1px solid #acacac;" required>
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
                                                 </div>
+                                                <label for="three_month_price">Harga Per 3 Bulan</label>
+                                                <div class="input-group mb-6">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
+                                                    <input type="text" class="form-control money" name="three_month_price[]" style="border: 1px solid #acacac;">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
+                                                </div>
+                                                <label for="six_month_price">Harga Per 6 Bulan</label>
+                                                <div class="input-group mb-6">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
+                                                    <input type="text" class="form-control money" name="six_month_price[]" style="border: 1px solid #acacac;">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
+                                                </div>
+                                                <label for="twelve_month_price">Harga Per 12 Bulan</label>
+                                                <div class="input-group mb-6">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
+                                                    <input type="text" class="form-control money" name="twelve_month_price[]" style="border: 1px solid #acacac;">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; width: 100px;background-color:#f8f8f8;">/ Bulan</span>
+                                                </div>
+                                                <label for="deposit_price">Biaya Deposit</label>
+                                                <div class="input-group mb-6">
+                                                    <span class="input-group-text" style="border: 1px solid #acacac; background-color:#f8f8f8">Rp</span>
+                                                    <input type="text" class="form-control money" name="deposit_price[]" style="border: 1px solid #acacac;">
+                                                </div>
+                                                <label for="room_file_path">Foto Kamar</label>
+                                                <div class="group-input">
+                                                    <div class="file-input-wrapper">
+                                                        <input class="form-control room_file_path" required type="file" name="room_file_path[]" accept="image/*">
+                                                        <div class="file-name-display">
+                                                            <span class="room_display">Belum ada file dipilih</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box-card">
+                                                    <div class="tf-card-list medium">
+                                                        <div class="info">
+                                                            <h4 class="fw_6">Kamar Sudah Terisi</h4>
+                                                        </div>
+                                                        <input type="checkbox" name="select_available[]" class="tf-checkbox circle-check select_available">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="is_available[]" class="is_available">
+                                                <input type="hidden" name="old_room_file_path[]">
+                                                <input type="hidden" name="old_room_file_name[]">
+                                                <input type="hidden" name="old_room_id[]">
+                                                <br>
+                                                <button class="tf-btn danger large deleteRoom" style="font-size: 12px"><i class="fa fa-trash me-1"></i>Hapus</button>
                                             </div>
-                                        @endif
+                                        </div>
                                     @endif
                                 </div>
                                 <br>
@@ -1116,6 +1030,9 @@
                                         <h4 class="fw_6">Kamar Sudah Terisi</h4>
                                     </div>
                                     <input type="checkbox" name="select_available[]" class="tf-checkbox circle-check select_available">
+                                    <input type="hidden" name="old_room_file_path[]">
+                                    <input type="hidden" name="old_room_file_name[]">
+                                    <input type="hidden" name="old_room_id[]">
                                 </div>
                             </div>
                             <input type="hidden" name="is_available[]" class="is_available">

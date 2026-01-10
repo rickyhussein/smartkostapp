@@ -142,11 +142,11 @@
                         <h4 class="fw_6">Kamar Kosong</span>: {{ $property->countAvailable($property->id) }} Kamar</h4>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             @foreach ($property->roomAvailable($property->id) as $ra)
-                                <a href="{{ url('/storage/'.$ra->room_file_path) }}" target="_blank" style="color: black; text-decoration: none;">
+                                <a href="{{ url('/properties/owner/room/show/'.$ra->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
                                     <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ra->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Kamar {{ $ra->room_name ?? '-' }} Tipe {{ $ra->room_type ? ucwords(strtolower($ra->room_type)) : '' }}</h5>
+                                            <h5 class="card-title">Kamar {{ $ra->room_name ? ucwords(strtolower($ra->room_name)) : '' }} Tipe {{ $ra->room_type ? ucwords(strtolower($ra->room_type)) : '' }}</h5>
                                             <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>Lantai {{ $ra->floor ?? '-' }}</div>
                                             <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="far fa-square me-1"></i>{{ $ra->room_height ?? '-' }} x {{ $ra->room_width ?? '-' }} Meter</div>
                                             <br>

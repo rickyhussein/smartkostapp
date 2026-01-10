@@ -165,6 +165,10 @@ Route::get('/properties/owner/edit/{id}', [PropertyController::class, 'editOwner
 Route::put('/properties/owner/update/{id}', [PropertyController::class, 'updateOwnerProperties'])->middleware('auth');
 Route::delete('/properties/owner/delete/{id}', [PropertyController::class, 'deleteOwnerProperties'])->middleware('auth');
 
+Route::get('/properties/owner/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoomOwnerProperties'])->middleware('auth');
+Route::get('/properties/owner/room/create/{room_id}/{property_id}', [PropertyController::class, 'createRoomOwnerProperties'])->middleware('auth');
+Route::post('/properties/owner/room/store/{room_id}/{property_id}', [PropertyController::class, 'storeRoomOwnerProperties'])->middleware('auth');
+
 Route::get('/properties/user', [PropertyController::class, 'userProperties']);
 Route::get('/properties/user/show/{id}', [PropertyController::class, 'showUserProperties']);
 Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
