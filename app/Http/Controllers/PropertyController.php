@@ -655,6 +655,23 @@ class PropertyController extends Controller
         ));
     }
 
+    public function showRoomUserProperties($room_id, $property_id)
+    {
+        $room = PropertyRoom::find($room_id);
+        $property = Property::find($property_id);
+        $room_photos = PropertyRoomPhoto::where('room_id', $room_id)->get();
+        $room_name = $room->room_name ? ucwords(strtolower($room->room_name)) : '';
+        $room_type = $room->room_type ? ucwords(strtolower($room->room_type)) : '';
+        $title = 'Kamar ' . $room_name . ' Tipe ' . $room_type;
+
+        return view('properties.showRoomUserProperties', compact(
+            'title',
+            'property',
+            'room',
+            'room_photos',
+        ));
+    }
+
     public function rentUserProperties($id)
     {
         $title = 'Pengajuan Sewa';

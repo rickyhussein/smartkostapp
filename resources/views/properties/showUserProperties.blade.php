@@ -40,6 +40,22 @@
                             alt="Image #{{ $i }}"
                         />
                     </div>
+                    @foreach ($room->roomPhotos as $rp)
+                        @php
+                            $i += 1;
+                        @endphp
+                        <div
+                            class="f-carousel__slide"
+                            data-fancybox="gallery"
+                            data-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                            data-thumb-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                        >
+                            <img
+                                data-lazy-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                                alt="Image #{{ $i }}"
+                            />
+                        </div>
+                    @endforeach
                 @endforeach
                 @if ($property->video_file_path)
                     @php
@@ -132,11 +148,11 @@
                         <h4 class="fw_6">Kamar Kosong</span>: {{ $property->countAvailable($property->id) }} Kamar</h4>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             @foreach ($property->roomAvailable($property->id) as $ra)
-                                <a href="{{ url('/storage/'.$ra->room_file_path) }}" target="_blank" style="color: black; text-decoration: none;">
+                                <a href="{{ url('/properties/user/room/show/'.$ra->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
                                     <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ra->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">
-                                            <h5 class="card-title">Kamar {{ $ra->room_name ?? '-' }} Tipe {{ $ra->room_type ? ucwords(strtolower($ra->room_type)) : '' }}</h5>
+                                            <h5 class="card-title">Kamar {{ $ra->room_name ? ucwords(strtolower($ra->room_name)) : '' }} Tipe {{ $ra->room_type ? ucwords(strtolower($ra->room_type)) : '' }}</h5>
                                             <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>Lantai {{ $ra->floor ?? '-' }}</div>
                                             <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="far fa-square me-1"></i>{{ $ra->room_height ?? '-' }} x {{ $ra->room_width ?? '-' }} Meter</div>
                                             <br>
@@ -204,11 +220,7 @@
 
     <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
         <div class="tf-container">
-            <div class="row">
-                <div class="col">
-                    <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ url('/properties/user/rent/'.$property->id) }}">Sewa Kos Ini</a>
-                </div>
-            </div>
+            <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ url('/properties/user/rent/'.$property->id) }}">Sewa Kos Ini</a>
         </div>
     </div>
 

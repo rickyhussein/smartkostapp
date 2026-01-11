@@ -172,6 +172,7 @@ Route::post('/properties/owner/room/store/{room_id}/{property_id}', [PropertyCon
 
 Route::get('/properties/user', [PropertyController::class, 'userProperties']);
 Route::get('/properties/user/show/{id}', [PropertyController::class, 'showUserProperties']);
+Route::get('/properties/user/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoomUserProperties']);
 Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
