@@ -10,10 +10,10 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-sm-6">
-                        <div class="col-12">
+                        <div>
                             <img style="max-height: 650px; border-radius: 15px;" src="{{ url('/storage/'.$property->photos->first()->property_file_path) }}" class="product-image" alt="Product Image">
                         </div>
-                        <div class="col-12 product-image-thumbs">
+                        <div class="product-image-thumbs" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
                             @php
                                 $i = 0;
                             @endphp
@@ -28,6 +28,12 @@
                                 @php
                                     $i += 1;
                                 @endphp
+                                @foreach ($room->roomPhotos as $rp)
+                                    <div class="product-image-thumb {{ $i == 0 ? 'active' : '' }}"><img src="{{ url('/storage/'.$rp->room_photo_file_path) }}" alt="Product Image"></div>
+                                    @php
+                                        $i += 1;
+                                    @endphp
+                                @endforeach
                             @endforeach
                         </div>
                     </div>
@@ -146,7 +152,7 @@
                         <br>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             @foreach ($property->roomAvailable($property->id) as $ra)
-                                <a href="{{ url('/storage/'.$ra->room_file_path) }}" target="_blank" style="color: black; text-decoration: none;">
+                                <a href="{{ url('/properties/room/show/'.$ra->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
                                     <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ra->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">
@@ -204,7 +210,7 @@
                         <br>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             @foreach ($property->roomUnavailable($property->id) as $ru)
-                                <a href="{{ url('/storage/'.$ru->room_file_path) }}" target="_blank" style="color: black; text-decoration: none;">
+                                <a href="{{ url('/properties/room/show/'.$ru->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
                                     <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ru->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">

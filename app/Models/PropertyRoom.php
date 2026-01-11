@@ -14,4 +14,9 @@ class PropertyRoom extends Model
     {
         return $this->belongsTo(Property::class, 'property_id');
     }
+
+    public function roomPhotos()
+    {
+        return $this->hasMany(PropertyRoomPhoto::class, 'room_id');
+    }
 }

@@ -40,6 +40,22 @@
                             alt="Image #{{ $i }}"
                         />
                     </div>
+                    @foreach ($room->roomPhotos as $rp)
+                        @php
+                            $i += 1;
+                        @endphp
+                        <div
+                            class="f-carousel__slide"
+                            data-fancybox="gallery"
+                            data-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                            data-thumb-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                        >
+                            <img
+                                data-lazy-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                                alt="Image #{{ $i }}"
+                            />
+                        </div>
+                    @endforeach
                 @endforeach
                 @if ($property->video_file_path)
                     @php
@@ -195,7 +211,7 @@
                         <h4 class="fw_6">Kamar Terisi</span>: {{ $property->countUnavailable($property->id) }} Kamar</h4>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             @foreach ($property->roomUnavailable($property->id) as $ru)
-                                <a href="{{ url('/storage/'.$ru->room_file_path) }}" target="_blank" style="color: black; text-decoration: none;">
+                                <a href="{{ url('/properties/owner/room/show/'.$ru->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
                                     <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ru->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">

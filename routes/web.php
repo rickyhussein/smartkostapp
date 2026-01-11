@@ -156,6 +156,7 @@ Route::get('/properties', [PropertyController::class, 'index'])->middleware('aut
 Route::get('/properties/show/{id}', [PropertyController::class, 'show'])->middleware('auth');
 Route::post('/properties/approve/{id}', [PropertyController::class, 'approve'])->middleware('auth');
 Route::post('/properties/reject/{id}', [PropertyController::class, 'reject'])->middleware('auth');
+Route::get('/properties/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoom'])->middleware('auth');
 
 Route::get('/properties/owner', [PropertyController::class, 'ownerProperties'])->middleware('auth');
 Route::get('/properties/owner/create', [PropertyController::class, 'createOwnerProperties'])->middleware('auth');
