@@ -152,6 +152,12 @@ Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->middleware('auth
 Route::put('/news/update/{id}', [NewsController::class, 'update'])->middleware('auth');
 Route::delete('/news/delete/{id}', [NewsController::class, 'delete'])->middleware('auth');
 
+Route::get('/news/user', [NewsController::class, 'userNews']);
+Route::get('/news/user/show/{id}', [NewsController::class, 'showUserNews']);
+
+Route::get('/news/owner', [NewsController::class, 'ownerNews'])->middleware('auth');
+Route::get('/news/owner/show/{id}', [NewsController::class, 'showOwnerNews'])->middleware('auth');
+
 Route::get('/properties', [PropertyController::class, 'index'])->middleware('auth');
 Route::get('/properties/show/{id}', [PropertyController::class, 'show'])->middleware('auth');
 Route::post('/properties/approve/{id}', [PropertyController::class, 'approve'])->middleware('auth');

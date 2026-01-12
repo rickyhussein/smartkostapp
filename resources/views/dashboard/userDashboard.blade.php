@@ -258,13 +258,13 @@
     <div class="tf-container">
         <div class="mt-2 mb-9">
             <div class="d-flex justify-content-between">
-                <h3>Berita</h3> <a href="{{ url('/news-user') }}" class="primary_color fw_6">View All</a>
+                <h3>Berita</h3> <a href="{{ url('/news/user') }}" class="primary_color fw_6">View All</a>
             </div>
             <div class="swiper-container banner-tes">
                 <div class="swiper-wrapper">
                     @foreach ($news as $item)
                         <div class="swiper-slide">
-                            <img class="clickable" data-url="{{ url('/news-user/show/'.$item->id) }}" style="cursor: pointer;" src="{{ url('/storage/'.$item->news_file_path) }}" alt="images">
+                            <img class="clickable" data-url="{{ url('/news/user/show/'.$item->id) }}" style="cursor: pointer;" src="{{ url('/storage/'.$item->news_file_path) }}" alt="images">
                         </div>
                     @endforeach
                 </div>

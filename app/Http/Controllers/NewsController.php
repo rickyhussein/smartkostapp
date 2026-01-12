@@ -107,4 +107,64 @@ class NewsController extends Controller
         $news->delete();
         return redirect('/news')->with('success', 'Data Berhasil Dihapus');
     }
+
+    public function userNews()
+    {
+        $title = 'Berita';
+        $search = request()->input('search');
+
+        $news = News::when($search, function ($query) use ($search) {
+            $query->where('title', 'LIKE', '%' . $search . '%')
+            ->orWhere('content', 'LIKE', '%' . $search . '%');
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10)
+        ->withQueryString();
+
+        return view('news.userNews', compact(
+            'title',
+            'news'
+        ));
+    }
+
+    public function showUserNews($id)
+    {
+        $title = 'Berita';
+        $news = News::find($id);
+
+        return view('news.showUserNews', compact(
+            'title',
+            'news'
+        ));
+    }
+
+    public function ownerNews()
+    {
+        $title = 'Berita';
+        $search = request()->input('search');
+
+        $news = News::when($search, function ($query) use ($search) {
+            $query->where('title', 'LIKE', '%' . $search . '%')
+            ->orWhere('content', 'LIKE', '%' . $search . '%');
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10)
+        ->withQueryString();
+
+        return view('news.ownerNews', compact(
+            'title',
+            'news'
+        ));
+    }
+
+    public function showOwnerNews($id)
+    {
+        $title = 'Berita';
+        $news = News::find($id);
+
+        return view('news.showOwnerNews', compact(
+            'title',
+            'news'
+        ));
+    }
 }
