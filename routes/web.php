@@ -184,6 +184,7 @@ Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserPr
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
 Route::get('/get-village', [PropertyController::class, 'getVillage'])->middleware('auth');
+Route::get('/get-room', [PropertyController::class, 'getRoom'])->middleware('auth');
 
 Route::get('/reset', function () {
     Artisan::call('optimize');

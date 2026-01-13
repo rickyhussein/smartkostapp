@@ -71,8 +71,8 @@
                                 <label for="room_id" style="z-index: 1000;">Pilih Kamar</label>
                                 <select style="width: 100%" name="room_id" id="room_id" class="select2 @error('room_id') is-invalid @enderror">
                                     <option value="">-- Pilih Kamar --</option>
-                                    @foreach ($property->roomUnavailable($property->id) as $ra)
-                                        <option value="{{ $ra->id }}" {{ $ra->id == old('room_id') ? 'selected="selected"' : '' }}>Kamar {{ $ra->room_name ?? '-' }} {{ $ra->room_type ? '- Tipe ' . $ra->room_type : '' }}</option>
+                                    @foreach ($property->roomAvailable($property->id) as $ra)
+                                        <option value="{{ $ra->id }}" {{ $ra->id == old('room_id', request('room_id')) ? 'selected="selected"' : '' }}>Kamar {{ $ra->room_name ?? '-' }} {{ $ra->room_type ? '- Tipe ' . $ra->room_type : '' }}</option>
                                     @endforeach
                                 </select>
                                 @error('room_id')
@@ -84,100 +84,51 @@
 
                             <div id="roomContainer">
                                 @if ($room)
-                                    <a href="{{ url('/storage/'.$room->room_file_path) }}" class="card text-dark bg-light roomItem mb-6" style="border-radius: 15px; margin-bottom: 15px;">
-                                        <div class="card-body">
-                                            <img src="{{ url('/storage/'.$room->room_file_path) }}" style="width: 70px; height: 70px; border-radius: 10px;" class="mb-4">
-                                            <div class="row">
-                                                <div class="col-5">
-                                                    Nama / Nomor Kamar
+                                    <a href="{{ url('/properties/user/room/show/'.$room->id.'/'.$property->id) }}" target="_blank" style="color: black; text-decoration: none;">
+                                        <div class="card mt-4" style="border-radius: 15px; width: 100%;">
+                                            <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$room->room_file_path) }}" class="card-img-top" alt="">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Kamar {{ $room->room_name ? ucwords(strtolower($room->room_name)) : '' }} Tipe {{ $room->room_type ? ucwords(strtolower($room->room_type)) : '' }}</h5>
+                                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>Lantai {{ $room->floor ?? '-' }}</div>
+                                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="far fa-square me-1"></i>{{ $room->room_height ?? '-' }} x {{ $room->room_width ?? '-' }} Meter</div>
+                                                <br>
+                                                <div style="font-size: 8px;">
+                                                    <span style="float: left;">Harga 1 Bulan</span>
+                                                    <span style="float: right;" class="critical_color">Rp {{ number_format($room->one_month_price) }}</span>
                                                 </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    {{ $room->room_name ?? '-' }}
-                                                </div>
-                                                <div class="col-5">
-                                                    Tipe Kamar
-                                                </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    {{ $room->room_type ?? '-' }}
-                                                </div>
-                                                <div class="col-5">
-                                                    Lantai
-                                                </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    {{ $room->floor ?? '-' }}
-                                                </div>
-                                                <div class="col-5">
-                                                    Ukuran Kamar
-                                                </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    {{ $room->room_height ?? '-' }} x {{ $room->room_width ?? '-' }} Meter
-                                                </div>
-                                                <div class="col-5">
-                                                    Harga Per Bulan
-                                                </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    Rp {{ number_format($room->one_month_price) }}
-                                                </div>
+                                                <br>
                                                 @if ($room->three_month_price > 0)
-                                                    <div class="col-5">
-                                                        Harga Per 3 Bulan
+                                                    <div style="font-size: 8px;">
+                                                        <span style="float: left;">Harga 3 Bulan</span>
+                                                        <span style="float: right;" class="critical_color">Rp {{ number_format($room->three_month_price) }}</span>
                                                     </div>
-                                                    <div class="col-1">
-                                                        :
-                                                    </div>
-                                                    <div class="col-6">
-                                                        Rp {{ number_format($room->three_month_price) }}
-                                                    </div>
+                                                    <br>
                                                 @endif
                                                 @if ($room->six_month_price > 0)
-                                                    <div class="col-5">
-                                                        Harga Per 6 Bulan
+                                                    <div style="font-size: 8px;">
+                                                        <span style="float: left;">Harga 6 Bulan</span>
+                                                        <span style="float: right;" class="critical_color">Rp {{ number_format($room->six_month_price) }}</span>
                                                     </div>
-                                                    <div class="col-1">
-                                                        :
-                                                    </div>
-                                                    <div class="col-6">
-                                                        Rp {{ number_format($room->six_month_price) }}
-                                                    </div>
+                                                    <br>
                                                 @endif
                                                 @if ($room->twelve_month_price > 0)
-                                                    <div class="col-5">
-                                                        Harga Per 12 Bulan
+                                                    <div style="font-size: 8px;">
+                                                        <span style="float: left;">Harga 12 Bulan</span>
+                                                        <span style="float: right;" class="critical_color">Rp {{ number_format($room->twelve_month_price) }}</span>
                                                     </div>
-                                                    <div class="col-1">
-                                                        :
-                                                    </div>
-                                                    <div class="col-6">
-                                                        Rp {{ number_format($room->twelve_month_price) }}
-                                                    </div>
+                                                    <br>
                                                 @endif
-                                                <div class="col-5">
-                                                    Biaya Deposit
-                                                </div>
-                                                <div class="col-1">
-                                                    :
-                                                </div>
-                                                <div class="col-6">
-                                                    Rp {{ number_format($room->deposit_price) }}
-                                                </div>
+                                                @if ($room->deposit_price > 0)
+                                                    <div style="font-size: 8px;">
+                                                        <span style="float: left;">Biaya Deposit</span>
+                                                        <span style="float: right;" class="critical_color">Rp {{ number_format($room->deposit_price) }}</span>
+                                                    </div>
+                                                    <br>
+                                                @endif
                                             </div>
                                         </div>
                                     </a>
+                                    <br>
                                 @endif
                             </div>
 
@@ -383,7 +334,10 @@
                 clickOpens: false,
                 disableMobile: true
             });
-
+            
+            function ucwords(str) { 
+                return str .toLowerCase() .replace(/\b\w/g, char => char.toUpperCase()); 
+            }
 
             $('body').on('change', '#room_id', function(event) {
                 $('#roomContainer').empty();
@@ -404,104 +358,51 @@
                     data: {room_id: room_id},
                     success: function(data) {
                         let room = `
-                            <a href="{{ url('/storage/${data.room_file_path}') }}" class="card text-dark bg-light roomItem mb-6" style="border-radius: 15px; margin-bottom: 15px;">
-                                <div class="card-body">
-                                    <img src="{{ url('/storage/${data.room_file_path}') }}" style="width: 70px; height: 70px; border-radius: 10px;" class="mb-4">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            Nama / Nomor Kamar
+                            <a href="{{ url('/properties/user/room/show/${data.id}/${data.property_id}') }}" target="_blank" style="color: black; text-decoration: none;">
+                                <div class="card mt-4" style="border-radius: 15px; width: 100%;">
+                                    <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/${data.room_file_path}') }}" class="card-img-top" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Kamar ${data.room_name ? ucwords(data.room_name) : '-'} Tipe ${data.room_type ? ucwords(data.room_type) : '-'}</h5>
+                                        <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>Lantai ${data.floor}</div>
+                                        <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="far fa-square me-1"></i>${data.room_height} x ${data.room_width} Meter</div>
+                                        <br>
+                                        <div style="font-size: 8px;">
+                                            <span style="float: left;">Harga 1 Bulan</span>
+                                            <span style="float: right;" class="critical_color">Rp ${accounting.formatMoney(data.one_month_price, '', 0, ",", ".")}</span>
                                         </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            ${data.room_name ? data.room_name : '-'}
-                                        </div>
-                                        <div class="col-5">
-                                            Tipe Kamar
-                                        </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            ${data.room_type ? data.room_type : '-'}
-                                        </div>
-                                        <div class="col-5">
-                                            Lantai
-                                        </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            ${data.floor ? data.floor : '-'}
-                                        </div>
-                                        <div class="col-5">
-                                            Ukuran Kamar
-                                        </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            ${data.room_height ? data.room_height : '-'} x ${data.room_width ? data.room_width : '-'} Meter
-                                        </div>
-                                        <div class="col-5">
-                                            Harga Per Bulan
-                                        </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            Rp ${accounting.formatMoney(data.one_month_price, '', 0, ",", ".")}
-                                        </div>
-
+                                        <br>
                                         ${data.three_month_price > 0 ? `
-                                            <div class="col-5">
-                                                Harga Per 3 Bulan
+                                            <div style="font-size: 8px;">
+                                                <span style="float: left;">Harga 3 Bulan</span>
+                                                <span style="float: right;" class="critical_color">Rp ${accounting.formatMoney(data.three_month_price, '', 0, ",", ".")}</span>
                                             </div>
-                                            <div class="col-1">
-                                                :
-                                            </div>
-                                            <div class="col-6">
-                                                Rp ${accounting.formatMoney(data.three_month_price, '', 0, ",", ".")}
-                                            </div>
+                                            <br>
                                         ` : ''}
-
                                         ${data.six_month_price > 0 ? `
-                                            <div class="col-5">
-                                                Harga Per 6 Bulan
+                                            <div style="font-size: 8px;">
+                                                <span style="float: left;">Harga 6 Bulan</span>
+                                                <span style="float: right;" class="critical_color">Rp ${accounting.formatMoney(data.six_month_price, '', 0, ",", ".")}</span>
                                             </div>
-                                            <div class="col-1">
-                                                :
-                                            </div>
-                                            <div class="col-6">
-                                                Rp ${accounting.formatMoney(data.six_month_price, '', 0, ",", ".")}
-                                            </div>
+                                            <br>
                                         ` : ''}
-
                                         ${data.twelve_month_price > 0 ? `
-                                            <div class="col-5">
-                                                Harga Per 12 Bulan
+                                            <div style="font-size: 8px;">
+                                                <span style="float: left;">Harga 12 Bulan</span>
+                                                <span style="float: right;" class="critical_color">Rp ${accounting.formatMoney(data.twelve_month_price, '', 0, ",", ".")}</span>
                                             </div>
-                                            <div class="col-1">
-                                                :
-                                            </div>
-                                            <div class="col-6">
-                                                Rp ${accounting.formatMoney(data.twelve_month_price, '', 0, ",", ".")}
-                                            </div>
+                                            <br>
                                         ` : ''}
-
-                                        <div class="col-5">
-                                            Biaya Deposit
-                                        </div>
-                                        <div class="col-1">
-                                            :
-                                        </div>
-                                        <div class="col-6">
-                                            Rp ${accounting.formatMoney(data.deposit_price, '', 0, ",", ".")}
-                                        </div>
+                                        ${data.deposit_price > 0 ? `
+                                            <div style="font-size: 8px;">
+                                                <span style="float: left;">Biaya Deposit</span>
+                                                <span style="float: right;" class="critical_color">Rp ${accounting.formatMoney(data.deposit_price, '', 0, ",", ".")}</span>
+                                            </div>
+                                            <br>
+                                        ` : ''}
                                     </div>
                                 </div>
                             </a>
+                            <br>
                         `;
 
                         $('#roomContainer').append(room);
@@ -525,7 +426,7 @@
                 var room_id = $('#room_id').val();
                 $.ajax({
                     type:'GET',
-                    url:"{{ url('/get-price') }}",
+                    url:"{{ url('/get-room') }}",
                     data:{room_id:room_id},
                     success:function(data){
                         if (!isNaN(period)) {

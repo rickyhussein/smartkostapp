@@ -676,8 +676,8 @@ class PropertyController extends Controller
     {
         $title = 'Pengajuan Sewa';
         $property = Property::find($id);
-        if (old('room_id')) {
-            $room = PropertyRoom::find(old('room_id'));
+        if (old('room_id', request('room_id'))) {
+            $room = PropertyRoom::find(old('room_id', request('room_id')));
             $one_month_price = $room->one_month_price;
             $three_month_price = $room->three_month_price;
             $six_month_price = $room->six_month_price;
@@ -720,5 +720,11 @@ class PropertyController extends Controller
     {
         $villages = Village::where('district_id', $request->district_id)->orderBy('name')->get();
         return response()->json($villages);
+    }
+
+    public function getRoom(Request $request)
+    {
+        $room = PropertyRoom::find($request->room_id);
+        return response()->json($room);
     }
 }
