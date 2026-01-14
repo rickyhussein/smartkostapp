@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Rent;
 use App\Models\User;
+use App\Mail\RentMail;
 use App\Models\Village;
 use App\Models\District;
 use App\Models\Facility;
@@ -17,6 +19,7 @@ use App\Models\PropertyFacility;
 use App\Models\PropertyRoomPhoto;
 use App\Models\PropertyRegulation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Notifications\UserNotification;
 
 class PropertyController extends Controller
@@ -702,6 +705,67 @@ class PropertyController extends Controller
             'twelve_month_price',
             'deposit_price',
         ));
+    }
+
+    public function storeRentUserProperties(Request $request, $id)
+    {
+        $property = Property::find($id);
+        $result = null;
+        DB::transaction(function ()  use ($request, $result, $property) {
+            $validated = $request->validate([
+                'room_id' => 'required',
+                'user_id' => 'required',
+                'property_id' => 'required',
+                'period' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'note' => 'nullable',
+                'amount' => 'nullable',
+                'deposit_price' => 'nullable',
+                'total_amount' => 'nullable',
+                'ktp_photo_transaction' => 'image|file|max:10240',
+                'kk_photo_transaction' => 'image|file|max:10240',
+            ]);
+
+            if ($request->file('ktp_photo_transaction')) {
+                $validated['ktp_photo_transaction'] = $request->file('ktp_photo_transaction')->store('ktp_photo_transaction');
+            } else {
+                if (auth()->user()->ktp_photo) {
+                    $validated['ktp_photo_transaction'] = auth()->user()->ktp_photo;
+                }
+            }
+
+            if ($request->file('kk_photo_transaction')) {
+                $validated['kk_photo_transaction'] = $request->file('kk_photo_transaction')->store('kk_photo_transaction');
+            } else {
+                if (auth()->user()->kk_photo) {
+                    $validated['kk_photo_transaction'] = auth()->user()->kk_photo;
+                }
+            }
+
+            $validated['owner_id'] = $property->user_id;
+            $validated['date'] = date('Y-m-d');
+            $validated['status'] = 'Menunggu Persetujuan Owner';
+            $validated['created_by'] = auth()->user()->id;
+
+            $rent = Rent::create($validated);
+            $this->result = $rent->id;
+
+            $owner = User::find($rent->owner_id);
+            $message = 'Pengajuan sewa oleh ' . auth()->user()->name . ' membutuhkan persetujuan dari anda.';
+            $data = [
+                'user_id'   =>  auth()->user()->id,
+                'from'   =>  auth()->user()->name,
+                'message'   =>  $message,
+                'action'   =>  '/rent/owner/show/'.$rent->id
+            ];
+
+            $owner->notify(new UserNotification($data));
+
+            Mail::to($owner->email)->send(new RentMail($rent));
+        });
+
+        return redirect('/rent/user/show/'.$this->result)->with('success', 'Berhasil mengajukan sewa');
     }
 
     public function getCity(Request $request)

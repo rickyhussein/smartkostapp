@@ -16,9 +16,9 @@ class CreatePropertyRoomPhotosTable extends Migration
         Schema::create('property_room_photos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('property_id')->nullable();
-            $table->foreign('property_id')->references('id')->on('properties')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('property_id')->references('id')->on('properties');
             $table->unsignedBigInteger('room_id')->nullable();
-            $table->foreign('room_id')->references('id')->on('property_rooms')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('room_id')->references('id')->on('property_rooms');
             $table->string('room_photo_file_path')->nullable();
             $table->string('room_photo_file_name')->nullable();
             $table->timestamps();

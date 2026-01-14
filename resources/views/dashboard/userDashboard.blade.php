@@ -111,7 +111,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('/rent-user') }}">
+                    <a href="{{ url('/rent/user') }}">
                         <div class="icon-box bg_color_3">
                             <svg style="width: 30px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 112 112" xml:space="preserve">
@@ -207,7 +207,7 @@
                 <div class="d-flex justify-content-between">
                     <h3>Cari Property</h3> <a href="{{ url('/properties/user') }}" class="primary_color fw_6">View All</a>
                 </div>
-                <div class="swiper-container banner-tes">
+                <div class="swiper-container banner-tes property-width">
                     <div class="swiper-wrapper">
                         @foreach ($properties as $property)
                             <div class="swiper-slide" >
@@ -271,6 +271,16 @@
             </div>
         </div>
     </div>
+
+    @push('style')
+        <style>
+            @media (max-width: 768px) { 
+                .property-width { 
+                    max-width: 250px; 
+                } 
+            }
+        </style>
+    @endpush
 
     @push('script')
         <script>

@@ -68,7 +68,7 @@ class authController extends Controller
 
     public function userRegister()
     {
-        $title = 'SMART KOS';
+        $title = 'SMART KOST';
         return view('auth.userRegister', compact(
             'title',
         ));
@@ -92,7 +92,7 @@ class authController extends Controller
 
     public function ownerRegister()
     {
-        $title = 'SMART KOS';
+        $title = 'SMART KOST';
         return view('auth.ownerRegister', compact(
             'title',
         ));
@@ -116,7 +116,7 @@ class authController extends Controller
 
     public function forgotPassword()
     {
-        $title = 'SMART KOS';
+        $title = 'SMART KOST';
         return view('auth.forgot-password', compact(
             'title'
         ));
@@ -137,7 +137,7 @@ class authController extends Controller
 
     public function showResetForm($token)
     {
-        $title = 'SMART KOS';
+        $title = 'SMART KOST';
         return view('auth.showResetForm', compact(
             'token',
             'title'

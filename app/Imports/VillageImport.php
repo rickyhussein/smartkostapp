@@ -23,7 +23,7 @@ class VillageImport implements ToModel
             'id' => $id,
             'district_id' => $district_id,
             'name' => $name,
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user() ? auth()->user()->id : 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

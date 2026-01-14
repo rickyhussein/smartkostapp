@@ -106,7 +106,7 @@
             </div>
         </div>
     @else
-        <div class="header is-fixed">
+        <div class="header is-fixed" style="z-index:10000;">
             <div class="tf-container">
                 <div class="tf-statusbar d-flex justify-content-between align-items-center position-relative" style="height: 50px;">
 

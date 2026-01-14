@@ -4,10 +4,15 @@ namespace Database\Seeders;
 
 use App\Models\News;
 use App\Models\User;
+use App\Imports\CityImport;
+use App\Imports\VillageImport;
+use App\Imports\DistrictImport;
+use App\Imports\ProvinceImport;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
@@ -526,5 +531,10 @@ class DatabaseSeeder extends Seeder
             'news_file_path' => 'news_file_path/banner5.jpg',
             'created_by' => 1
         ]);
+
+        Excel::import(new ProvinceImport, public_path('province.xlsx'));
+        Excel::import(new CityImport, public_path('city.xlsx'));
+        Excel::import(new DistrictImport, public_path('district.xlsx'));
+        Excel::import(new VillageImport, public_path('village.xlsx'));
     }
 }

@@ -150,10 +150,10 @@
                             <b>Kamar Kosong</b> : {{ $property->countAvailable($property->id) }} Kamar
                         </center>
                         <br>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                        <div style="display: grid; grid-template-columns:repeat(3, 300px); gap: 0.5rem;">
                             @foreach ($property->roomAvailable($property->id) as $ra)
                                 <a href="{{ url('/properties/room/show/'.$ra->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
-                                    <div class="card mt-4" style="border-radius: 15px; width: 100%;">
+                                    <div class="card mt-4" style="border-radius: 15px; max-width: 275px;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ra->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Kamar {{ $ra->room_name ?? '-' }} Tipe {{ $ra->room_type ? ucwords(strtolower($ra->room_type)) : '' }}</h5>
@@ -208,10 +208,10 @@
                             <b>Kamar Kosong</b> : {{ $property->countUnavailable($property->id) }} Kamar
                         </center>
                         <br>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                        <div style="display: grid; grid-template-columns:repeat(3, 300px); gap: 0.5rem;">
                             @foreach ($property->roomUnavailable($property->id) as $ru)
                                 <a href="{{ url('/properties/room/show/'.$ru->id.'/'.$property->id) }}" style="color: black; text-decoration: none;">
-                                    <div class="card mt-4" style="border-radius: 15px; width: 100%;">
+                                    <div class="card mt-4" style="border-radius: 15px; max-width: 275px;">
                                         <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$ru->room_file_path) }}" class="card-img-top" alt="">
                                         <div class="card-body">
                                             <h5 class="card-title">Kamar {{ $ru->room_name ?? '-' }} Tipe {{ $ru->room_type ? ucwords(strtolower($ru->room_type)) : '' }}</h5>
@@ -334,17 +334,11 @@
         </div>
         </div>
     </div>
-
+    
     @push('style')
         <style>
             .custom-width {
                 width: 100%;
-            }
-
-            @media (min-width: 1024px) {
-                .custom-width {
-                    width: 180%;
-                }
             }
         </style>
     @endpush

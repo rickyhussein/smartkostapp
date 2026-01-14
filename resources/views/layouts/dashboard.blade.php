@@ -96,6 +96,7 @@
 
         <section class="content">
             @yield('isi')
+            <br>
         </section>
 
     </div>

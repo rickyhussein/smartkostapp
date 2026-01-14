@@ -16,7 +16,7 @@ class CreatePropertyPhotosTable extends Migration
         Schema::create('property_photos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('property_id')->nullable();
-            $table->foreign('property_id')->references('id')->on('properties')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('property_id')->references('id')->on('properties');
             $table->string('property_file_path')->nullable();
             $table->string('property_file_name')->nullable();
             $table->timestamps();

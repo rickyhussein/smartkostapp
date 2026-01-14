@@ -180,6 +180,9 @@ Route::get('/properties/user', [PropertyController::class, 'userProperties']);
 Route::get('/properties/user/show/{id}', [PropertyController::class, 'showUserProperties']);
 Route::get('/properties/user/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoomUserProperties']);
 Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
+Route::post('/properties/user/rent/store/{id}', [PropertyController::class, 'storeRentUserProperties'])->middleware('auth');
+
+Route::get('/rent/user', [RentController::class, 'userRent'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
