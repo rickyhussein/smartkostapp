@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Rent;
 use App\Models\User;
@@ -19,6 +20,7 @@ use App\Models\PropertyFacility;
 use App\Models\PropertyRoomPhoto;
 use App\Models\PropertyRegulation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\UserNotification;
 
@@ -763,6 +765,44 @@ class PropertyController extends Controller
             $owner->notify(new UserNotification($data));
 
             Mail::to($owner->email)->send(new RentMail($rent));
+
+            $whatsapp_api_url = config('midtrans.whatsapp_api_url');
+            $whatsapp_api_session = config('midtrans.whatsapp_api_session');
+
+            if ($rent->start_date) {
+                Carbon::setLocale('id');
+                $start_date = Carbon::createFromFormat('Y-m-d', $rent->start_date);
+                $new_start_date = $start_date->translatedFormat('d F Y');
+            } else {
+                $new_start_date = '-';
+            }
+            
+            if ($rent->end_date) {
+                Carbon::setLocale('id');
+                $end_date = Carbon::createFromFormat('Y-m-d', $rent->end_date);
+                $new_end_date = $end_date->translatedFormat('d F Y');
+            } else {
+                $new_end_date = '-';
+            }
+
+            $message =  "Ini adalah pesan otomatis dari sistem layanan Smart Kost\n\n" .
+                        "Salam sejahtera Bapak/Ibu, Kami informasikan data dibawah ini melakukan pengajuan sewa terhadap properti anda:\n\n" .
+                        "INFORMASI PENYEWA \n" .
+                        "Nama : " . $rent->user->name . "\n" .
+                        "Nomor HP : " . $rent->user->phone_number . "\n" .
+                        "Pekerjaan : " . $rent->user->job . "\n\n" .
+                        "PROPERTI YANG DISEWA \n" .
+                        "Nama Properti : " . $rent->property->name . "\n" .
+                        "Nama Kamar : " . $rent->room->room_name . "\n" .
+                        "Tipe Kamar : " . $rent->room->room_type . "\n" .
+                        "Nomor HP : " . $rent->user->phone_number . "\n" .
+                        "Periode Sewa : " . $rent->period . " Bulan \n" .
+                        "Tanggal Mulai Sewa : " . $new_start_date . "\n" .
+                        "Tanggal Selesai Sewa : " . $new_end_date . "\n\n" .
+                        "Silakan lakukan approval melalui link berikut:\n\n" .
+                        url('/rent/owner/show/'.$rent->id);
+
+            Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$owner->whatsapp($owner->phone_number).'&text='.$message);
         });
 
         return redirect('/rent/user/show/'.$this->result)->with('success', 'Berhasil mengajukan sewa');

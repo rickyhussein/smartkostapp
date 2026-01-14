@@ -20,6 +20,14 @@ class User extends Authenticatable
      */
     protected $guarded = ['id'];
 
+    public function whatsapp($phoneNumber)
+    {
+        if (substr($phoneNumber, 0, 1) == '0') {
+            return '62' . substr($phoneNumber, 1);
+        }
+        return $phoneNumber;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
