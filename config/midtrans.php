@@ -8,4 +8,5 @@ return [
     'snap_url' => env('MIDTRANS_SNAP_URL'),
     'whatsapp_api_url' => env('WHATSAPP_API_URL'),
     'whatsapp_api_session' => env('WHATSAPP_API_SESSION'),
+    'whatsapp_api_key' => env('WHATSAPP_API_KEY'),
 ];

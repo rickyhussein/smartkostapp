@@ -768,6 +768,7 @@ class PropertyController extends Controller
 
             $whatsapp_api_url = config('midtrans.whatsapp_api_url');
             $whatsapp_api_session = config('midtrans.whatsapp_api_session');
+            $whatsapp_api_key = config('midtrans.whatsapp_api_key');
 
             $user_name = $rent->user->name ?? '-';
             $phone_number = $rent->user->phone_number ?? '-';
@@ -817,7 +818,7 @@ class PropertyController extends Controller
                         "Silakan lakukan approval melalui link berikut:\n\n" .
                         url('/rent/owner/show/'.$rent->id);
 
-            Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$owner->whatsapp($owner->phone_number).'&text='.$message);
+            Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$owner->whatsapp($owner->phone_number).'&text='.$message.'&key='.$whatsapp_api_key);
         });
 
         return redirect('/rent/user/show/'.$this->result)->with('success', 'Berhasil mengajukan sewa');
