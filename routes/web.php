@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\RentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
@@ -183,6 +184,7 @@ Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserPr
 Route::post('/properties/user/rent/store/{id}', [PropertyController::class, 'storeRentUserProperties'])->middleware('auth');
 
 Route::get('/rent/user', [RentController::class, 'userRent'])->middleware('auth');
+Route::get('/rent/user/show/{id}', [RentController::class, 'showUserRent'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

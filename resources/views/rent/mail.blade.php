@@ -90,7 +90,8 @@
         Salam sejahtera Bapak/Ibu, Kami informasikan data dibawah ini melakukan pengajuan sewa terhadap properti anda:
         <br><br>
 
-        <h4>Informasi Penyewa</h4>
+        <b>Informasi Penyewa</b>
+        <br>
         Nama Penyewa: {{ $rent->user->name ?? '-' }}
         <br>
         Nomor HP : {{ $rent->user->phone_number ?? '-' }}
@@ -98,7 +99,8 @@
         Pekerjaan : {{ $rent->user->job ?? '-' }}
         <br><br>
 
-        <h4>Properti yang disewa</h4>
+        <b>Properti yang disewa</b>
+        <br>
         Nama Properti : {{ $rent->property && $rent->property->name ? ucwords(strtolower($rent->property->name)) : '' }} {{ $rent->property && $rent->property->village && $rent->property->village->name ? ucwords(strtolower($rent->property->village->name)) : '' }}
         <br>
         Nama Kamar : Kamar {{ $rent->room && $rent->room->room_name ? ucwords(strtolower($rent->room->room_name)) : '' }}
@@ -132,8 +134,17 @@
             }
         @endphp
         {{ $new_end_date  }}
-        
         <br><br>
+
+        <b>Rincian Harga</b>
+        <br>
+        Biaya Sewa: Rp {{ number_format($rent->amount) }}
+        <br>
+        Biaya Deposit: Rp {{ number_format($rent->deposit_price) }}
+        <br>
+        <b>Total : Rp {{ number_format($rent->total_amount) }}</b>
+        <br><br>
+        
         Approval Melalui Link Dibawah Ini
         <br><br><br>
 

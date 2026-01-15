@@ -769,6 +769,16 @@ class PropertyController extends Controller
             $whatsapp_api_url = config('midtrans.whatsapp_api_url');
             $whatsapp_api_session = config('midtrans.whatsapp_api_session');
 
+            $user_name = $rent->user->name ?? '-';
+            $phone_number = $rent->user->phone_number ?? '-';
+            $job = $rent->user->job ?? '-';
+            $property_name = $rent->property->name ?? '-';
+            $room_name = $rent->room->room_name ?? '-';
+            $room_type = $rent->room->room_type ?? '-';
+            $room_height = $rent->room->room_height ?? '-';
+            $room_width = $rent->room->room_width ?? '-';
+            $heigh_width = $room_height . ' x ' . $room_width . " Meter";
+
             if ($rent->start_date) {
                 Carbon::setLocale('id');
                 $start_date = Carbon::createFromFormat('Y-m-d', $rent->start_date);
@@ -787,18 +797,23 @@ class PropertyController extends Controller
 
             $message =  "Ini adalah pesan otomatis dari sistem layanan Smart Kost\n\n" .
                         "Salam sejahtera Bapak/Ibu, Kami informasikan data dibawah ini melakukan pengajuan sewa terhadap properti anda:\n\n" .
-                        "INFORMASI PENYEWA \n" .
-                        "Nama : " . $rent->user->name . "\n" .
-                        "Nomor HP : " . $rent->user->phone_number . "\n" .
+                        "*INFORMASI PENYEWA* \n" .
+                        "Nama : " . $user_name . "\n" .
+                        "Nomor HP : " . $phone_number . "\n" .
                         "Pekerjaan : " . $rent->user->job . "\n\n" .
-                        "PROPERTI YANG DISEWA \n" .
-                        "Nama Properti : " . $rent->property->name . "\n" .
-                        "Nama Kamar : " . $rent->room->room_name . "\n" .
-                        "Tipe Kamar : " . $rent->room->room_type . "\n" .
-                        "Nomor HP : " . $rent->user->phone_number . "\n" .
+                        "*PROPERTI YANG DISEWA* \n" .
+                        "Nama Properti : " . $property_name . "\n" .
+                        "Nama Kamar : " . $room_name . "\n" .
+                        "Tipe Kamar : " . $room_type . "\n" .
+                        "Ukuran Kamar : " . $heigh_width . "\n" .
                         "Periode Sewa : " . $rent->period . " Bulan \n" .
                         "Tanggal Mulai Sewa : " . $new_start_date . "\n" .
                         "Tanggal Selesai Sewa : " . $new_end_date . "\n\n" .
+                        "*RINCIAN HARGA* \n" .
+                        "Biaya Sewa : Rp " . number_format($rent->amount) . "\n" .
+                        "Biaya Deposit : Rp " . number_format($rent->deposit_price) . "\n" .
+                        "*Total : Rp " . number_format($rent->total_amount) . "* \n\n" .
+
                         "Silakan lakukan approval melalui link berikut:\n\n" .
                         url('/rent/owner/show/'.$rent->id);
 
