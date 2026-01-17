@@ -55,11 +55,19 @@
                 list-style-type: decimal !important;
                 margin-left: 1.5rem;
             }
+
             trix-editor ul {
                 list-style-type: disc !important;
                 margin-left: 1.5rem;
             }
 
+            trix-editor blockquote {
+                border-left: 3px solid #ccc;
+                margin: 1em 0;
+                padding-left: 1em;
+                color: #555;
+                font-style: italic;
+            }
         </style>
     @endpush
 
