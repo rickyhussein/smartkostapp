@@ -17,7 +17,10 @@
                             <div class="inner-right">
                                 <p>Total Pemasukan</p>
                                 <h4>
-                                    Rp {{ number_format(0) }}
+                                    @php
+                                        $total_amount = App\Models\Transaction::where('owner_id', auth()->user()->id)->where('in_out', 'in')->where('status', 'paid')->selectRaw('SUM(total_amount - owner_fee) as total')->value('total');
+                                    @endphp
+                                    Rp {{ number_format($total_amount) }}
                                 </h4>
                             </div>
                         </div>
