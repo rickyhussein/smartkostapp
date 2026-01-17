@@ -79,7 +79,7 @@
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
                     <div class="voucher-info">
-                        <h2 class="fw_6">{{ $property->name ? ucwords(strtolower($property->name)) : '' }} {{ $property->village && $property->village->name ? ucwords(strtolower($property->village->name)) : '' }} - Kamar {{ $room->room_name ?? '-' }} {{ $room->room_type ? ' yTipe ' . $room->room_type : '' }} {{ $room->floor ? '- Lantai ' . $room->floor : '' }}</h2>
+                        <h2 class="fw_6">{{ $property->name ? ucwords(strtolower($property->name)) : '' }} {{ $property->village && $property->village->name ? ucwords(strtolower($property->village->name)) : '' }} - Kamar {{ $room->room_name ?? '-' }} {{ $room->room_type ? ' Tipe ' . $room->room_type : '' }} {{ $room->floor ? '- Lantai ' . $room->floor : '' }}</h2>
                         <br>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-home me-1"></i>{{ $property->category ?? '-' }}</div>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-map-marker-alt me-1"></i>{{ $property->district && $property->district->name ? ucwords(strtolower($property->district->name)) : '' }}</div>
