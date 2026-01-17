@@ -357,6 +357,7 @@
                                             <div class="tf-spacing-12"></div>
                                             <button id="clear-button" class="tf-btn mt-1 float-end" style="color: rgb(197, 0, 0); border:1px solid rgb(197, 0, 0); ">Clear</button>
                                             <div class="tf-spacing-16"></div>
+                                            <div class="tf-spacing-16"></div>
                                         </div>
                                         <div class="mt-7 mb-6">
                                             <button type="submit" id="save" class="tf-btn accent">Save</button>
