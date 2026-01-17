@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use App\Models\UserProperty;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class UserPropertyController extends Controller
 {
@@ -122,8 +123,16 @@ class UserPropertyController extends Controller
 
     public function updateContractOwnerUp(Request $request, $id)
     {
-        $validated = $request->validate([
-            'wwqwe' => 'required'
-        ]);
+        $up = UserProperty::find($id);
+
+        DB::transaction(function ()  use ($request, $rent) {
+            $validated = $request->validate([
+                'contract' => 'nullable'
+            ]);
+    
+            $up->update($validated);
+        });
+
+        return redirect('/user-properties/owner/show/'.$up->id)->with('success', 'Data Berhasil Disimpan');
     }
 }

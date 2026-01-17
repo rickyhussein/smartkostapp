@@ -164,62 +164,66 @@
 
     <table style="width: 100%; font-size:12px; font-family: 'Open Sans', sans-serif; color:rgb(0, 0, 0); padding-top: 20px;">
         <tbody>
-            <tr>
-                <td style="font-weight:bold; width: 3%;">1.</td>
-                <td style="font-weight:bold; width: 97%;">Objek Sewa</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Pemilik menyewakan kepada penghuni kamar yang terletak di <span style="font-weight: bold;">{{ $up->property && $up->property->name ? ucwords(strtolower($up->property->name)) : '' }} kamar {{ $up->room->room_name ?? '' }}</span>.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">2.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Durasi Sewa</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Kontrak ini berlaku selama <span style="font-weight: bold;">{{ $up->period ?? '' }} bulan</span> mulai dari <span style="font-weight: bold;">{{ $up->start_date ? \Carbon\Carbon::parse($up->start_date)->translatedFormat('d F Y') : '' }}</span> hingga <span style="font-weight: bold;">{{ $up->end_date ? \Carbon\Carbon::parse($up->end_date)->translatedFormat('d F Y') : '' }}</span>.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">3.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Biaya Sewa</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Penghuni setuju untuk membayar biaya sewa sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->amount) }} ({{ terbilang($up->rent->amount) }} rupiah) per {{ $up->period ?? '' }} bulan</span>, yang harus dibayar paling lambat tanggal 5 setiap {{ $up->period ?? '' }} bulannya.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">4.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Deposit</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Penghuni wajib deposit sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->deposit_price) }} ({{ terbilang($up->rent->deposit_price) }} rupiah)</span> yang akan dikembalikan setelah penghuni meninggalkan kamar, dengan syarat tidak ada kerusakan.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">5.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Kewajiban Penghuni</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Penghuni wajib menjaga kebersihan dan keamanan kamar dan lingkungan Rumah Cemara, serta mematuhi semua peraturan yang berlaku. Bersedia melaporkan diri ke ketua RT dan mengikuti peraturan dan kewajiban RT setempat.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">6.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Pemutusan Kontrak</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Jika salah satu pihak ingin mengakhiri kontrak sebelum waktu yang disepakati, harus memberikan pemberitahuan tertulis minimal 30 hari sebelumnya.</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%; padding-top: 10px;">7.</td>
-                <td style="font-weight:bold; width: 97%; padding-top: 10px;">Tanda Tangan</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold; width: 3%;"></td>
-                <td>Dengan ini, kedua belah pihak setuju untuk mematuhi semua ketentuan dalam kontrak ini.</td>
-            </tr>
+            @if ($up->contract)
+                {!! $up->contract !!}
+            @else
+                <tr>
+                    <td style="font-weight:bold; width: 3%;">1.</td>
+                    <td style="font-weight:bold; width: 97%;">Objek Sewa</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Pemilik menyewakan kepada penghuni kamar yang terletak di <span style="font-weight: bold;">{{ $up->property && $up->property->name ? ucwords(strtolower($up->property->name)) : '' }} kamar {{ $up->room->room_name ?? '' }}</span>.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">2.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Durasi Sewa</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Kontrak ini berlaku selama <span style="font-weight: bold;">{{ $up->period ?? '' }} bulan</span> mulai dari <span style="font-weight: bold;">{{ $up->start_date ? \Carbon\Carbon::parse($up->start_date)->translatedFormat('d F Y') : '' }}</span> hingga <span style="font-weight: bold;">{{ $up->end_date ? \Carbon\Carbon::parse($up->end_date)->translatedFormat('d F Y') : '' }}</span>.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">3.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Biaya Sewa</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Penghuni setuju untuk membayar biaya sewa sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->amount) }} ({{ terbilang($up->rent->amount) }} rupiah) per {{ $up->period ?? '' }} bulan</span>, yang harus dibayar paling lambat tanggal 5 setiap {{ $up->period ?? '' }} bulannya.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">4.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Deposit</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Penghuni wajib deposit sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->deposit_price) }} ({{ terbilang($up->rent->deposit_price) }} rupiah)</span> yang akan dikembalikan setelah penghuni meninggalkan kamar, dengan syarat tidak ada kerusakan.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">5.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Kewajiban Penghuni</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Penghuni wajib menjaga kebersihan dan keamanan kamar dan lingkungan Rumah Cemara, serta mematuhi semua peraturan yang berlaku. Bersedia melaporkan diri ke ketua RT dan mengikuti peraturan dan kewajiban RT setempat.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">6.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Pemutusan Kontrak</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Jika salah satu pihak ingin mengakhiri kontrak sebelum waktu yang disepakati, harus memberikan pemberitahuan tertulis minimal 30 hari sebelumnya.</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%; padding-top: 10px;">7.</td>
+                    <td style="font-weight:bold; width: 97%; padding-top: 10px;">Tanda Tangan</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold; width: 3%;"></td>
+                    <td>Dengan ini, kedua belah pihak setuju untuk mematuhi semua ketentuan dalam kontrak ini.</td>
+                </tr>
+            @endif
         </tbody>
     </table>
 
