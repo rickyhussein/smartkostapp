@@ -48,7 +48,7 @@
                                     {{ Str::limit($facility, 70, '...') }}
                                 </p>
                                 <p class="card-text" style="font-size: 8px;">{{ Str::limit($up->property->address, 150, '...') }}</p>
-                                <h6 style="font-size: 10px;" class="mt-1 critical_color">
+                                <h6 style="font-size: 10px;" class="mt-1">
                                     @php
                                         if ($up->end_date) {
                                             Carbon\Carbon::setLocale('id');
@@ -58,8 +58,8 @@
                                             $new_end_date = '-';
                                         }
                                     @endphp
-                                    <span style="float-left">Berakhir pada {{ $new_end_date }}</span>
-                                    <span style="float-right">Diisi Oleh : {{ $up->user->name ?? '-' }}</span>
+                                    <span class="critical_color" style="float:left;">Berakhir pada {{ $new_end_date }}</span>
+                                    <span style="float:right;">Diisi Oleh : {{ $up->user->name ?? '-' }}</span>
                                 </h6>
                             </div>
                         </div>
