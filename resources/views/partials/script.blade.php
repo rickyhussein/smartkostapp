@@ -55,10 +55,6 @@
             }
         });
 
-        $('form').on('keypress', function(event) {
-            if (event.which === 13 && $(this).attr('method').toUpperCase() !== 'GET' && !$(event.target).is('textarea')) {
-                event.preventDefault();
-            }
-        });
+        
     });
 </script>
