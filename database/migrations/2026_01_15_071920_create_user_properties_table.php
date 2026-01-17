@@ -35,6 +35,8 @@ class CreateUserPropertiesTable extends Migration
             $table->date('date')->nullable();
             $table->string('status')->nullable();
             $table->integer('is_active')->nullable();
+            $table->integer('edit_contract')->nullable();
+            $table->text('contract')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable();
