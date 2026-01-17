@@ -211,7 +211,8 @@ class RentController extends Controller
                     'deposit_price' => $rent->deposit_price,
                     'total_amount' => $rent->total_amount,
                     'date' => date('Y-m-d'),
-                    'status' => $rent->status,
+                    'is_active' => 1,
+                    'status' => 'Tanda Tangan Kontrak',
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([

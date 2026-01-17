@@ -192,6 +192,7 @@ Route::get('/rents/owner/show/{id}', [RentController::class, 'showOwnerRent'])->
 Route::post('/rents/owner/approval/{id}', [RentController::class, 'approvalOwnerRent'])->middleware('auth');
 
 Route::get('/user-properties', [UserPropertyController::class, 'index'])->middleware('auth');
+Route::get('/user-properties/show/{id}', [UserPropertyController::class, 'show'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
@@ -206,9 +207,15 @@ Route::get('/reset', function () {
     Artisan::call('storage:link');
 });
 
-Route::get('/update', function () {
+Route::get('/migrate', function () {
     Artisan::call('optimize');
     Artisan::call('config:cache');
     Artisan::call('route:clear');
     Artisan::call('migrate');
+});
+
+Route::get('/optimize', function () {
+    Artisan::call('optimize');
+    Artisan::call('config:cache');
+    Artisan::call('route:clear');
 });
