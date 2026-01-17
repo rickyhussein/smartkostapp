@@ -87,12 +87,6 @@
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $room->room_height ?? '-' }} x {{ $room->room_width ?? '-' }} Meter</div>
                         @if ($up->status == 'Tanda Tangan Kontrak')
                             <div class="badge me-2 mb-2" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                        @elseif($up->status == 'Pembayaran Berhasil')
-                            <div class="badge me-2 mb-2" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                        @elseif($up->status == 'Menunggu Pembayaran')
-                            <div class="badge me-2 mb-2" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                        @else
-                            <div class="badge me-2 mb-2" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $up->status ?? '-' }}</div>
                         @endif
                     </div>
 
@@ -325,6 +319,133 @@
         </div>
     </div>
 
+    <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
+        <div class="tf-container">
+            <div class="row">
+                <div class="col">
+                    <a target="_blank" href="{{ url('/user-properties/contract/'.$up->id) }}" class="tf-btn accent small">Kontrak</a>
+                </div>
+                @if (!$up->signature)
+                    <div class="col">
+                        <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn small">Tanda Tangan</a>
+                    </div>
+
+                    <div class="tf-panel down">
+                        <div class="panel_overlay"></div>
+                        <div class="panel-box panel-down">
+                            <div class="header">
+                                <div class="tf-container">
+                                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
+                                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
+                                        <h3>Tanda Tangan</h3>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="tf-container">
+                                    <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <div class="group-input">
+                                            <div style="background-color: rgb(211, 211, 211)">
+                                                <div class="signature-pad-body">
+                                                    <canvas id="signature-pad" class="signature-pad" width="300" height="300"></canvas>
+                                                </div>
+                                            </div>
+                                            <div class="tf-spacing-12"></div>
+                                            <button id="clear-button" class="btn btn-danger mt-1 float-end">Clear</button>
+                                            <div class="tf-spacing-16"></div>
+                                        </div>
+                                        <div class="mt-7 mb-6">
+                                            <button type="submit" id="save" class="tf-btn accent">Save</button>
+                                        </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="col">
+                        <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn small">Perpanjang</a>
+                    </div>
+
+                    <div class="tf-panel down">
+                        <div class="panel_overlay"></div>
+                        <div class="panel-box panel-down">
+                            <div class="header">
+                                <div class="tf-container">
+                                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
+                                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
+                                        <h3>Perpanjang Sewa</h3>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="tf-container">
+                                    <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <div class="group-input">
+                                            <label for="period" style="z-index: 1000;">Periode Kos</label>
+                                            <select style="width: 100%" name="period" id="period" class="select2 @error('period') is-invalid @enderror" onchange="calculateDate()">
+                                                <option value="">-- Pilih Periode Kos --</option>
+                                                @if ($room && $room->one_month_price > 0)
+                                                    <option value="1" {{ old('period') == '1' ? 'selected="selected"' : '' }}>1 Bulan  - Rp {{ number_format($room->one_month_price, 0, ',', '.') }}</option>
+                                                @endif
+                                                @if ($room && $room->three_month_price > 0)
+                                                    <option value="3" {{ old('period') == '3' ? 'selected="selected"' : '' }}>3 Bulan  - Rp {{ number_format($room->three_month_price, 0, ',', '.') }}</option>
+                                                @endif
+                                                @if ($room && $room->six_month_price > 0)
+                                                    <option value="6" {{ old('period') == '6' ? 'selected="selected"' : '' }}>6 Bulan  - Rp {{ number_format($room->six_month_price, 0, ',', '.') }}</option>
+                                                @endif
+                                                @if ($room && $room->twelve_month_price > 0)
+                                                    <option value="12" {{ old('period') == '12' ? 'selected="selected"' : '' }}>12 Bulan  - Rp {{ number_format($room->twelve_month_price, 0, ',', '.') }}</option>
+                                                @endif
+                                            </select>
+                                            @error('period')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="group-input">
+                                            <label for="start_date">Tanggal Mulai Sewa</label>
+                                            <input type="date" class="@error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $up_start_date) }}" placeholder="yyyy-mm-dd" onchange="calculateDate()">
+                                            @error('start_date')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="group-input">
+                                            <label for="end_date">Tanggal Selesai Sewa</label>
+                                            <input type="date" class="@error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date') }}" placeholder="yyyy-mm-dd">
+                                            @error('end_date')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mt-7 mb-6">
+                                            <button type="submit" id="save" class="tf-btn accent">Save</button>
+                                        </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
     <br>
     <br>
     <br>
@@ -396,7 +517,11 @@
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.lazyload.umd.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.umd.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.thumbs.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
         <script>
+            $('.select2').select2();
+
             let lat = {{ $property->latitude ?? '-6.200000' }};
             let lng = {{ $property->longitude ?? '106.816666' }};
             let address = "{{ $property->address ?? 'Lokasi terpilih' }}";
@@ -412,6 +537,81 @@
             }).addTo(map)
             .bindPopup(address)
             .openPopup();
+
+            var success = sessionStorage.getItem("success");
+            if(success !== null){
+                Swal.fire(success, '', 'success');
+                sessionStorage.removeItem("success");
+            }
+
+            flatpickr("#start_date", {
+                clickOpens: false,
+                disableMobile: true
+            });
+
+            flatpickr("#end_date", {
+                clickOpens: false,
+                disableMobile: true
+            });
+
+            var canvas = document.querySelector('canvas');
+            var signaturePad = new SignaturePad(canvas, {
+                minWidth: 2.5,
+                maxWidth: 5.5
+            });
+
+
+            $('#save').on('click', function (e) {
+                $('#save').prop('disabled', true);
+                e.preventDefault();
+                var signature = signaturePad.toDataURL();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/rent-user/signature/'.$rent->id) }}",
+                    data: {signature : signature},
+                    success: function (response) {
+                        sessionStorage.setItem("success", "Data Has Been Updated");
+                        window.location.href = "{{ url('/rent-user/show/'.$rent->id) }}";
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Gagal',
+                        });
+                    }
+                });
+            });
+
+            $('#clear-button').on('click', function (e) {
+                e.preventDefault();
+                signaturePad.clear();
+            });
+
+            function calculateDate() {
+                var startDateStr = $('#start_date').val();
+                var period = parseInt($('#period').val());
+
+                if (startDateStr && !isNaN(period)) {
+                    var startDate = new Date(startDateStr);
+                    startDate.setMonth(startDate.getMonth() + period);
+
+                    var year = startDate.getFullYear();
+                    var month = ('0' + (startDate.getMonth() + 1)).slice(-2);
+                    var day = ('0' + startDate.getDate()).slice(-2);
+
+                    var endDateStr = year + '-' + month + '-' + day;
+                    $('#end_date').val(endDateStr);
+                } else {
+                    $('#end_date').val('');
+                }
+            };
 
             Carousel(document.getElementById("myCarousel"), {
             }, {
