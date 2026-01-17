@@ -125,7 +125,7 @@ class UserPropertyController extends Controller
     {
         $up = UserProperty::find($id);
 
-        DB::transaction(function ()  use ($request, $rent) {
+        DB::transaction(function ()  use ($request, $up) {
             $validated = $request->validate([
                 'contract' => 'nullable'
             ]);
