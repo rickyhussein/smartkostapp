@@ -26,7 +26,7 @@
                 </div>
             @else
                 @foreach ($user_properties as $key => $up)
-                    <a href="{{ url('/user-properties/show/'.$up->id) }}" style="color: black; text-decoration: none;">
+                    <a href="{{ url('/user-properties/owner/show/'.$up->id) }}" style="color: black; text-decoration: none;">
                         <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                             <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$up->room->room_file_path) }}" class="card-img-top" alt="">
                             <div class="card-body">
