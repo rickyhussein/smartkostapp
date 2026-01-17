@@ -31,13 +31,29 @@
                                     @endforeach
                                 @endif
                                 <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
+                            </div>
+                        </a>
+                    </div>
+                    <hr style="color: rgb(180, 180, 180)">
+                    
+                    <div class="voucher-desc">
+                        <a href="{{ url('/properties/owner/room/show/'.$rent->room_id.'/'.$rent->property_id) }}" class="row">
+                            <div class="col-4">
+                                <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
+                            </div>
+                            <div class="col-8">
+                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $rent->room->room_height ?? '-' }} x {{ $rent->room->room_width ?? '-' }} Meter</div>
+                                <br>
+                                Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
                                 <br>
                                 @if ($rent->status == 'Menunggu Persetujuan Owner')
-                                    <div class="badge" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                @elseif($rent->status == 'Disetujui')
-                                    <div class="badge" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                    <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                @elseif($rent->status == 'Pembayaran Berhasil')
+                                    <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                @elseif($rent->status == 'Menunggu Pembayaran')
+                                    <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @else
-                                    <div class="badge" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                    <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @endif
                             </div>
                         </a>
