@@ -16,8 +16,8 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="contract">Isi Kontrak</label>
-                                    <input id="contract" type="hidden" name="contract" value="{{ old('contract') }}">
-                                    <trix-editor input="contract">{{ old('contract') }}</trix-editor>
+                                    <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
+                                    <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
                                 </div>
                             </div>
                         </div>
