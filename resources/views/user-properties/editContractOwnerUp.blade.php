@@ -16,7 +16,7 @@
                                 <div class="mb-3">
                                     <label for="contract">Isi Kontrak</label>
                                     <input id="contract" type="hidden" name="contract">
-                                    <trix-editor input="contract"></trix-editor>
+                                    <trix-editor input="contract" class="trix-content" toolbar="false"></trix-editor>
                                 </div>
                             </div>
                         </div>
