@@ -54,7 +54,7 @@
                                         <h6 style="font-size: 10px;" class="mt-1">Rp {{ number_format($rent->total_amount) }} - {{ $rent->period }} Bulan</h6>
                                         @if ($rent->status == 'Menunggu Persetujuan Owner')
                                             <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                        @elseif($rent->status == 'Pembayaran Berhasil' || $rent->status == 'Check-in')
+                                        @elseif($rent->status == 'Pembayaran Berhasil')
                                             <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                         @elseif($rent->status == 'Menunggu Pembayaran')
                                             <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
