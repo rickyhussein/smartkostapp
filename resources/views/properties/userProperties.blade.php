@@ -35,7 +35,7 @@
                                     <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>{{ $property->category ?? '-' }}</div>
                                     <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-map-marker-alt me-1"></i>{{ $property->district->name ? ucwords(strtolower($property->district->name)) : '' }}</div>
                                     <br>
-                                    <span style="font-style: italic; font-size:8px" class="critical_color">Sisa {{ $property->countUnavailable($property->id) }} Kamar</span>
+                                    <span style="font-style: italic; font-size:8px" class="critical_color">Sisa {{ $property->countAvailable($property->id) }} Kamar</span>
                                     <p class="text-muted" style="font-size: 8px;">
                                         @php
                                             $facility = '';

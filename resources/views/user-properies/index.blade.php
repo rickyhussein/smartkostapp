@@ -25,54 +25,52 @@
                     </div>
                 </div>
             @else
-                @foreach ($user_properties as $up)
-                    <div class="mt-4">
-                        <a href="{{ url('/user-properties/show/'.$up->id) }}">
-                            <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
-                                <div class="card-body">
-                                    <div class="row  d-flex align-items-center">
-                                        <div class="col-4">
-                                        <img src="{{ url('/storage/'.$up->room->room_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
-                                    </div>
-                                    <div class="col-8">
-                                        {{ $up->property && $up->property->name ? ucwords(strtolower($up->property->name)) : '' }} {{ $up->property && $up->property->village && $up->property->village->name ? ucwords(strtolower($up->property->village->name)) : '' }}
-                                        <br>
-                                        Kamar {{ $up->room->room_name ?? '-' }} {{ $up->room->room_type ? '- Tipe ' . $up->room->room_type : '' }} {{ $up->room->floor ? '- Lantai ' . $up->room->floor : '' }}
-                                        <br>
+                @foreach ($user_properties as $key => $up)
+                    <a href="{{ url('/user-properties/show/'.$up->id) }}" style="color: black; text-decoration: none;">
+                        <div class="card mt-4" style="border-radius: 15px; width: 100%;">
+                            <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$up->room->room_file_path) }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $up->property && $up->property->name ? ucwords(strtolower($up->property->name)) : '' }} {{ $up->property && $up->property->village && $up->property->village->name ? ucwords(strtolower($up->property->village->name)) : '' }} {{ $up->room && $up->room->room_name ? ' - Kamar ' . ucwords(strtolower($up->room->room_name)) : ''  }}</h5>
+                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>{{ $up->property->category ?? '-' }}</div>
+                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-map-marker-alt me-1"></i>{{ $up->property && $up->property->district && $up->property->district->name ? ucwords(strtolower($up->property->district->name)) : '' }}</div>
+                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $up->room->room_height ?? '-' }} x {{ $up->room->room_width ?? '-' }} Meter</div>
+                                <br>
+                                <p class="text-muted" style="font-size: 8px;">
+                                    @php
+                                        $facility = '';
+                                    @endphp
+                                    @foreach ($up->property->facilities as $pf)
                                         @php
-                                            $facility = '';
+                                            $pemisah = !$loop->last ? ', ' : '';
+                                            $facility .= $pf->facility->name . $pemisah;
                                         @endphp
-                                        @if ($up->property && count($up->property->facilities) > 0)
-                                            @foreach ($up->property->facilities as $pf)
-                                                @php
-                                                    $pemisah = !$loop->last ? ', ' : '';
-                                                    $facility .= $pf->facility->name . $pemisah;
-                                                @endphp
-                                            @endforeach
-                                        @endif
-                                        <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
-                                        <h6 style="font-size: 10px;" class="mt-1">Rp {{ number_format($up->total_amount) }} - {{ $up->period }} Bulan</h6>
-                                        @if ($up->status == 'Menunggu Persetujuan Owner')
-                                            <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                        @elseif($up->status == 'Pembayaran Berhasil' || $up->status == 'Check-in')
-                                            <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                        @elseif($up->status == 'Menunggu Pembayaran')
-                                            <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                        @else
-                                            <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                        @endif
-                                    </div>
-                                </div>
+                                    @endforeach
+                                    {{ Str::limit($facility, 70, '...') }}
+                                </p>
+                                <p class="card-text" style="font-size: 8px;">{{ Str::limit($up->property->address, 150, '...') }}</p>
+                                <h6 style="font-size: 10px;" class="mt-1 critical_color">
+                                    @php
+                                        if ($up->end_date) {
+                                            Carbon\Carbon::setLocale('id');
+                                            $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $up->end_date);
+                                            $new_end_date = $end_date->translatedFormat('d F Y');
+                                        } else {
+                                            $new_end_date = '-';
+                                        }
+                                    @endphp
+                                    Berakhir pada {{ $new_end_date }}
+                                </h6>
                             </div>
-                        </a>
-                        <div class="d-flex justify-content-end me-4 mt-4">
-                            {{ $user_properties->links() }}
                         </div>
-                    </div>
+                    </a>
                 @endforeach
+                <div class="d-flex justify-content-end me-4 mt-4">
+                    {{ $user_properties->links() }}
+                </div>
             @endif
         </div>
     </div>
+
 
     <br>
     <br>
@@ -86,22 +84,6 @@
 
     @push('script')
         <script>
-            $(document).ready(function() {
-                $(document).on('click', '.btn-logout', function(e) {
-                    e.preventDefault();
-                    const targetModal = $(this).data('target');
-                    $(targetModal).addClass("panel-open");
-                });
-
-                $(document).on('click', '.panel_overlay, .clear-panel', function(e) {
-                    e.preventDefault();
-                    $(".logout").removeClass("panel-open");
-                });
-
-                $(".clickable").on("click", function() {
-                    window.location.href = $(this).data("url");
-                });
-            });
         </script>
     @endpush
 
