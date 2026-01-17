@@ -29,9 +29,6 @@ class CreateUserPropertiesTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('note')->nullable();
-            $table->bigInteger('amount')->nullable();
-            $table->bigInteger('deposit_price')->nullable();
-            $table->bigInteger('total_amount')->nullable();
             $table->string('signature')->nullable();
             $table->date('signature_date')->nullable();
             $table->date('checkin_date')->nullable();

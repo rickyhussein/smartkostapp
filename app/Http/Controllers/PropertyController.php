@@ -725,6 +725,7 @@ class PropertyController extends Controller
                 'amount' => 'nullable',
                 'deposit_price' => 'nullable',
                 'total_amount' => 'nullable',
+                'owner_fee' => 'nullable',
                 'ktp_photo_transaction' => 'image|file|max:10240',
                 'kk_photo_transaction' => 'image|file|max:10240',
             ]);

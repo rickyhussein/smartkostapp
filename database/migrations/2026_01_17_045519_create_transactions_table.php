@@ -34,6 +34,7 @@ class CreateTransactionsTable extends Migration
             $table->bigInteger('amount')->nullable();
             $table->bigInteger('deposit_price')->nullable();
             $table->bigInteger('total_amount')->nullable();
+            $table->bigInteger('owner_fee')->nullable();
             $table->date('date')->nullable();
             $table->string('month')->nullable();
             $table->string('year')->nullable();

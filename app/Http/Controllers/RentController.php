@@ -86,6 +86,7 @@ class RentController extends Controller
                     'amount' => $rent->amount,
                     'deposit_price' => $rent->deposit_price,
                     'total_amount' => $rent->total_amount,
+                    'owner_fee' => $rent->owner_fee,
                     'start_date' => $rent->start_date,
                     'end_date' => $rent->end_date,
                     'period' => $rent->period,
@@ -160,9 +161,6 @@ class RentController extends Controller
                     'start_date' => $rent->start_date,
                     'end_date' => $rent->end_date,
                     'note' => $rent->note,
-                    'amount' => $rent->amount,
-                    'deposit_price' => $rent->deposit_price,
-                    'total_amount' => $rent->total_amount,
                     'date' => date('Y-m-d'),
                     'is_active' => 1,
                     'status' => 'Tanda Tangan Kontrak',
@@ -266,7 +264,7 @@ class RentController extends Controller
                 $owner->notify(new UserNotification($data_owner));
 
                 $owner->update([
-                    'balance' => $owner->balance + $transaction->total_amount,
+                    'balance' => $owner->balance + $transaction->total_amount - $transaction->owner_fee,
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([

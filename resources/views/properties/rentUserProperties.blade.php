@@ -258,6 +258,7 @@
                         <input type="hidden" name="amount" id="amount" class="amount" value="{{ old('amount') }}">
                         <input type="hidden" name="deposit_price" id="deposit_price" class="deposit_price" value="{{ old('deposit_price') }}">
                         <input type="hidden" name="total_amount" id="total_amount" class="total_amount" value="{{ old('total_amount') }}">
+                        <input type="hidden" name="owner_fee" id="owner_fee" class="owner_fee" value="{{ old('owner_fee', 5000) }}">
                     </div>
                 </div>
             </div>
