@@ -5,60 +5,96 @@
 @section('container')
     <div id="app-wrap">
         <div class="bill-content">
+            <div class="f-carousel" id="myCarousel">
+                @php
+                    $i = 0;
+                @endphp
+                @foreach ($property->photos as $photo)
+                    @php
+                        $i += 1;
+                    @endphp
+                    <div
+                        class="f-carousel__slide"
+                        data-fancybox="gallery"
+                        data-src="{{ url('/storage/'.$photo->property_file_path) }}"
+                        data-thumb-src="{{ url('/storage/'.$photo->property_file_path) }}"
+                    >
+                        <img
+                            data-lazy-src="{{ url('/storage/'.$photo->property_file_path) }}"
+                            alt="Image #{{ $i }}"
+                        />
+                    </div>
+                @endforeach
+
+                @php
+                    $i += 1;
+                @endphp
+                <div
+                    class="f-carousel__slide"
+                    data-fancybox="gallery"
+                    data-src="{{ url('/storage/'.$room->room_file_path) }}"
+                    data-thumb-src="{{ url('/storage/'.$room->room_file_path) }}"
+                >
+                    <img
+                        data-lazy-src="{{ url('/storage/'.$room->room_file_path) }}"
+                        alt="Image #{{ $i }}"
+                    />
+                </div>
+
+                @foreach ($room->roomPhotos as $rp)
+                    @php
+                        $i += 1;
+                    @endphp
+                    <div
+                        class="f-carousel__slide"
+                        data-fancybox="gallery"
+                        data-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                        data-thumb-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                    >
+                        <img
+                            data-lazy-src="{{ url('/storage/'.$rp->room_photo_file_path) }}"
+                            alt="Image #{{ $i }}"
+                        />
+                    </div>
+                @endforeach
+
+                @if ($property->video_file_path)
+                    @php
+                        $i += 1;
+                    @endphp
+                    <div
+                        class="f-carousel__slide"
+                        data-fancybox="gallery"
+                        data-src="{{ url('/storage/'.$property->video_file_path) }}"
+                        data-thumb-src="{{ url('/storage/'.$property->screenshot_video) }}"
+                    >
+                        <img
+                            data-lazy-src="{{ url('/storage/'.$property->screenshot_video) }}"
+                            alt="Image #{{ $i }}"
+                        />
+                    </div>
+                @endif
+            </div>
+
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
-                    <div class="voucher-desc">
-                        <a href="{{ url('/properties/user/show/'.$up->property_id) }}" class="row">
-                            <div class="col-4">
-                                <img src="{{ url('/storage/'.$up->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
-                            </div>
-                            <div class="col-8">
-                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fa fa-home me-1"></i>{{ $up->property->category ?? '-' }}</div>
-                                <br>
-                                {{ $up->property && $up->property->name ? ucwords(strtolower($up->property->name)) : '' }} {{ $up->property && $up->property->village && $up->property->village->name ? ucwords(strtolower($up->property->village->name)) : '' }}
-                                <br>
-                                {{ $up->property && $up->property->district && $up->property->district->name ? ucwords(strtolower($up->property->district->name)) : '' }} - {{ $up->property && $up->property->city && $up->property->city->name ? ucwords(strtolower($up->property->city->name)) : '' }}
-                                <br>
-                                @php
-                                    $facility = '';
-                                @endphp
-                                @if ($up->property && count($up->property->facilities) > 0)
-                                    @foreach ($up->property->facilities as $pf)
-                                        @php
-                                            $pemisah = !$loop->last ? ', ' : '';
-                                            $facility .= $pf->facility->name . $pemisah;
-                                        @endphp
-                                    @endforeach
-                                @endif
-                                <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
-                            </div>
-                        </a>
+                    <div class="voucher-info">
+                        <h2 class="fw_6">{{ $property->name ? ucwords(strtolower($property->name)) : '' }} {{ $property->village && $property->village->name ? ucwords(strtolower($property->village->name)) : '' }} - Kamar {{ $room->room_name ?? '-' }} {{ $room->room_type ? ' yTipe ' . $room->room_type : '' }} {{ $room->floor ? '- Lantai ' . $room->floor : '' }}</h2>
+                        <br>
+                        <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-home me-1"></i>{{ $property->category ?? '-' }}</div>
+                        <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-map-marker-alt me-1"></i>{{ $property->district && $property->district->name ? ucwords(strtolower($property->district->name)) : '' }}</div>
+                        <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-location-arrow me-1"></i>{{ $property->city && $property->city->name ? ucwords(strtolower($property->city->name)) : '' }}</div>
+                        <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $room->room_height ?? '-' }} x {{ $room->room_width ?? '-' }} Meter</div>
+                        @if ($up->status == 'Tanda Tangan Kontrak')
+                            <div class="badge me-2 mb-2" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
+                        @elseif($up->status == 'Pembayaran Berhasil')
+                            <div class="badge me-2 mb-2" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $up->status ?? '-' }}</div>
+                        @elseif($up->status == 'Menunggu Pembayaran')
+                            <div class="badge me-2 mb-2" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
+                        @else
+                            <div class="badge me-2 mb-2" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $up->status ?? '-' }}</div>
+                        @endif
                     </div>
-                    <hr style="color: rgb(180, 180, 180)">
-                    
-                    <div class="voucher-desc">
-                        <a href="{{ url('/properties/user/room/show/'.$up->room_id.'/'.$up->property_id) }}" class="row">
-                            <div class="col-4">
-                                <img src="{{ url('/storage/'.$up->room->room_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
-                            </div>
-                            <div class="col-8">
-                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $up->room->room_height ?? '-' }} x {{ $up->room->room_width ?? '-' }} Meter</div>
-                                <br>
-                                Kamar {{ $up->room->room_name ?? '-' }} {{ $up->room->room_type ? '- Tipe ' . $up->room->room_type : '' }} {{ $up->room->floor ? '- Lantai ' . $up->room->floor : '' }}
-                                <br>
-                                @if ($up->status == 'Menunggu Persetujuan Owner')
-                                    <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                @elseif($up->status == 'Pembayaran Berhasil')
-                                    <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                @elseif($up->status == 'Menunggu Pembayaran')
-                                    <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                @else
-                                    <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $up->status ?? '-' }}</div>
-                                @endif
-                            </div>
-                        </a>
-                    </div>
-                    <hr style="color: rgb(180, 180, 180)">
 
                     <div class="voucher-desc">
                         <h4 class="fw_6">Informasi Penyewa</h4>
@@ -95,8 +131,8 @@
                         <br>
                         <div>
                             <div style="float:right;">
-                                <a href="{{ url('/storage/'.$up->rent->ktp_photo_transaction) }}" target="_blank" class="image-preview-container" id="roomImage">
-                                    <img src="{{ url('/storage/'.$up->rent->ktp_photo_transaction) }}" alt="img-preview" class="img-preview" style="max-width: 80px; max-height: 80px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <a href="{{ url('/storage/'.$rent->ktp_photo_transaction) }}" target="_blank" class="image-preview-container" id="roomImage">
+                                    <img src="{{ url('/storage/'.$rent->ktp_photo_transaction) }}" alt="img-preview" class="img-preview" style="max-width: 80px; max-height: 80px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                                 </a>
                             </div>
                             <br>
@@ -111,8 +147,8 @@
                         <br>
                         <div>
                             <div style="float:right;">
-                                <a href="{{ url('/storage/'.$up->rent->kk_photo_transaction) }}" target="_blank" class="image-preview-container" id="roomImage">
-                                    <img src="{{ url('/storage/'.$up->rent->kk_photo_transaction) }}" alt="img-preview" class="img-preview" style="max-width: 80px; max-height: 80px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <a href="{{ url('/storage/'.$rent->kk_photo_transaction) }}" target="_blank" class="image-preview-container" id="roomImage">
+                                    <img src="{{ url('/storage/'.$rent->kk_photo_transaction) }}" alt="img-preview" class="img-preview" style="max-width: 80px; max-height: 80px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                                 </a>
                             </div>
                             <br>
@@ -126,6 +162,53 @@
                         <br>
                     </div>
                     <hr style="color: rgb(30, 30, 30)">
+
+                    <div class="voucher-desc">
+                        <h4 class="fw_6">Fasilitas</h4>
+                        <div class="row">
+                            @foreach ($property->facilities as $pf)
+                                <div class="col-6">
+                                    <p class="mt-1"><i class="fa fa-check-circle me-1"></i>{{ $pf->facility->name ?? '-' }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <hr style="color: rgb(180, 180, 180)">
+
+                    <div class="voucher-desc">
+                        <h4 class="fw_6">Peraturan</h4>
+                        @foreach ($property->regulations as $pr)
+                            <p class="mt-1"><i class="fa fa-check-circle me-1"></i>{{ $pr->regulation->name ?? '-' }}</p>
+                        @endforeach
+                        @if ($property->regulation_file_path)
+                            <div class="mt-4">
+                                <center>
+                                    <a href="{{ url('/storage/'.$property->regulation_file_path) }}">
+                                        <img src="{{ url('/storage/'.$property->regulation_file_path) }}" style="max-width: 300px; max-height: 300px; border-radius: 15px;">
+                                    </a>
+                                </center>
+                            </div>
+                        @endif
+                    </div>
+                    <hr style="color: rgb(180, 180, 180)">
+
+                    <div class="voucher-desc">
+                        <h4 class="fw_6">Alamat</h4>
+                        <p class="mt-1">
+                            @if ($property->latitude && $property->longitude)
+                                <a href="https://www.google.com/maps?q={{ $property->latitude }},{{ $property->longitude }}" target="_blank" class="text-decoration-none">
+                                    <i class="fas fa-map-marker-alt me-1"></i> {{ $property->address }}
+                                </a>
+                            @else
+                                <a href="https://www.google.com/maps?q={{ $property->address }}" target="_blank" class="text-decoration-none">
+                                    <i class="fas fa-map-marker-alt me-1"></i> {{ $property->address }}
+                                </a>
+                            @endif
+                        </p>
+
+                        <div id="map" style="height: 300px; border-radius: 8px; margin-top: 15px;"></div>
+                    </div>
+                    <hr style="color: rgb(180, 180, 180)">
                     
                     @foreach ($transactions as $key => $transaction)
                         <div class="voucher-desc">
@@ -249,7 +332,54 @@
     <br>
 
     @push('style')
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.lazyload.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.thumbs.css"
+        />
         <style>
+            #myCarousel {
+                --f-arrow-pos: 10px;
+                --f-arrow-bg: rgba(255,255,255,0.75);
+                --f-arrow-hover-bg: rgba(255,255,255,1);
+                --f-arrow-color: #333;
+                --f-arrow-width: 40px;
+                --f-arrow-height: 40px;
+                --f-arrow-svg-width: 20px;
+                --f-arrow-svg-height: 20px;
+                --f-arrow-svg-stroke-width: 2px;
+                --f-arrow-border-radius: 50%;
+
+                height: 400px;
+            }
+
+            #myCarousel .f-carousel__slide {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #myCarousel img {
+                max-width: 100%;
+                max-height: 100%;
+                height: auto;
+            }
+
             .image-preview-container {
                 margin-top: 10px;
                 padding: 5px;
@@ -261,6 +391,37 @@
     @endpush
 
     @push('script')
-        
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.lazyload.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.thumbs.umd.js"></script>
+        <script>
+            let lat = {{ $property->latitude ?? '-6.200000' }};
+            let lng = {{ $property->longitude ?? '106.816666' }};
+            let address = "{{ $property->address ?? 'Lokasi terpilih' }}";
+
+            map = L.map('map').setView([lat, lng], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            marker = L.marker([lat, lng], {
+                draggable: true
+            }).addTo(map)
+            .bindPopup(address)
+            .openPopup();
+
+            Carousel(document.getElementById("myCarousel"), {
+            }, {
+                Lazyload,
+                Arrows,
+                Thumbs
+            }).init();
+
+            Fancybox.bind("[data-fancybox]", {
+            });
+        </script>
     @endpush
 @endsection

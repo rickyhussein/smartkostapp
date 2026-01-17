@@ -24,11 +24,17 @@ class UserPropertyController extends Controller
     {
         $title = 'Properti Saya';
         $up = UserProperty::find($id);
+        $property = $up->property;
+        $room = $up->room;
+        $rent = $up->rent;
         $transactions = Transaction::where('user_property_id', $up->id)->get();
 
         return view('user-properies.show', compact(
             'title',
             'up',
+            'property',
+            'room',
+            'rent',
             'transactions',
         ));
     }
