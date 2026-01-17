@@ -271,6 +271,19 @@
         </div>
     </div>
 
+    <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
+        <div class="tf-container">
+            <div class="row">
+                <div class="col">
+                    <a target="_blank" href="{{ url('/user-properties/owner/contract/print/'.$up->id) }}" class="tf-btn accent small">Print Kontrak</a>
+                </div>
+                <div class="col">
+                    <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" href="{{ url('/user-properties/owner/contract/edit/'.$up->id) }}" class="tf-btn small">Edit Kontrak</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <br>
     <br>
     <br>

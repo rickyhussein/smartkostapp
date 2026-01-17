@@ -42,7 +42,7 @@ class UserPropertyController extends Controller
         ));
     }
 
-    public function contract( $id)
+    public function contract($id)
     {
         $up = UserProperty::find($id);
         $number = str_pad($up->id, 4, '0', STR_PAD_LEFT);
@@ -86,6 +86,37 @@ class UserPropertyController extends Controller
             'rent',
             'transactions',
             'up_start_date',
+        ));
+    }
+
+    public function printContractOwnerUp($id)
+    {
+        $up = UserProperty::find($id);
+        $number = str_pad($up->id, 4, '0', STR_PAD_LEFT);
+        $filename = 'CONTRACT-'.$number.'.pdf';
+
+        $pdf = Pdf::loadView('user-properties.contract', [
+            'up' => $up,
+            'filename' => $filename,
+        ]);
+
+        return $pdf->stream($filename);
+    }
+
+    public function editContractOwnerUp($id)
+    {
+        $title = 'Edit Kontrak';
+        $up = UserProperty::find($id);
+        $property = $up->property;
+        $room = $up->room;
+        $rent = $up->rent;
+
+        return view('user-properties.editContractOwnerUp', compact(
+            'title',
+            'up',
+            'property',
+            'room',
+            'rent',
         ));
     }
 }

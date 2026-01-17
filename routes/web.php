@@ -197,6 +197,9 @@ Route::get('/user-properties/contract/{id}', [UserPropertyController::class, 'co
 
 Route::get('/user-properties/owner', [UserPropertyController::class, 'ownerUp'])->middleware('auth');
 Route::get('/user-properties/owner/show/{id}', [UserPropertyController::class, 'showOwnerUp'])->middleware('auth');
+Route::get('/user-properties/owner/contract/print/{id}', [UserPropertyController::class, 'printContractOwnerUp'])->middleware('auth');
+Route::get('/user-properties/owner/contract/edit/{id}', [UserPropertyController::class, 'editContractOwnerUp'])->middleware('auth');
+Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyController::class, 'updateContractOwnerUp'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
