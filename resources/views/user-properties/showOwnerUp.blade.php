@@ -262,7 +262,7 @@
                             <h3 style="float: left">Total Pembayaran</h3>
                             <h3 id="textTotalAmount" style="float: right">Rp {{ number_format($transaction->total_amount) }}</h3>
                         </div>
-                        
+                        <br>
                         <hr style="color: rgb(30, 30, 30)">
                     @endforeach
 
