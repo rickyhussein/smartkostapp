@@ -202,3 +202,10 @@ Route::get('/reset', function () {
     Artisan::call('migrate:fresh --seed');
     Artisan::call('storage:link');
 });
+
+Route::get('/update', function () {
+    Artisan::call('optimize');
+    Artisan::call('config:cache');
+    Artisan::call('route:clear');
+    Artisan::call('migrate');
+});
