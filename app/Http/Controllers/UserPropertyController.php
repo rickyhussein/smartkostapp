@@ -67,4 +67,25 @@ class UserPropertyController extends Controller
         ));
 
     }
+
+    public function showOwnerUp($id)
+    {
+        $title = 'Properti Saya';
+        $up = UserProperty::find($id);
+        $property = $up->property;
+        $room = $up->room;
+        $rent = $up->rent;
+        $transactions = Transaction::where('user_property_id', $up->id)->get();
+        $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
+
+        return view('user-properties.showOwnerUp', compact(
+            'title',
+            'up',
+            'property',
+            'room',
+            'rent',
+            'transactions',
+            'up_start_date',
+        ));
+    }
 }

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.appowner')
 @section('back')
-    <a href="{{ url('/dashboard/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/dashboard/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap" class="style1">
         <div class="tf-container">
-            <form action="{{ url('/user-properties') }}" class="mt-4">
+            <form action="{{ url('/user-properties/owner') }}" class="mt-4">
                 <div class="row">
                     <div class="col-10">
                         <input type="text" name="search" placeholder="Search.." id="search" value="{{ request('search') }}">
