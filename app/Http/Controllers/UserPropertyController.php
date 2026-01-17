@@ -119,4 +119,11 @@ class UserPropertyController extends Controller
             'rent',
         ));
     }
+
+    public function updateContractOwnerUp(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'wwqwe' => 'required'
+        ]);
+    }
 }
