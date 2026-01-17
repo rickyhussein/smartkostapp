@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('back')
-    <a href="{{ url('/rent/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/rents/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap">
@@ -8,7 +8,7 @@
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
                     <div class="voucher-desc">
-                        <a href="{{ url('/property/user/show/'.$rent->property_id) }}" class="row">
+                        <a href="{{ url('/properties/user/show/'.$rent->property_id) }}" class="row">
                             <div class="col-4">
                                 <img src="{{ url('/storage/'.$rent->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
                             </div>
@@ -17,7 +17,7 @@
                                 <br>
                                 {{ $rent->property && $rent->property->name ? ucwords(strtolower($rent->property->name)) : '' }} {{ $rent->property && $rent->property->village && $rent->property->village->name ? ucwords(strtolower($rent->property->village->name)) : '' }}
                                 <br>
-                                Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
+                                {{ $rent->property && $rent->property->district && $rent->property->district->name ? ucwords(strtolower($rent->property->district->name)) : '' }} - {{ $rent->property && $rent->property->city && $rent->property->city->name ? ucwords(strtolower($rent->property->city->name)) : '' }}
                                 <br>
                                 @php
                                     $facility = '';
@@ -31,10 +31,24 @@
                                     @endforeach
                                 @endif
                                 <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
+                            </div>
+                        </a>
+                    </div>
+                    <hr style="color: rgb(180, 180, 180)">
+                    
+                    <div class="voucher-desc">
+                        <a href="{{ url('/properties/user/room/show/'.$rent->room_id.'/'.$rent->property_id) }}" class="row">
+                            <div class="col-4">
+                                <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
+                            </div>
+                            <div class="col-8">
+                                <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $rent->room->room_height ?? '-' }} x {{ $rent->room->room_width ?? '-' }} Meter</div>
+                                <br>
+                                Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
                                 <br>
                                 @if ($rent->status == 'Menunggu Persetujuan Owner')
                                     <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                @elseif($rent->status == 'Pembayaran Berhasil' || $rent->status == 'Check-in')
+                                @elseif($rent->status == 'Pembayaran Berhasil')
                                     <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @elseif($rent->status == 'Menunggu Pembayaran')
                                     <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
@@ -72,31 +86,6 @@
                         <span style="color: black">Nama Kampus / Kantor</span>
                         <br>
                         <span style="color: rgb(169, 169, 169)">{{ $rent->user->job_desc ?? '-' }}</span>
-                        <br>
-                        <br>
-                        <div style="float:right;">
-                            <a href="{{ url('/storage/'.$rent->room->room_file_path) }}" target="_blank" class="image-preview-container mb-8" id="roomImage">
-                                <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="img-preview" class="img-preview" style="max-width: 80px; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                            </a>
-                        </div>
-                        <br>
-                        <span style="color: black">
-                            Nama / Nomor Kamar
-                        </span>
-                        <br>
-                        <span style="color: rgb(169, 169, 169)">
-                            Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
-                        </span>
-                        <br>
-                        <br>
-                        <br>
-                        <span style="color: black">
-                            Ukuran Kamar
-                        </span>
-                        <br>
-                        <span style="color: rgb(169, 169, 169)">
-                            {{ $rent->room->room_height ?? '-' }} x {{ $rent->room->room_width ?? '-' }} Meter
-                        </span>
                         <br>
                         <br>
                         <span style="color: black">Catatan</span>

@@ -759,7 +759,7 @@ class PropertyController extends Controller
                 'user_id'   =>  auth()->user()->id,
                 'from'   =>  auth()->user()->name,
                 'message'   =>  $message,
-                'action'   =>  '/rent/owner/show/'.$rent->id
+                'action'   =>  '/rents/owner/show/'.$rent->id
             ];
 
             $owner->notify(new UserNotification($data));
@@ -816,12 +816,12 @@ class PropertyController extends Controller
                         "*Total : Rp " . number_format($rent->total_amount) . "* \n\n" .
 
                         "Silakan lakukan approval melalui link berikut:\n\n" .
-                        url('/rent/owner/show/'.$rent->id);
+                        url('/rents/owner/show/'.$rent->id);
 
             Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$owner->whatsapp($owner->phone_number).'&text='.$message.'&key='.$whatsapp_api_key);
         });
 
-        return redirect('/rent/user/show/'.$this->result)->with('success', 'Berhasil mengajukan sewa');
+        return redirect('/rents/user/show/'.$this->result)->with('success', 'Berhasil mengajukan sewa');
     }
 
     public function getCity(Request $request)

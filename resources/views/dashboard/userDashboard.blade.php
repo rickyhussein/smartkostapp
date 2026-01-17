@@ -111,7 +111,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('/rent/user') }}">
+                    <a href="{{ url('/rents/user') }}">
                         <div class="icon-box bg_color_3">
                             <svg style="width: 30px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 112 112" xml:space="preserve">

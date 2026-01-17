@@ -1,6 +1,6 @@
 @extends('layouts.appowner')
 @section('back')
-    <a href="{{ url('/rent/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/rents/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap">
@@ -8,7 +8,7 @@
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
                     <div class="voucher-desc">
-                        <a href="{{ url('/property/owner/show/'.$rent->property_id) }}" class="row">
+                        <a href="{{ url('/properties/owner/show/'.$rent->property_id) }}" class="row">
                             <div class="col-4">
                                 <img src="{{ url('/storage/'.$rent->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
                             </div>
@@ -218,7 +218,7 @@
 
             <div class="mt-5">
                 <div class="tf-container">
-                    <form class="tf-form" action="{{ url('/rent/owner/approval/'.$rent->id) }}" method="POST" enctype="multipart/form-data">
+                    <form class="tf-form" action="{{ url('/rents/owner/approval/'.$rent->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="group-input">
                             <label for="status" style="z-index: 1000;">Status</label>

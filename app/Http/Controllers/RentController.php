@@ -18,7 +18,7 @@ class RentController extends Controller
         $title = 'Pengajuan Sewa';
         $rents = Rent::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->paginate(10);
 
-        return view('rent.userRent', compact(
+        return view('rents.userRent', compact(
             'title',
             'rents',
         ));
@@ -30,7 +30,7 @@ class RentController extends Controller
         $rent = Rent::find($id);
         $transaction = Transaction::where('rent_id', $rent->id)->where('active', 1)->first();
 
-        return view('rent.showUserRent', compact(
+        return view('rents.showUserRent', compact(
             'title',
             'rent',
             'transaction',
@@ -42,7 +42,7 @@ class RentController extends Controller
         $title = 'Pengajuan Sewa';
         $rents = Rent::where('owner_id', auth()->user()->id)->orderBy('id', 'DESC')->paginate(10);
 
-        return view('rent.ownerRent', compact(
+        return view('rents.ownerRent', compact(
             'title',
             'rents',
         ));
@@ -53,7 +53,7 @@ class RentController extends Controller
         $title = 'Pengajuan Sewa';
         $rent = Rent::find($id);
 
-        return view('rent.showOwnerRent', compact(
+        return view('rents.showOwnerRent', compact(
             'title',
             'rent',
         ));
@@ -126,7 +126,7 @@ class RentController extends Controller
                 $rent->update($validated);
             }
         });
-        return redirect('/rent/owner/show/'.$rent->id)->with('success', 'Berhasil');
+        return redirect('/rents/owner/show/'.$rent->id)->with('success', 'Berhasil');
     }
 
     public function transactionCallback(Request $request)
@@ -168,7 +168,7 @@ class RentController extends Controller
                 }
 
                 $message_user = 'Terimakasih anda telah melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' . ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_user = '/rent/user/show/'.$transaction->rent_id;
+                $action_user = '/rents/user/show/'.$transaction->rent_id;
 
                 $user = User::find($transaction->user_id);
                 $data_user = [
@@ -181,7 +181,7 @@ class RentController extends Controller
                 $user->notify(new UserNotification($data_user));
 
                 $message_owner = $transaction->user->name . ' berhasil melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' .  ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_owner = '/rent/owner/show/'.$transaction->rent_id;
+                $action_owner = '/rents/owner/show/'.$transaction->rent_id;
 
                 $owner = User::find($transaction->owner_id);
                 $data_owner = [

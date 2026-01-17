@@ -149,7 +149,7 @@
         <br><br><br>
 
         <center>
-            <a href="{{ url('/rent/owner/show/'.$rent->id) }}" class="btn-blue">Link Approval</a>
+            <a href="{{ url('/rents/owner/show/'.$rent->id) }}" class="btn-blue">Link Approval</a>
         </center>
 
 

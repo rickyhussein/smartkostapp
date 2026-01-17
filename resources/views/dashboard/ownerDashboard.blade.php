@@ -122,7 +122,7 @@
                     </a>
                 @endcan
 
-                <a href="{{ url('/rent/owner') }}" class="col-12 mt-4">
+                <a href="{{ url('/rents/owner') }}" class="col-12 mt-4">
                     <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                         <div class="row  d-flex align-items-center">
                             <div class="col-3">

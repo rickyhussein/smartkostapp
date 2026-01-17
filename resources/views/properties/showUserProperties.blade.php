@@ -220,7 +220,7 @@
 
     <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
         <div class="tf-container">
-            <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ url('/properties/user/rent/'.$property->id) }}">Sewa Kos Ini</a>
+            <a class="tf-btn small" style="color: green; border:1px solid green; background-color:white;" href="{{ url('/properties/user/rents/'.$property->id) }}">Sewa Kos Ini</a>
         </div>
     </div>
 

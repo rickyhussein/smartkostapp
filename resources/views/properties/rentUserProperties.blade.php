@@ -3,7 +3,7 @@
     <a href="{{ url('/properties/user/show/'.$property->id) }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
-    <form class="tf-form" action="{{ url('/properties/user/rent/store/'.$property->id) }}" enctype="multipart/form-data" method="POST">
+    <form class="tf-form" action="{{ url('/properties/user/rents/store/'.$property->id) }}" enctype="multipart/form-data" method="POST">
         @csrf
         <div id="app-wrap">
             <div class="bill-content">

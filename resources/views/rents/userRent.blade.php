@@ -1,11 +1,11 @@
-@extends('layouts.appowner')
+@extends('layouts.app')
 @section('back')
-    <a href="{{ url('/dashboard/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/dashboard/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap" class="style1">
         <div class="tf-container">
-            <form action="{{ url('/rent/owner') }}" class="mt-4">
+            <form action="{{ url('/rents/user') }}" class="mt-4">
                 <div class="row">
                     <div class="col-10">
                         <input type="text" name="search" placeholder="Search.." id="search" value="{{ request('search') }}">
@@ -27,39 +27,39 @@
             @else
                 @foreach ($rents as $rent)
                     <div class="mt-4">
-                        <a href="{{ url('/rent/owner/show/'.$rent->id) }}">
+                        <a href="{{ url('/rents/user/show/'.$rent->id) }}">
                             <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                                 <div class="card-body">
                                     <div class="row  d-flex align-items-center">
                                         <div class="col-4">
-                                        <img src="{{ url('/storage/'.$rent->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
+                                        <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
                                     </div>
                                     <div class="col-8">
-                                        @php
-                                            $kos_title = $rent->property->name . ' ' . $rent->property->type;
-                                        @endphp
-                                        {{ $kos_title }}
+                                        {{ $rent->property && $rent->property->name ? ucwords(strtolower($rent->property->name)) : '' }} {{ $rent->property && $rent->property->village && $rent->property->village->name ? ucwords(strtolower($rent->property->village->name)) : '' }}
                                         <br>
-                                        {{ $rent->property->district->name ?? '' }} - {{ $rent->property->city->name ?? '' }}
+                                        Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
                                         <br>
-                                        <p>Penyewa : <span style="font-weight: bold">{{ $rent->user->name }}</span></p>
                                         @php
                                             $facility = '';
                                         @endphp
-                                        @foreach ($rent->property->facilities as $pf)
-                                            @php
-                                                $pemisah = !$loop->last ? ', ' : '';
-                                                $facility .= $pf->facility->name . $pemisah;
-                                            @endphp
-                                        @endforeach
+                                        @if ($rent->property && count($rent->property->facilities) > 0)
+                                            @foreach ($rent->property->facilities as $pf)
+                                                @php
+                                                    $pemisah = !$loop->last ? ', ' : '';
+                                                    $facility .= $pf->facility->name . $pemisah;
+                                                @endphp
+                                            @endforeach
+                                        @endif
                                         <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
-                                        <h6 style="font-size: 10px;" class="mt-1">Rp {{ number_format($rent->total_amount) }}</h6>
+                                        <h6 style="font-size: 10px;" class="mt-1">Rp {{ number_format($rent->total_amount) }} - {{ $rent->period }} Bulan</h6>
                                         @if ($rent->status == 'Menunggu Persetujuan Owner')
-                                            <div class="badge" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                        @elseif($rent->status == 'Disetujui')
-                                            <div class="badge" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                            <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                        @elseif($rent->status == 'Pembayaran Berhasil' || $rent->status == 'Check-in')
+                                            <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                        @elseif($rent->status == 'Menunggu Pembayaran')
+                                            <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                         @else
-                                            <div class="badge" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                            <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                         @endif
                                     </div>
                                 </div>

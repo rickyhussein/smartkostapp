@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserPropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,15 +181,17 @@ Route::post('/properties/owner/room/store/{room_id}/{property_id}', [PropertyCon
 Route::get('/properties/user', [PropertyController::class, 'userProperties']);
 Route::get('/properties/user/show/{id}', [PropertyController::class, 'showUserProperties']);
 Route::get('/properties/user/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoomUserProperties']);
-Route::get('/properties/user/rent/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
-Route::post('/properties/user/rent/store/{id}', [PropertyController::class, 'storeRentUserProperties'])->middleware('auth');
+Route::get('/properties/user/rents/{id}', [PropertyController::class, 'rentUserProperties'])->middleware('auth');
+Route::post('/properties/user/rents/store/{id}', [PropertyController::class, 'storeRentUserProperties'])->middleware('auth');
 
-Route::get('/rent/user', [RentController::class, 'userRent'])->middleware('auth');
-Route::get('/rent/user/show/{id}', [RentController::class, 'showUserRent'])->middleware('auth');
+Route::get('/rents/user', [RentController::class, 'userRent'])->middleware('auth');
+Route::get('/rents/user/show/{id}', [RentController::class, 'showUserRent'])->middleware('auth');
 
-Route::get('/rent/owner', [RentController::class, 'ownerRent'])->middleware('auth');
-Route::get('/rent/owner/show/{id}', [RentController::class, 'showOwnerRent'])->middleware('auth');
-Route::post('/rent/owner/approval/{id}', [RentController::class, 'approvalOwnerRent'])->middleware('auth');
+Route::get('/rents/owner', [RentController::class, 'ownerRent'])->middleware('auth');
+Route::get('/rents/owner/show/{id}', [RentController::class, 'showOwnerRent'])->middleware('auth');
+Route::post('/rents/owner/approval/{id}', [RentController::class, 'approvalOwnerRent'])->middleware('auth');
+
+Route::get('/user-properties', [UserPropertyController::class, 'index'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
