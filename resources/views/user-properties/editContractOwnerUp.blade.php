@@ -50,6 +50,16 @@
             trix-toolbar [data-trix-action="attachFiles"] {
                 display: none;
             }
+
+            trix-editor ol {
+                list-style-type: decimal !important;
+                margin-left: 1.5rem;
+            }
+            trix-editor ul {
+                list-style-type: disc !important;
+                margin-left: 1.5rem;
+            }
+
         </style>
     @endpush
 
