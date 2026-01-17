@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="{{ url('assets/img/kos.png') }}" />
-    <link rel="apple-touch-icon-precomposed" href="{{ url('assets/img/kos.png') }}" />
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url('assets/img/kos.png') }}">
     <title>{{ $filename }}</title>
     <style>
         @page {
@@ -189,7 +186,7 @@
             </tr>
             <tr>
                 <td style="font-weight:bold; width: 3%;"></td>
-                <td>Penghuni setuju untuk membayar biaya sewa sebesar <span style="font-weight: bold;">Rp {{ number_format($up->amount) }} ({{ terbilang($up->amount) }} rupiah) per {{ $up->period ?? '' }} bulan</span>, yang harus dibayar paling lambat tanggal 5 setiap {{ $up->period ?? '' }} bulannya.</td>
+                <td>Penghuni setuju untuk membayar biaya sewa sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->amount) }} ({{ terbilang($up->rent->amount) }} rupiah) per {{ $up->period ?? '' }} bulan</span>, yang harus dibayar paling lambat tanggal 5 setiap {{ $up->period ?? '' }} bulannya.</td>
             </tr>
             <tr>
                 <td style="font-weight:bold; width: 3%; padding-top: 10px;">4.</td>
@@ -197,7 +194,7 @@
             </tr>
             <tr>
                 <td style="font-weight:bold; width: 3%;"></td>
-                <td>Penghuni wajib deposit sebesar <span style="font-weight: bold;">Rp {{ number_format($up->deposit_price) }} ({{ terbilang($up->deposit_price) }} rupiah)</span> yang akan dikembalikan setelah penghuni meninggalkan kamar, dengan syarat tidak ada kerusakan.</td>
+                <td>Penghuni wajib deposit sebesar <span style="font-weight: bold;">Rp {{ number_format($up->rent->deposit_price) }} ({{ terbilang($up->rent->deposit_price) }} rupiah)</span> yang akan dikembalikan setelah penghuni meninggalkan kamar, dengan syarat tidak ada kerusakan.</td>
             </tr>
             <tr>
                 <td style="font-weight:bold; width: 3%; padding-top: 10px;">5.</td>
