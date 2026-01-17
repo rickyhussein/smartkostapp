@@ -573,11 +573,11 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/rent-user/signature/'.$rent->id) }}",
+                    url: "{{ url('/user-properties/signature/'.$up->id) }}",
                     data: {signature : signature},
                     success: function (response) {
                         sessionStorage.setItem("success", "Data Has Been Updated");
-                        window.location.href = "{{ url('/rent-user/show/'.$rent->id) }}";
+                        window.location.href = "{{ url('/user-properties/show/'.$up->id) }}";
                     },
                     error: function (xhr, status, error) {
                         Swal.fire({
