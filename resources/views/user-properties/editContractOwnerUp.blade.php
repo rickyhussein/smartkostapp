@@ -1,10 +1,10 @@
-@extends('layouts.appowner')
+@extends('layouts.dashboard')
 
 @section('back')
     <a href="{{ url('/user-properties/owner/show/'.$up->id) }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 
-@section('container')
+@section('isi')
     <form class="tf-form" action="" enctype="multipart/form-data" method="POST">
         <div id="app-wrap" class="mt-4">
             <div class="bill-content">
