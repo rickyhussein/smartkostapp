@@ -202,7 +202,7 @@
 
                         <div id="map" style="height: 300px; border-radius: 8px; margin-top: 15px;"></div>
                     </div>
-                    <hr style="color: rgb(180, 180, 180)">
+                    <hr style="color: rgb(30, 30, 30)">
                     
                     @foreach ($transactions as $key => $transaction)
                         <div class="voucher-desc">
