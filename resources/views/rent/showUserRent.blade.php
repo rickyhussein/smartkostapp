@@ -8,7 +8,7 @@
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
                     <div class="voucher-desc">
-                        <a href="{{ url('/properties/user/show/'.$rent->property_id) }}" class="row">
+                        <a href="{{ url('/property/user/show/'.$rent->property_id) }}" class="row">
                             <div class="col-4">
                                 <img src="{{ url('/storage/'.$rent->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
                             </div>
@@ -34,14 +34,12 @@
                                 <br>
                                 @if ($rent->status == 'Menunggu Persetujuan Owner')
                                     <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                @elseif($rent->status == 'Disetujui')
+                                @elseif($rent->status == 'Pembayaran Berhasil' || $rent->status == 'Check-in')
                                     <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                @elseif($rent->status == 'Menunggu Pembayaran')
+                                    <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @else
                                     <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                @endif
-
-                                @if ($transaction)
-                                    <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $transaction->status ?? '-' }}</div>
                                 @endif
                             </div>
                         </a>
@@ -77,7 +75,7 @@
                         <br>
                         <br>
                         <div style="float:right;">
-                            <a href="{{ url('/properties/user/room/show/'.$rent->room_id.'/'.$rent->property_id) }}" target="_blank" class="image-preview-container mb-8" id="roomImage">
+                            <a href="{{ url('/storage/'.$rent->room->room_file_path) }}" target="_blank" class="image-preview-container mb-8" id="roomImage">
                                 <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="img-preview" class="img-preview" style="max-width: 80px; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                             </a>
                         </div>
@@ -98,43 +96,6 @@
                         <br>
                         <span style="color: rgb(169, 169, 169)">
                             {{ $rent->room->room_height ?? '-' }} x {{ $rent->room->room_width ?? '-' }} Meter
-                        </span>
-                        <br>
-                        <br>
-                        <span style="color: black">Periode Kos</span>
-                        <br>
-                        <span style="color: rgb(169, 169, 169)">{{ $rent->period }} Bulan</span>
-                        <br>
-                        <br>
-                        <span style="color: black">Tanggal Mulai Sewa</span>
-                        <br>
-                        <span style="color: rgb(169, 169, 169)">
-                            @php
-                                if ($rent->start_date) {
-                                    Carbon\Carbon::setLocale('id');
-                                    $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $rent->start_date);
-                                    $new_start_date = $start_date->translatedFormat('d F Y');
-                                } else {
-                                    $new_start_date = '-';
-                                }
-                            @endphp
-                            {{ $new_start_date  }}
-                        </span>
-                        <br>
-                        <br>
-                        <span style="color: black">Tanggal Selesai Sewa</span>
-                        <br>
-                        <span style="color: rgb(169, 169, 169)">
-                            @php
-                                if ($rent->end_date) {
-                                    Carbon\Carbon::setLocale('id');
-                                    $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $rent->end_date);
-                                    $new_end_date = $end_date->translatedFormat('d F Y');
-                                } else {
-                                    $new_end_date = '-';
-                                }
-                            @endphp
-                            {{ $new_end_date  }}
                         </span>
                         <br>
                         <br>
@@ -175,24 +136,61 @@
                         <br>
                         <br>
                     </div>
-                    <hr style="color: rgb(180, 180, 180)">
+                    <hr style="color: rgb(30, 30, 30)">
 
                     <div class="voucher-desc">
-                        <h4 class="fw_6">Rincian Pembayaran</h4>
+                        <h4 class="fw_6" style="float: left">Rincian Pembayaran Ke-1</h4>
                         <br>
-                        <span style="float: left">Biaya sewa kos</span>
-                        <h6 id="textAmount" style="float: right">Rp {{ number_format($rent->amount) }}</h6>
                         <br>
-                        <span style="float: left">Deposit</span>
-                        <h6 id="textDeposit" style="float: right">Rp {{ number_format($rent->deposit_price) }}</h6>
+                        <span style="float: left">Tanggal Mulai Sewa</span>
+                        <span style="float: right">
+                            @php
+                                if ($rent->start_date) {
+                                    Carbon\Carbon::setLocale('id');
+                                    $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $rent->start_date);
+                                    $new_start_date = $start_date->translatedFormat('d F Y');
+                                } else {
+                                    $new_start_date = '-';
+                                }
+                            @endphp
+                            {{ $new_start_date  }}
+                        </span>
+                        <br>
+                        <span style="float: left">Tanggal Selesai Sewa</span>
+                        <span style="float: right">
+                            @php
+                                if ($rent->end_date) {
+                                    Carbon\Carbon::setLocale('id');
+                                    $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $rent->end_date);
+                                    $new_end_date = $end_date->translatedFormat('d F Y');
+                                } else {
+                                    $new_end_date = '-';
+                                }
+                            @endphp
+                            {{ $new_end_date  }}
+                        </span>
+                        <br>
+                        <span style="float: left">Periode Kos</span>
+                        <span style="float: right">
+                            {{ $rent->period ?? '-' }} Bulan
+                        </span>
                         <br>
                     </div>
                     <hr style="color: rgb(180, 180, 180)">
+                    <span style="float: left">Biaya sewa kos</span>
+                    <h6 id="textAmount" style="float: right">Rp {{ number_format($rent->amount) }}</h6>
+                    <br>
+                    <span style="float: left">Deposit</span>
+                    <h6 id="textDeposit" style="float: right">Rp {{ number_format($rent->deposit_price) }}</h6>
+                    <br>
+                    <br>
 
                     <div class="voucher-desc">
-                        <h3 style="float: left">Total Pembayaran Pertama</h3>
+                        <h3 style="float: left">Total Pembayaran</h3>
                         <h3 id="textTotalAmount" style="float: right">Rp {{ number_format($rent->total_amount) }}</h3>
                     </div>
+                    <br>
+                    <hr style="color: rgb(30, 30, 30)">
 
                 </div>
             </div>
@@ -202,13 +200,12 @@
     @if ($rent->status == 'Menunggu Persetujuan Owner')
         <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
             <div class="tf-container">
-                <button style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn large" disabled>Menunggu Persetujuan Owner</button>
+                <button style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn small" disabled>Menunggu Persetujuan Owner</button>
             </div>
         </div>
-
     @endif
 
-    @if ($rent->status == 'Disetujui')
+    @if ($rent->status == 'Menunggu Pembayaran')
         <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
             <div class="tf-container">
                 <button  id="pay-button" class="tf-btn accent large">Bayar Sekarang</button>
@@ -221,44 +218,9 @@
     <br>
     <br>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
 
     @push('style')
         <style>
-            .file-input-wrapper {
-                position: relative;
-                height: calc(2.25rem + 2px);
-                margin-bottom: 10px;
-            }
-            .file-name-display {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                padding: 0.375rem 0.75rem;
-                background-color: #f8f9fa;
-                border: 1px solid #ced4da;
-                border-radius: 0.25rem;
-                pointer-events: none;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                height: calc(2.25rem + 2px);
-                line-height: 1.5;
-            }
-            input[type="file"] {
-                opacity: 0;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                cursor: pointer;
-                z-index: 1;
-            }
             .image-preview-container {
                 margin-top: 10px;
                 padding: 5px;

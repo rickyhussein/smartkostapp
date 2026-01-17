@@ -20,7 +20,7 @@ class RentController extends Controller
             'rents',
         ));
     }
-    
+
     public function showUserRent($id)
     {
         $title = 'Pengajuan Sewa';
@@ -66,9 +66,30 @@ class RentController extends Controller
             ]);
 
             if ($request->status == 'Setuju') {
-                $validated['status'] = 'Disetujui';
+                $validated['status'] = 'Menunggu Pembayaran';
                 $rent->update($validated);
                 $user = User::find($rent->user_id);
+
+                $transaction = Transaction::create([
+                    'rent_id' => $rent->id,
+                    'user_id' => $rent->user_id,
+                    'owner_id' => $rent->owner_id,
+                    'room_id' => $rent->room_id,
+                    'property_id' => $rent->property_id,
+                    'amount' => $rent->amount,
+                    'deposit_price' => $rent->deposit_price,
+                    'total_amount' => $rent->total_amount,
+                    'start_date' => $rent->start_date,
+                    'end_date' => $rent->end_date,
+                    'period' => $rent->period,
+                    'active' => 1,
+                    'date' => date('Y-m-d'),
+                    'in_out' => 'in',
+                    'month' => date('m'),
+                    'year' => date('Y'),
+                    'status' => 'unpaid',
+                    'created_by' => auth()->user()->id,
+                ]);
 
                 \Midtrans\Config::$serverKey = config('midtrans.server_key');
                 \Midtrans\Config::$isProduction = config('midtrans.is_production');
@@ -77,7 +98,7 @@ class RentController extends Controller
 
                 $params = array(
                     'transaction_details' => array(
-                        'order_id' => $rent->id,
+                        'order_id' => $transaction->id,
                         'gross_amount' => $rent->total_amount,
                     ),
                     'expiry' => array(
@@ -94,19 +115,7 @@ class RentController extends Controller
 
                 $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-                Transaction::create([
-                    'rent_id' => $rent->id,
-                    'user_id' => $rent->user_id,
-                    'owner_id' => $rent->owner_id,
-                    'property_id' => $rent->property_id,
-                    'total_amount' => $rent->total_amount,
-                    'active' => 1,
-                    'date' => date('Y-m-d'),
-                    'in_out' => 'in',
-                    'month' => date('m'),
-                    'year' => date('Y'),
-                    'status' => 'Menunggu Pembayaran',
-                    'created_by' => auth()->user()->id,
+                $transaction->update([
                     'snaptoken' => $snapToken
                 ]);
             } else {
@@ -123,14 +132,24 @@ class RentController extends Controller
         $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
         if ($hashed == $request->signature_key) {
             $transaction = Transaction::find($request->order_id);
+            $rent = Rent::find($transaction->rent_id);
             if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
                 $transaction->update([
-                    'status' => 'Pembayaran Berhasil',
+                    'status' => 'paid',
                     'payment_source' => 'midtrans',
                     'payment_method' => $request->payment_type,
                     'paid_date' => $request->transaction_time,
                     'midtrans_transaction_id' => $request->transaction_id,
                     'active' => 0,
+                ]);
+
+                $rent->update([
+                    'status' => 'Pembayaran Berhasil',
+                ]);
+
+                $room = PropertyRoom::find($transaction->room_id);
+                $room->update([
+                    'is_available' => 1,
                 ]);
 
                 if ($transaction->property) {
@@ -146,7 +165,7 @@ class RentController extends Controller
                 }
 
                 $message_user = 'Terimakasih anda telah melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' . ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_user = '/rent-user/show/'.$transaction->rent_id;
+                $action_user = '/rent/user/show/'.$transaction->rent_id;
 
                 $user = User::find($transaction->user_id);
                 $data_user = [
@@ -158,8 +177,8 @@ class RentController extends Controller
 
                 $user->notify(new UserNotification($data_user));
 
-                $message_owner = auth()->user()->name . ' berhasil melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' .  ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_owner = '/rent-owner/show/'.$transaction->rent_id;
+                $message_owner = $transaction->user->name . ' berhasil melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' .  ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
+                $action_owner = '/rent/owner/show/'.$transaction->rent_id;
 
                 $owner = User::find($transaction->owner_id);
                 $data_owner = [
@@ -170,18 +189,26 @@ class RentController extends Controller
                 ];
 
                 $owner->notify(new UserNotification($data_owner));
-            } else if ($request->transaction_status == 'pending') {
-                $transaction->update([
-                    'status' => 'Menunggu Pembayaran',
+
+                $owner->update([
+                    'balance' => $owner->balance + $transaction->total_amount - 5000,
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([
-                    'status' => 'Expired',
+                    'status' => 'expired',
                     'active' => 0,
+                ]);
+
+                $rent->update([
+                    'status' => 'Kadaluarsa',
                 ]);
             } else {
                 $transaction->update([
-                    'status' => $request->transaction_status,
+                    'status' => 'unpaid',
+                ]);
+
+                $rent->update([
+                    'status' => 'Menunggu Pembayaran',
                 ]);
             }
         }

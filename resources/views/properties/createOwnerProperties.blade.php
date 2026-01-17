@@ -324,7 +324,7 @@
                                                 <div class="card-body">
                                                     <label for="room_name">Nama / Nomor Kamar</label>
                                                     <div class="group-input">
-                                                        <input type="text" name="room_name[]" class="room_name" value="1" value="{{ old('room_name')[$key] }}" required>
+                                                        <input type="text" name="room_name[]" class="room_name" value="{{ old('room_name')[$key] }}" required>
                                                     </div>
                                                     <label for="room_type">Tipe Kamar</label>
                                                     <div class="group-input">

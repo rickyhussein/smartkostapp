@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\News;
-
 use App\Models\User;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -20,9 +19,13 @@ class DashboardController extends Controller
     {
         $title = 'Dashboard';
         $user_count = User::count();
+        $property_count = Property::count();
+        $news_count = News::count();
         return view('dashboard.index', compact(
             'title',
-            'user_count'
+            'user_count',
+            'property_count',
+            'news_count',
         ));
     }
 
