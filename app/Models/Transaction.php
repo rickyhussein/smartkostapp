@@ -30,6 +30,11 @@ class Transaction extends Model
         return $this->belongsTo(Property::class, 'rent_id');
     }
 
+    public function up()
+    {
+        return $this->belongsTo(UserProperty::class, 'user_property_id');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
