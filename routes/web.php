@@ -193,6 +193,7 @@ Route::post('/rents/owner/approval/{id}', [RentController::class, 'approvalOwner
 
 Route::get('/user-properties', [UserPropertyController::class, 'index'])->middleware('auth');
 Route::get('/user-properties/show/{id}', [UserPropertyController::class, 'show'])->middleware('auth');
+Route::get('/user-properties/contract/{id}', [UserPropertyController::class, 'contract'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

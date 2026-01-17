@@ -13,7 +13,7 @@ class UserPropertyController extends Controller
         $title = 'Properti Saya';
         $user_properties = UserProperty::where('user_id', auth()->user()->id)->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
 
-        return view('user-properies.index', compact(
+        return view('user-properties.index', compact(
             'title',
             'user_properties',
         ));
@@ -30,7 +30,7 @@ class UserPropertyController extends Controller
         $transactions = Transaction::where('user_property_id', $up->id)->get();
         $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
-        return view('user-properies.show', compact(
+        return view('user-properties.show', compact(
             'title',
             'up',
             'property',
@@ -39,5 +39,19 @@ class UserPropertyController extends Controller
             'transactions',
             'up_start_date',
         ));
+    }
+
+    public function contract( $id)
+    {
+        $up = UserProperty::find($id);
+        $number = str_pad($up->id, 4, '0', STR_PAD_LEFT);
+        $filename = 'CONTRACT-'.$number.'.pdf';
+
+        $pdf = Pdf::loadView('user-properties.contract', [
+            'up' => $up,
+            'filename' => $filename,
+        ]);
+
+        return $pdf->stream($filename);
     }
 }
