@@ -17,7 +17,7 @@
                                 <br>
                                 {{ $rent->property && $rent->property->name ? ucwords(strtolower($rent->property->name)) : '' }} {{ $rent->property && $rent->property->village && $rent->property->village->name ? ucwords(strtolower($rent->property->village->name)) : '' }}
                                 <br>
-                                {{ $rent->property && $rent->property->district && $rent->property->district->name ? ucwords(strtolower($rent->property->district->name)) : '' }} - {{ $rent->property && $rent->property->city && $rent->property->city->name ? ucwords(strtolower($rent->property->city->name)) : '' }}
+                                Kamar {{ $rent->room->room_name ?? '-' }} {{ $rent->room->room_type ? '- Tipe ' . $rent->room->room_type : '' }} {{ $rent->room->floor ? '- Lantai ' . $rent->room->floor : '' }}
                                 <br>
                                 @php
                                     $facility = '';

@@ -24,7 +24,7 @@ class CreateUserPropertiesTable extends Migration
             $table->unsignedBigInteger('room_id')->nullable();
             $table->foreign('room_id')->references('id')->on('property_rooms');
             $table->unsignedBigInteger('rent_id')->nullable();
-            $table->foreign('rent_id')->references('id')->on('property_rooms');
+            $table->foreign('rent_id')->references('id')->on('rents');
             $table->string('period')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

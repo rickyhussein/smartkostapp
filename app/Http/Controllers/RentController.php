@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Rent;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\PropertyRoom;
 use App\Models\UserProperty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\UserNotification;
 
 class RentController extends Controller
 {
