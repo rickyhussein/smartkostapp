@@ -1,10 +1,10 @@
-@extends('layouts.dashboard')
+@extends('layouts.appowner')
 
 @section('back')
     <a href="{{ url('/user-properties/owner/show/'.$up->id) }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 
-@section('isi')
+@section('container')
     <form class="tf-form" action="" enctype="multipart/form-data" method="POST">
         <div id="app-wrap" class="mt-4">
             <div class="bill-content">
@@ -45,7 +45,11 @@
     @push('style')
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
         <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-        
+        <style>
+            trix-toolbar [data-trix-action="attachFiles"] {
+                display: none;
+            }
+        </style>
     @endpush
 
     @push('script')
