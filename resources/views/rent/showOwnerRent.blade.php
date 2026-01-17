@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.appowner')
 @section('back')
-    <a href="{{ url('/rent/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/rent/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap">
@@ -8,7 +8,7 @@
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
                     <div class="voucher-desc">
-                        <a href="{{ url('/properties/user/show/'.$rent->property_id) }}" class="row">
+                        <a href="{{ url('/property/owner/show/'.$rent->property_id) }}" class="row">
                             <div class="col-4">
                                 <img src="{{ url('/storage/'.$rent->property->photos->first()->property_file_path) }}" alt="image" style="max-height: 70px; border-radius:10px;">
                             </div>
@@ -33,15 +33,11 @@
                                 <span style="color: rgb(169, 169, 169)">{{ Str::limit($facility, 32, '...') }}</span>
                                 <br>
                                 @if ($rent->status == 'Menunggu Persetujuan Owner')
-                                    <div class="badge me-1" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                    <div class="badge" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @elseif($rent->status == 'Disetujui')
-                                    <div class="badge me-1" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
+                                    <div class="badge" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @else
-                                    <div class="badge me-1" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
-                                @endif
-
-                                @if ($transaction)
-                                    <div class="badge me-1" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); background-color:rgba(255, 233, 197, 0.889); border-radius:5x;">{{ $transaction->status ?? '-' }}</div>
+                                    <div class="badge" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x;">{{ $rent->status ?? '-' }}</div>
                                 @endif
                             </div>
                         </a>
@@ -77,7 +73,7 @@
                         <br>
                         <br>
                         <div style="float:right;">
-                            <a href="{{ url('/properties/user/room/show/'.$rent->room_id.'/'.$rent->property_id) }}" target="_blank" class="image-preview-container mb-8" id="roomImage">
+                            <a href="{{ url('/storage/'.$rent->room->room_file_path) }}" target="_blank" class="image-preview-container mb-8" id="roomImage">
                                 <img src="{{ url('/storage/'.$rent->room->room_file_path) }}" alt="img-preview" class="img-preview" style="max-width: 80px; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                             </a>
                         </div>
@@ -180,10 +176,10 @@
                     <div class="voucher-desc">
                         <h4 class="fw_6">Rincian Pembayaran</h4>
                         <br>
-                        <span style="float: left">Biaya sewa kos</span>
+                        <span style="float: left">Biaya sewa</span>
                         <h6 id="textAmount" style="float: right">Rp {{ number_format($rent->amount) }}</h6>
                         <br>
-                        <span style="float: left">Deposit</span>
+                        <span style="float: left">Biaya Deposit</span>
                         <h6 id="textDeposit" style="float: right">Rp {{ number_format($rent->deposit_price) }}</h6>
                         <br>
                     </div>
@@ -202,19 +198,59 @@
     @if ($rent->status == 'Menunggu Persetujuan Owner')
         <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
             <div class="tf-container">
-                <button style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn large" disabled>Menunggu Persetujuan Owner</button>
-            </div>
-        </div>
-
-    @endif
-
-    @if ($rent->status == 'Disetujui')
-        <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
-            <div class="tf-container">
-                <button  id="pay-button" class="tf-btn accent large">Bayar Sekarang</button>
+                <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn large" disabled>Approval</a>
             </div>
         </div>
     @endif
+
+    <div class="tf-panel down">
+        <div class="panel_overlay"></div>
+        <div class="panel-box panel-down">
+            <div class="header">
+                <div class="tf-container">
+                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
+                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
+                        <h3>Approval</h3>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class="tf-container">
+                    <form class="tf-form" action="{{ url('/rent/owner/approval/'.$rent->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="group-input">
+                            <label for="status" style="z-index: 1000;">Status</label>
+                            <select style="width: 100%" name="status" id="status" class="select2 @error('status') is-invalid @enderror">
+                                <option value="">-- Pilih Status --</option>
+                                <option value="Setuju" {{ 'Setuju' == old('status') ? 'selected="selected"' : '' }}>Setuju</option>
+                                <option value="Tolak" {{ 'Tolak' == old('status') ? 'selected="selected"' : '' }}>Tolak</option>
+                            </select>
+                            @error('status')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="group-input">
+                            <label for="owner_note">Catatan</label>
+                            <textarea name="owner_note" id="owner_note" class="@error('owner_note') is-invalid @enderror" cols="30" rows="5">{{ old('owner_note') }}</textarea>
+                            @error('owner_note')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mt-7 mb-6">
+                            <button type="submit" class="tf-btn accent">Submit</button>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <br>
     <br>
@@ -267,48 +303,11 @@
                 display: inline-block;
             }
         </style>
-        @if ($transaction)
-            <script type="text/javascript" src="{{ config('midtrans.snap_url') }}" data-client-key="{{ config('midtrans.client_key') }}"></script>
-        @endif
     @endpush
 
     @push('script')
-        @if ($transaction)
-            <script type="text/javascript">
-                var payButton = document.getElementById('pay-button');
-                payButton.addEventListener('click', function () {
-                    window.snap.pay('{{ $transaction->snaptoken }}', {
-                        onSuccess: function(result){
-                            Swal.fire('Payment Success!', '', 'success');
-                            setTimeout(() => location.reload(), 3000);
-                        },
-                        onPending: function(result){
-                            Swal.fire({
-                                title: "Pending",
-                                text: "Waiting For Your Payment",
-                                icon: "info"
-                            });
-                            setTimeout(() => location.reload(), 3000);
-                        },
-                        onError: function(result){
-                            Swal.fire({
-                                title: "Failed",
-                                text: "Payment Failed",
-                                icon: "error"
-                            });
-                            setTimeout(() => location.reload(), 3000);
-                        },
-                        onClose: function(){
-                            Swal.fire({
-                                title: "Closed",
-                                text: "You closed The Popup Without Finishing The Payment",
-                                icon: "warning"
-                            });
-                            setTimeout(() => location.reload(), 3000);
-                        }
-                    })
-                });
-            </script>
-        @endif
+        <script>
+
+        </script>
     @endpush
 @endsection

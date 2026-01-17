@@ -239,10 +239,10 @@
                         <div class="voucher-desc">
                             <h4 class="fw_6">Rincian Pembayaran</h4>
                             <br>
-                            <span style="float: left">Biaya sewa kos</span>
+                            <span style="float: left">Biaya sewa</span>
                             <h6 id="textAmount" style="float: right">Rp {{ old('amount', '0') }}</h6>
                             <br>
-                            <span style="float: left">Deposit</span>
+                            <span style="float: left">Biaya Deposit</span>
                             <h6 id="textDeposit" style="float: right">Rp {{ old('deposit_price', '0') }}</h6>
                             <br>
                         </div>
