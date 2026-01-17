@@ -11,15 +11,9 @@
                 <div class="card-secton transfer-section mt-2">
                     <div class="tf-container ms-2 me-2">
                         @csrf
-                        <div class="card" style="border-radius: 10px; border: 1px solid #acacac; font-size: 14px;">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="contract">Isi Kontrak</label>
-                                    <input id="contract" type="hidden" name="contract">
-                                    <trix-editor input="contract"></trix-editor>
-                                </div>
-                            </div>
-                        </div>
+                        <label for="contract">Isi Kontrak</label>
+                        <input id="contract" type="hidden" name="contract">
+                        <trix-editor input="contract"></trix-editor>
 
                         <br>
                         <br>
