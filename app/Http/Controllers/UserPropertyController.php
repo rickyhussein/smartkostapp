@@ -55,4 +55,16 @@ class UserPropertyController extends Controller
 
         return $pdf->stream($filename);
     }
+
+    public function ownerUp()
+    {
+        $title = 'Kamar Terisi';
+        $user_properties = UserProperty::where('owner_id', auth()->user()->id)->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
+
+        return view('user-properties.ownerUp', compact(
+            'title',
+            'user_properties',
+        ));
+
+    }
 }

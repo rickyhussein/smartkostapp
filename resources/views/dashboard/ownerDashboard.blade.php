@@ -143,6 +143,24 @@
                     </div>
                 </a>
 
+                <a href="{{ url('/user-properties/owner') }}" class="col-12 mt-4">
+                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
+                        <div class="row  d-flex align-items-center">
+                            <div class="col-3">
+                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 70px; height: 70px;">
+                                    <img src="{{ url('/assets/img/kamar.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="card-body">
+                                  <h5 class="card-title">Kamar Terisi</h5>
+                                  <p class="card-text">Kelola Kamar Yang Sedang Terisi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="{{ url('/withdraw/owner') }}" class="col-12 mt-4">
                     <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                         <div class="row  d-flex align-items-center">
