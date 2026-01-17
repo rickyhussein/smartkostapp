@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rent;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\UserProperty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -191,7 +192,24 @@ class RentController extends Controller
                 $owner->notify(new UserNotification($data_owner));
 
                 $owner->update([
-                    'balance' => $owner->balance + $transaction->total_amount - 5000,
+                    'balance' => $owner->balance + $transaction->total_amount,
+                ]);
+
+                UserProperty::create([
+                    'rent_id' => $rent->id,
+                    'user_id' => $rent->user_id,
+                    'owner_id' => $rent->owner_id,
+                    'property_id' => $rent->property_id,
+                    'room_id' => $rent->room_id,
+                    'period' => $rent->period,
+                    'start_date' => $rent->start_date,
+                    'end_date' => $rent->end_date,
+                    'note' => $rent->note,
+                    'amount' => $rent->amount,
+                    'deposit_price' => $rent->deposit_price,
+                    'total_amount' => $rent->total_amount,
+                    'date' => date('Y-m-d'),
+                    'status' => $rent->status,
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([
