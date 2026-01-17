@@ -355,7 +355,7 @@
                                                 </div>
                                             </div>
                                             <div class="tf-spacing-12"></div>
-                                            <button id="clear-button" class="btn btn-danger mt-1 float-end">Clear</button>
+                                            <button id="clear-button" class="tf-btn mt-1 float-end" style="color: rgb(197, 0, 0); border:1px solid rgb(197, 0, 0); ">Clear</button>
                                             <div class="tf-spacing-16"></div>
                                         </div>
                                         <div class="mt-7 mb-6">
