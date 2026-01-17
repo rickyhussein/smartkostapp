@@ -96,7 +96,7 @@
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-map-marker-alt me-1"></i>{{ $property->district && $property->district->name ? ucwords(strtolower($property->district->name)) : '' }}</div>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-location-arrow me-1"></i>{{ $property->city && $property->city->name ? ucwords(strtolower($property->city->name)) : '' }}</div>
                         <br>
-                        Tersisa <span class="critical_color">{{ $property->countUnavailable($property->id) }} Kamar</span>
+                        Tersisa <span class="critical_color">{{ $property->countAvailable($property->id) }} Kamar</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center top mt-4">
                         <span>

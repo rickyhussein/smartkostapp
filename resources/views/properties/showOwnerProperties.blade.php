@@ -103,7 +103,7 @@
                             <div class="badge mb-2" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5px;">{{ $property->status ?? '-' }}</div>
                         @endif
                         <br>
-                        Tersisa <span class="critical_color">{{ $property->countUnavailable($property->id) }} Kamar</span>
+                        Tersisa <span class="critical_color">{{ $property->countAvailable($property->id) }} Kamar</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center top mt-4">
                         <span>
