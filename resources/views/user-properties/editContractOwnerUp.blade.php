@@ -17,11 +17,13 @@
                             <h4 class="fw_6">Edit Kontrak</h4>
                         </div>
                         <div class="inner-right">
-                            <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
+                            <input name="edit_contract" id="edit_contract" class="tf-switch-check" type="checkbox" value="{{ old('edit_contract', $up->edit_contract) }}">
                         </div>
                     </div>
-                    <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
-                    <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
+                    <div id="contractContainer">
+                        <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
+                        <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,6 +66,22 @@
 
     @push('script')
         <script>
+            let edit_contract = $('#edit_contract').val();
+            if(edit_contract == 1) {
+                $('#contractContainer').show();
+            } else {
+                $('#contractContainer').hide();
+            }
+
+            $('body').on('change', '#edit_contract', function (event) {
+                if(this.checked) {
+                    $(this).val(1);
+                    $('#contractContainer').show();
+                } else {
+                    $(this).val(null);
+                    $('#contractContainer').hide();
+                }
+            });
         </script>
     @endpush
 @endsection
