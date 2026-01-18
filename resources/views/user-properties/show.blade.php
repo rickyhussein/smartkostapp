@@ -555,12 +555,11 @@
                 disableMobile: true
             });
 
-            var canvas = document.querySelector('canvas');
-            var signaturePad = new SignaturePad(canvas, {
-                minWidth: 2.5,
-                maxWidth: 5.5
-            });
-
+            // var canvas = document.querySelector('canvas');
+            // var signaturePad = new SignaturePad(canvas, {
+            //     minWidth: 2.5,
+            //     maxWidth: 5.5
+            // });
 
             $('#save').on('click', function (e) {
                 $('#save').prop('disabled', true);
