@@ -76,6 +76,12 @@ class UserPropertyController extends Controller
         return $pdf->stream($filename);
     }
 
+    public function extend(Request $request, $id)
+    {
+        $up = UserProperty::find($id);
+        return $request;
+    }
+
     public function ownerUp()
     {
         $title = 'Kamar Terisi';

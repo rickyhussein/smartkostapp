@@ -387,9 +387,8 @@
 
                             <div class="mt-5">
                                 <div class="tf-container">
-                                    <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
+                                    <form class="tf-form" action="{{ url('/user-properties/extend/'.$up->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
-
                                         <div class="group-input">
                                             <label for="period" style="z-index: 1000;">Periode Kos</label>
                                             <select style="width: 100%" name="period" id="period" class="select2 @error('period') is-invalid @enderror" onchange="calculateDate()">
@@ -595,7 +594,6 @@
                     signaturePad.clear();
                 });
             }
-
 
             function calculateDate() {
                 var startDateStr = $('#start_date').val();

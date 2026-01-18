@@ -195,6 +195,7 @@ Route::get('/user-properties', [UserPropertyController::class, 'index'])->middle
 Route::get('/user-properties/show/{id}', [UserPropertyController::class, 'show'])->middleware('auth');
 Route::get('/user-properties/contract/{id}', [UserPropertyController::class, 'contract'])->middleware('auth');
 Route::post('/user-properties/signature/{id}', [UserPropertyController::class, 'signature'])->middleware('auth');
+Route::post('/user-properties/extend/{id}', [UserPropertyController::class, 'extend'])->middleware('auth');
 
 Route::get('/user-properties/owner', [UserPropertyController::class, 'ownerUp'])->middleware('auth');
 Route::get('/user-properties/owner/show/{id}', [UserPropertyController::class, 'showOwnerUp'])->middleware('auth');
