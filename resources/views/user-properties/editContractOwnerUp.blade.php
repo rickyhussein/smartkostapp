@@ -5,41 +5,22 @@
 @endsection
 
 @section('container')
-    <form class="tf-form" action="{{ url('/user-properties/owner/contract/update/'.$up->id) }}" enctype="multipart/form-data" method="POST">
+    <form action="{{ url('/user-properties/owner/contract/update/'.$up->id) }}" enctype="multipart/form-data" method="POST">
         @method('PUT')
-        <div id="app-wrap" class="mt-4">
-            <div class="bill-content">
-                <div class="card-secton transfer-section mt-2">
-                    <div class="tf-container ms-2 me-2">
-                        @csrf
-                        <div class="card" style="border-radius: 10px; border: 1px solid #acacac; font-size: 14px;">
-                            <div class="card-body">
-                                <div>
-                                    <div class="inner-left">
-                                        <h4 class="fw_6">Edit Kontrak</h4>
-                                    </div>
-                                    <a href="#" class="inner-right">
-                                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
-                                    </a>
-                                </div>
-                                <div>
-                                    <label for="contract">Isi Kontrak</label>
-                                    <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
-                                    <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
-                                </div>
-                            </div>
-                        </div>
-
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-
-                    </div>
+        @csrf
+        <div class="mt-1 box-settings-profile style1">
+            <div class="list-setting-profile">
+                <div class="inner-left">
+                    <h4 class="fw_6">Edit Kontrak</h4>
                 </div>
+                <a href="#" class="inner-right">
+                    <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
+                </a>
+            </div>
+            <div class="list-setting-profile">
+                <label for="contract">Isi Kontrak</label>
+                <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
+                <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
             </div>
         </div>
 
