@@ -71,7 +71,7 @@ class UserPropertyController extends Controller
 
     public function showOwnerUp($id)
     {
-        $title = 'Properti Saya';
+        $title = 'Kamar Terisi';
         $up = UserProperty::find($id);
         $property = $up->property;
         $room = $up->room;
