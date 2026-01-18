@@ -14,7 +14,15 @@
                         @csrf
                         <div class="card" style="border-radius: 10px; border: 1px solid #acacac; font-size: 14px;">
                             <div class="card-body">
-                                <div class="mb-3">
+                                <div>
+                                    <div class="inner-left">
+                                        <h4 class="fw_6">Edit Kontrak</h4>
+                                    </div>
+                                    <a href="#" class="inner-right">
+                                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
+                                    </a>
+                                </div>
+                                <div>
                                     <label for="contract">Isi Kontrak</label>
                                     <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
                                     <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
