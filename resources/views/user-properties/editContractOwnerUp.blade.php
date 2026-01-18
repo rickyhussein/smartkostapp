@@ -11,8 +11,7 @@
         
         <div id="app-wrap" class="mt-4">
             <div class="bill-content">
-                
-                <div class="mt-1 box-settings-profile style1">
+                <div class="box-settings-profile style1">
                     <div class="list-setting-profile">
                         <div class="inner-left">
                             <h4 class="fw_6">Edit Kontrak</h4>
@@ -21,11 +20,9 @@
                             <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
                         </a>
                     </div>
-                    <div class="list-setting-profile">
-                        <label for="contract">Isi Kontrak</label>
-                        <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
-                        <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
-                    </div>
+                    <label for="contract">Isi Kontrak</label>
+                    <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
+                    <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
                 </div>
             </div>
         </div>
