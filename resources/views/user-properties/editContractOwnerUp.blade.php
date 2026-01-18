@@ -16,11 +16,10 @@
                         <div class="inner-left">
                             <h4 class="fw_6">Edit Kontrak</h4>
                         </div>
-                        <a href="#" class="inner-right">
+                        <div class="inner-right">
                             <input class="tf-switch-check" type="checkbox" value="checkbox" name="check">
-                        </a>
+                        </div>
                     </div>
-                    <label for="contract">Isi Kontrak</label>
                     <input id="contract" type="hidden" name="contract" value="{{ old('contract', $up->contract) }}">
                     <trix-editor input="contract">{{ old('contract', $up->contract) }}</trix-editor>
                 </div>
