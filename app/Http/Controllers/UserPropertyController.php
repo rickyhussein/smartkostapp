@@ -229,6 +229,7 @@ class UserPropertyController extends Controller
             ]);
 
             $validated['edit_contract'] = $request->edit_contract ? $request->edit_contract : null;
+            $validated['status'] = 'Aktif';
             $up->update($validated);
         });
 

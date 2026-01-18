@@ -140,41 +140,66 @@ class RentController extends Controller
         $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
         if ($hashed == $request->signature_key) {
             $transaction = Transaction::find($request->order_id);
-            $rent = Rent::find($transaction->rent_id);
             if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
-                $rent->update([
-                    'status' => 'Pembayaran Berhasil',
-                ]);
+                if ($transaction->up_id) {
+                    $up = UserProperty::find($transaction->up_id);
+                    $up->update([
+                        'period' => $transaction->period,
+                        'end_date' => $transaction->end_date,
+                        'status' => 'Aktif',
+                        'is_active' => 1,
+                    ]);
 
-                $room = PropertyRoom::find($transaction->room_id);
-                $room->update([
-                    'is_available' => 1,
-                ]);
+                    $room = PropertyRoom::find($transaction->room_id);
+                    $room->update([
+                        'is_available' => 1,
+                    ]);
 
-                $up = UserProperty::create([
-                    'rent_id' => $rent->id,
-                    'user_id' => $rent->user_id,
-                    'owner_id' => $rent->owner_id,
-                    'property_id' => $rent->property_id,
-                    'room_id' => $rent->room_id,
-                    'period' => $rent->period,
-                    'start_date' => $rent->start_date,
-                    'end_date' => $rent->end_date,
-                    'note' => $rent->note,
-                    'date' => date('Y-m-d'),
-                    'is_active' => 1,
-                    'status' => 'Tanda Tangan Kontrak',
-                ]);
+                    $transaction->update([
+                        'status' => 'paid',
+                        'payment_source' => 'midtrans',
+                        'payment_method' => $request->payment_type,
+                        'paid_date' => $request->transaction_time,
+                        'midtrans_transaction_id' => $request->transaction_id,
+                        'active' => 0,
+                    ]);
+                } else {
+                    $rent = Rent::find($transaction->rent_id);
 
-                $transaction->update([
-                    'user_property_id' => $up->id,
-                    'status' => 'paid',
-                    'payment_source' => 'midtrans',
-                    'payment_method' => $request->payment_type,
-                    'paid_date' => $request->transaction_time,
-                    'midtrans_transaction_id' => $request->transaction_id,
-                    'active' => 0,
-                ]);
+                    $rent->update([
+                        'status' => 'Pembayaran Berhasil',
+                    ]);
+    
+                    $room = PropertyRoom::find($transaction->room_id);
+                    $room->update([
+                        'is_available' => 1,
+                    ]);
+    
+                    $up = UserProperty::create([
+                        'rent_id' => $rent->id,
+                        'user_id' => $rent->user_id,
+                        'owner_id' => $rent->owner_id,
+                        'property_id' => $rent->property_id,
+                        'room_id' => $rent->room_id,
+                        'period' => $rent->period,
+                        'start_date' => $rent->start_date,
+                        'end_date' => $rent->end_date,
+                        'note' => $rent->note,
+                        'date' => date('Y-m-d'),
+                        'is_active' => 1,
+                        'status' => 'Tanda Tangan Kontrak',
+                    ]);
+    
+                    $transaction->update([
+                        'user_property_id' => $up->id,
+                        'status' => 'paid',
+                        'payment_source' => 'midtrans',
+                        'payment_method' => $request->payment_type,
+                        'paid_date' => $request->transaction_time,
+                        'midtrans_transaction_id' => $request->transaction_id,
+                        'active' => 0,
+                    ]);
+                }
 
                 if ($transaction->property) {
                     $property_name = $transaction->property->name;

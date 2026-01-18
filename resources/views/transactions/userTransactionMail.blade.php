@@ -136,11 +136,11 @@
         <b>Total : Rp {{ number_format($transaction->total_amount) }}</b>
         <br><br>
         
-        Silahkan Tanda Tangan Kontrak Melalui Link Dibawah Ini :
+        Silahkan Cek Melalui Link Dibawah Ini :
         <br><br><br>
 
         <center>
-            <a href="{{ url('/user-properties/owner/show/'.$transaction->up_id) }}" class="btn-blue">Kontrak</a>
+            <a href="{{ url('/user-properties/owner/show/'.$transaction->up_id) }}" class="btn-blue">Kost Saya</a>
         </center>
 
 
