@@ -7,6 +7,7 @@ use App\Models\UserProperty;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserPropertyController extends Controller
 {
@@ -41,6 +42,24 @@ class UserPropertyController extends Controller
             'transactions',
             'up_start_date',
         ));
+    }
+
+    public function signature(Request $request, $id)
+    {
+        $up = UserProperty::find($id);
+        $signature = $request->signature;
+        $image_parts = explode(";base64,", $signature);
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = 'signature/'.$up->id.'.png';
+
+        Storage::disk('public')->put($fileName, $image_base64);
+
+        $up->update([
+            'signature' => $fileName,
+            'signature_date' => date('Y-m-d'),
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
     public function contract($id)
