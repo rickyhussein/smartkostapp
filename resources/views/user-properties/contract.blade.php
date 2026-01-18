@@ -164,7 +164,7 @@
 
     <table style="width: 100%; font-size:12px; font-family: 'Open Sans', sans-serif; color:rgb(0, 0, 0); padding-top: 20px;">
         <tbody>
-            @if ($up->contract)
+            @if ($up->edit_contract == 1)
                 {!! $up->contract !!}
             @else
                 <tr>

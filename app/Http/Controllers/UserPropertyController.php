@@ -127,9 +127,11 @@ class UserPropertyController extends Controller
 
         DB::transaction(function ()  use ($request, $up) {
             $validated = $request->validate([
-                'contract' => 'nullable'
+                'edit_contract' => 'nullable',
+                'contract' => 'nullable',
             ]);
-    
+
+            $validated['edit_contract'] = $request->edit_contract ? $request->edit_contract : null;
             $up->update($validated);
         });
 
