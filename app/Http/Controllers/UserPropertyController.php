@@ -33,6 +33,8 @@ class UserPropertyController extends Controller
         $transactions = Transaction::where('user_property_id', $up->id)->get();
         $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
+        return $property->photos;
+
         return view('user-properties.show', compact(
             'title',
             'up',
