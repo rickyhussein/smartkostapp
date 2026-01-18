@@ -325,124 +325,48 @@
                 <div class="col">
                     <a target="_blank" href="{{ url('/user-properties/contract/'.$up->id) }}" class="tf-btn accent small">Kontrak</a>
                 </div>
-                @if (!$up->signature)
-                    <div class="col">
-                        <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn small">Tanda Tangan</a>
-                    </div>
+                <div class="col">
+                    <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn small">Tanda Tangan</a>
+                </div>
 
-                    <div class="tf-panel down">
-                        <div class="panel_overlay"></div>
-                        <div class="panel-box panel-down">
-                            <div class="header">
-                                <div class="tf-container">
-                                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
-                                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
-                                        <h3>Tanda Tangan</h3>
-                                    </div>
-
+                <div class="tf-panel down">
+                    <div class="panel_overlay"></div>
+                    <div class="panel-box panel-down">
+                        <div class="header">
+                            <div class="tf-container">
+                                <div class="tf-statusbar d-flex justify-content-center align-items-center">
+                                    <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
+                                    <h3>Tanda Tangan</h3>
                                 </div>
+
                             </div>
+                        </div>
 
-                            <div class="mt-5">
-                                <div class="tf-container">
-                                    <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
-                                        @csrf
+                        <div class="mt-5">
+                            <div class="tf-container">
+                                <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
+                                    @csrf
 
-                                        <div class="group-input">
-                                            <div style="background-color: rgb(211, 211, 211)">
-                                                <div class="signature-pad-body">
-                                                    <canvas id="signature-pad" class="signature-pad" width="300" height="300"></canvas>
-                                                </div>
+                                    <div class="group-input">
+                                        <div style="background-color: rgb(211, 211, 211)">
+                                            <div class="signature-pad-body">
+                                                <canvas id="signature-pad" class="signature-pad" width="300" height="300"></canvas>
                                             </div>
-                                            <div class="tf-spacing-12"></div>
-                                            <button id="clear-button" class="tf-btn mt-1 float-end" style="color: rgb(197, 0, 0); border:1px solid rgb(197, 0, 0); ">Clear</button>
-                                            <div class="tf-spacing-16"></div>
-                                            <div class="tf-spacing-16"></div>
                                         </div>
-                                        <div class="mt-7 mb-6">
-                                            <button type="submit" id="save" class="tf-btn accent">Save</button>
-                                        </div>
-                                </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="col">
-                        <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn small">Perpanjang</a>
-                    </div>
-
-                    <div class="tf-panel down">
-                        <div class="panel_overlay"></div>
-                        <div class="panel-box panel-down">
-                            <div class="header">
-                                <div class="tf-container">
-                                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
-                                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
-                                        <h3>Perpanjang Sewa</h3>
+                                        <div class="tf-spacing-12"></div>
+                                        <button id="clear-button" class="tf-btn mt-1 float-end" style="color: rgb(197, 0, 0); border:1px solid rgb(197, 0, 0); ">Clear</button>
+                                        <div class="tf-spacing-16"></div>
+                                        <div class="tf-spacing-16"></div>
                                     </div>
-
-                                </div>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="tf-container">
-                                    <form class="tf-form" action="#" method="POST" enctype="multipart/form-data">
-                                        @csrf
-
-                                        <div class="group-input">
-                                            <label for="period" style="z-index: 1000;">Periode Kos</label>
-                                            <select style="width: 100%" name="period" id="period" class="select2 @error('period') is-invalid @enderror" onchange="calculateDate()">
-                                                <option value="">-- Pilih Periode Kos --</option>
-                                                @if ($room && $room->one_month_price > 0)
-                                                    <option value="1" {{ old('period') == '1' ? 'selected="selected"' : '' }}>1 Bulan  - Rp {{ number_format($room->one_month_price, 0, ',', '.') }}</option>
-                                                @endif
-                                                @if ($room && $room->three_month_price > 0)
-                                                    <option value="3" {{ old('period') == '3' ? 'selected="selected"' : '' }}>3 Bulan  - Rp {{ number_format($room->three_month_price, 0, ',', '.') }}</option>
-                                                @endif
-                                                @if ($room && $room->six_month_price > 0)
-                                                    <option value="6" {{ old('period') == '6' ? 'selected="selected"' : '' }}>6 Bulan  - Rp {{ number_format($room->six_month_price, 0, ',', '.') }}</option>
-                                                @endif
-                                                @if ($room && $room->twelve_month_price > 0)
-                                                    <option value="12" {{ old('period') == '12' ? 'selected="selected"' : '' }}>12 Bulan  - Rp {{ number_format($room->twelve_month_price, 0, ',', '.') }}</option>
-                                                @endif
-                                            </select>
-                                            @error('period')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="group-input">
-                                            <label for="start_date">Tanggal Mulai Sewa</label>
-                                            <input type="date" class="@error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $up_start_date) }}" placeholder="yyyy-mm-dd" onchange="calculateDate()">
-                                            @error('start_date')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="group-input">
-                                            <label for="end_date">Tanggal Selesai Sewa</label>
-                                            <input type="date" class="@error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date') }}" placeholder="yyyy-mm-dd">
-                                            @error('end_date')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="mt-7 mb-6">
-                                            <button type="submit" id="save" class="tf-btn accent">Save</button>
-                                        </div>
-                                </form>
-                                </div>
+                                    <div class="mt-7 mb-6">
+                                        <button type="submit" id="save" class="tf-btn accent">Save</button>
+                                    </div>
+                            </form>
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
+                
             </div>
         </div>
     </div>
@@ -561,7 +485,7 @@
                     minWidth: 2.5,
                     maxWidth: 5.5
                 });
-                
+
                 $('#save').on('click', function (e) {
                     $('#save').prop('disabled', true);
                     e.preventDefault();
