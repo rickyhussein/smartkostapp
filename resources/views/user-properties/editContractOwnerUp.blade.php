@@ -68,8 +68,10 @@
         <script>
             let edit_contract = $('#edit_contract').val();
             if(edit_contract == 1) {
+                $('#edit_contract').prop('checked', true);
                 $('#contractContainer').show();
             } else {
+                $('#edit_contract').prop('checked', false);
                 $('#contractContainer').hide();
             }
 
