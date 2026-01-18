@@ -555,44 +555,47 @@
                 disableMobile: true
             });
 
-            // var canvas = document.querySelector('canvas');
-            // var signaturePad = new SignaturePad(canvas, {
-            //     minWidth: 2.5,
-            //     maxWidth: 5.5
-            // });
-
-            $('#save').on('click', function (e) {
-                $('#save').prop('disabled', true);
-                e.preventDefault();
-                var signature = signaturePad.toDataURL();
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+            var canvas = document.querySelector('canvas');
+            if (canvas) {
+                var signaturePad = new SignaturePad(canvas, {
+                    minWidth: 2.5,
+                    maxWidth: 5.5
                 });
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('/user-properties/signature/'.$up->id) }}",
-                    data: {signature : signature},
-                    success: function (response) {
-                        sessionStorage.setItem("success", "Data Has Been Updated");
-                        window.location.href = "{{ url('/user-properties/show/'.$up->id) }}";
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Gagal',
-                        });
-                    }
+                
+                $('#save').on('click', function (e) {
+                    $('#save').prop('disabled', true);
+                    e.preventDefault();
+                    var signature = signaturePad.toDataURL();
+    
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('/user-properties/signature/'.$up->id) }}",
+                        data: {signature : signature},
+                        success: function (response) {
+                            sessionStorage.setItem("success", "Data Has Been Updated");
+                            window.location.href = "{{ url('/user-properties/show/'.$up->id) }}";
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Gagal',
+                            });
+                        }
+                    });
                 });
-            });
+    
+                $('#clear-button').on('click', function (e) {
+                    e.preventDefault();
+                    signaturePad.clear();
+                });
+            }
 
-            $('#clear-button').on('click', function (e) {
-                e.preventDefault();
-                signaturePad.clear();
-            });
 
             function calculateDate() {
                 var startDateStr = $('#start_date').val();
