@@ -78,9 +78,11 @@
             $('body').on('change', '#edit_contract', function (event) {
                 if(this.checked) {
                     $(this).val(1);
+                    $('#contract').val(null);
                     $('#contractContainer').show();
                 } else {
                     $(this).val(null);
+                    $('#contract').val(null);
                     $('#contractContainer').hide();
                 }
             });
