@@ -1,4 +1,4 @@
-@extends('layouts.appowner')
+@extends('layouts.app')
 @section('back')
     <a href="{{ url('/properties/user/show/'.$property->id) }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
