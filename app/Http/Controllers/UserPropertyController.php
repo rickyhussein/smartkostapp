@@ -79,7 +79,79 @@ class UserPropertyController extends Controller
     public function extend(Request $request, $id)
     {
         $up = UserProperty::find($id);
-        return $request;
+        DB::transaction(function ()  use ($request, $up) {
+            $validated = $request->validate([
+                'period' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+            ]);
+
+            $room = $up->room;
+            $user = $up->user;
+
+            if ($validated["period"] == 1) {
+                $amount = $room->one_month_price;
+            } else if ($validated["period"] == 3) {
+                $amount = $room->three_month_price;
+            } else if ($validated["period"] == 6) {
+                $amount = $room->six_month_price;
+            } else {
+                $amount = $room->twelve_month_price;
+            }
+
+            $transaction = Transaction::create([
+                'user_property_id' => $up->id,
+                'rent_id' => $up->rent_id,
+                'user_id' => $up->user_id,
+                'owner_id' => $up->owner_id,
+                'room_id' => $up->room_id,
+                'property_id' => $up->property_id,
+                'amount' => $amount,
+                'deposit_price' => 0,
+                'total_amount' => $amount,
+                'owner_fee' => 5000,
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
+                'period' => $validated['period'],
+                'active' => 1,
+                'date' => date('Y-m-d'),
+                'in_out' => 'in',
+                'month' => date('m'),
+                'year' => date('Y'),
+                'status' => 'unpaid',
+                'created_by' => auth()->user()->id,
+            ]);
+
+            \Midtrans\Config::$serverKey = config('midtrans.server_key');
+            \Midtrans\Config::$isProduction = config('midtrans.is_production');
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $transaction->id,
+                    'gross_amount' => $transaction->total_amount,
+                ),
+                'expiry' => array(
+                    'start_time' => date("Y-m-d H:i:s O"),
+                    'unit' => 'days',
+                    'duration' => 7,
+                ),
+                'customer_details' => array(
+                    'first_name' => $user->name ?? '',
+                    'email' => $user->email ?? '',
+                    'phone' => $user->no_hp,
+                ),
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            $transaction->update([
+                'snaptoken' => $snapToken
+            ]);
+        });
+
+        return redirect('/user-properties/show/'.$up->id)->with('success', 'Data Berhasil Disimpan');
     }
 
     public function ownerUp()
