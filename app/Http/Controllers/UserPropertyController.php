@@ -132,6 +132,9 @@ class UserPropertyController extends Controller
                     'order_id' => $transaction->id,
                     'gross_amount' => $transaction->total_amount,
                 ),
+                'callbacks' => array(
+                    'finish' => url('/payment/finish'),
+                ),
                 'expiry' => array(
                     'start_time' => date("Y-m-d H:i:s O"),
                     'unit' => 'days',
@@ -143,6 +146,7 @@ class UserPropertyController extends Controller
                     'phone' => $user->no_hp,
                 ),
             );
+
 
             $snapToken = \Midtrans\Snap::getSnapToken($params);
 

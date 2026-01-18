@@ -107,7 +107,10 @@ class RentController extends Controller
                 $params = array(
                     'transaction_details' => array(
                         'order_id' => $transaction->id,
-                        'gross_amount' => $rent->total_amount,
+                        'gross_amount' => $transaction->total_amount,
+                    ),
+                    'callbacks' => array(
+                        'finish' => url('/payment/finish'),
                     ),
                     'expiry' => array(
                         'start_time' => date("Y-m-d H:i:s O"),
