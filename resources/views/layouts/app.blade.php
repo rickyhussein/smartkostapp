@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ url('/myhr/styles/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url('/myhr/styles/swiper-bundle.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('/myhr/styles/styles.css') }}" />
-    <link rel="manifest" href="{{ url('/myhr/_manifest.json') }}" data-pwa-version="set_in_manifest_and_pwa_js">
+    <link rel="manifest" href="{{ url('/manifest.json') }}" data-pwa-version="set_in_manifest_and_pwa_js">
     <link rel="apple-touch-icon" sizes="192x192" href="{{ url('assets/img/kos.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ url('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
