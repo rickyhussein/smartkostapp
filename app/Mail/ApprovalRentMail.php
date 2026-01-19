@@ -7,9 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserTransactionMail extends Mailable implements ShouldQueue
+class ApprovalRentMail extends Mailable implements ShouldQueue
 {
-    public $transaction;
+    public $rent;
     use Queueable, SerializesModels;
 
     /**
@@ -17,9 +17,9 @@ class UserTransactionMail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($transaction)
+    public function __construct($rent)
     {
-        $this->transaction = $transaction;
+        $this->rent = $rent;
     }
 
     /**
@@ -29,6 +29,6 @@ class UserTransactionMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('transactions.userTransactionMail')->subject('SmartKost');
+        return $this->markdown('rents.approvalRentMail')->subject('SmartKost');
     }
 }

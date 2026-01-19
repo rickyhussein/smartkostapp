@@ -17,6 +17,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegulationController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserPropertyController;
 
@@ -203,10 +204,13 @@ Route::get('/user-properties/owner/contract/print/{id}', [UserPropertyController
 Route::get('/user-properties/owner/contract/edit/{id}', [UserPropertyController::class, 'editContractOwnerUp'])->middleware('auth');
 Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyController::class, 'updateContractOwnerUp'])->middleware('auth');
 
+Route::get('/transaction/finish', [TransactionController::class, 'finish'])->middleware('auth');
+
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
 Route::get('/get-village', [PropertyController::class, 'getVillage'])->middleware('auth');
 Route::get('/get-room', [PropertyController::class, 'getRoom'])->middleware('auth');
+
 
 Route::get('/reset', function () {
     Artisan::call('optimize');

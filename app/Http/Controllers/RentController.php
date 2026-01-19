@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use App\Models\PropertyRoom;
 use App\Models\UserProperty;
 use Illuminate\Http\Request;
+use App\Mail\ApprovalRentMail;
 use App\Mail\UserTransactionMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -110,7 +111,7 @@ class RentController extends Controller
                         'gross_amount' => $transaction->total_amount,
                     ),
                     'callbacks' => array(
-                        'finish' => url('/payment/finish'),
+                        'finish' => url('/transaction/finish'),
                     ),
                     'expiry' => array(
                         'start_time' => date("Y-m-d H:i:s O"),
@@ -129,9 +130,78 @@ class RentController extends Controller
                 $transaction->update([
                     'snaptoken' => $snapToken
                 ]);
+
+                $user = User::find($rent->user_id);
+                $message = 'Pengajuan sewa anda telah diapprove oleh ' . auth()->user()->name;
+                $data = [
+                    'user_id'   =>  auth()->user()->id,
+                    'from'   =>  auth()->user()->name,
+                    'message'   =>  $message,
+                    'action'   =>  '/rents/user/show/'.$rent->id
+                ];
+
+                $user->notify(new UserNotification($data));
+
+                Mail::to($user->email)->send(new ApprovalRentMail($rent));
+
+                $whatsapp_api_url = config('midtrans.whatsapp_api_url');
+                $whatsapp_api_session = config('midtrans.whatsapp_api_session');
+                $whatsapp_api_key = config('midtrans.whatsapp_api_key');
+    
+                $property_name = $rent->property->name ?? '-';
+                $room_name = $rent->room->room_name ?? '-';
+                $room_type = $rent->room->room_type ?? '-';
+                $room_height = $rent->room->room_height ?? '-';
+                $room_width = $rent->room->room_width ?? '-';
+                $heigh_width = $room_height . ' x ' . $room_width . " Meter";
+    
+                if ($rent->start_date) {
+                    Carbon::setLocale('id');
+                    $start_date = Carbon::createFromFormat('Y-m-d', $rent->start_date);
+                    $new_start_date = $start_date->translatedFormat('d F Y');
+                } else {
+                    $new_start_date = '-';
+                }
+                
+                if ($rent->end_date) {
+                    Carbon::setLocale('id');
+                    $end_date = Carbon::createFromFormat('Y-m-d', $rent->end_date);
+                    $new_end_date = $end_date->translatedFormat('d F Y');
+                } else {
+                    $new_end_date = '-';
+                }
+    
+                $message =  "Ini adalah pesan otomatis dari sistem layanan Smart Kost\n\n" .
+                            "Salam sejahtera Bapak/Ibu, pengajuan sewa anda telah diapprove oleh owner kost :\n\n" .
+                            "*PROPERTI YANG DISEWA* \n" .
+                            "Nama Properti : " . $property_name . "\n" .
+                            "Nama Kamar : " . $room_name . "\n" .
+                            "Tipe Kamar : " . $room_type . "\n" .
+                            "Ukuran Kamar : " . $heigh_width . "\n" .
+                            "Periode Sewa : " . $rent->period . " Bulan \n" .
+                            "Tanggal Mulai Sewa : " . $new_start_date . "\n" .
+                            "Tanggal Selesai Sewa : " . $new_end_date . "\n\n" .
+                            "*RINCIAN HARGA* \n" .
+                            "Biaya Sewa : Rp " . number_format($rent->amount) . "\n" .
+                            "Biaya Deposit : Rp " . number_format($rent->deposit_price) . "\n" .
+                            "*Total : Rp " . number_format($rent->total_amount) . "* \n\n" .
+    
+                            "Silakan lakukan pembayaran melalui link berikut:\n\n" .
+                            url('/rents/user/show/'.$rent->id);
+    
+                Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$user->whatsapp($user->phone_number).'&text='.$message.'&key='.$whatsapp_api_key);
             } else {
                 $validated['status'] = 'Ditolak';
                 $rent->update($validated);
+                
+                $user = User::find($rent->user_id);
+                $message = 'Pengajuan sewa anda telah ditolak oleh ' . auth()->user()->name;
+                $data = [
+                    'user_id'   =>  auth()->user()->id,
+                    'from'   =>  auth()->user()->name,
+                    'message'   =>  $message,
+                    'action'   =>  '/rents/user/show/'.$rent->id
+                ];
             }
         });
         return redirect('/rents/owner/show/'.$rent->id)->with('success', 'Berhasil');

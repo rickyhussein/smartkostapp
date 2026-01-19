@@ -48,11 +48,71 @@
 
             <button type="submit" class="tf-btn accent large">Log In</button>
             <div class="mt-2 text-right"> <a href="{{ url('/forgot-password') }}">Lupa Password <i class="fa fa-key ms-1"></i></a></div>
-
         </form>
     </div>
 
 
     <div class="auth-line">Or</div>
     <p class="mb-9 fw-3 text-center ">Belum punya akun? <a href="{{ url('/register') }}" class="auth-link-rg" >Daftar Sekarang</a></p>
+
+    <button id="btnInstallPWA" type="submit" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn large"><i class="fa fa-download mr-1"></i> Install App</button>
+
+    @push('script')
+        <script>
+            const btnInstall = document.getElementById('btnInstallPWA');
+            let deferredPrompt = null;
+
+            function isPWAInstalled() {
+                return (
+                    window.matchMedia('(display-mode: standalone)').matches ||
+                    window.navigator.standalone === true ||
+                    localStorage.getItem('pwaInstalled') === 'yes'
+                );
+            }
+
+            function hideInstallButton() {
+                if (btnInstall) btnInstall.style.display = 'none';
+            }
+
+            function showInstallButton() {
+                if (btnInstall) btnInstall.style.display = 'block';
+            }
+
+            if (isPWAInstalled()) {
+                hideInstallButton();
+            } else {
+                showInstallButton();
+            }
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                if (isPWAInstalled()) return;
+
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallButton();
+            });
+
+            btnInstall.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+
+                if (outcome === 'accepted') {
+                    localStorage.setItem('pwaInstalled', 'yes');
+                    hideInstallButton();
+                }
+
+                deferredPrompt = null;
+            });
+
+            window.addEventListener('appinstalled', () => {
+                localStorage.setItem('pwaInstalled', 'yes');
+                hideInstallButton();
+                console.log('PWA Installed');
+            });
+        </script>
+    @endpush
+
+
 @endsection

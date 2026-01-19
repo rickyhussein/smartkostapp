@@ -87,16 +87,7 @@
 
         Ini adalah pesan otomatis dari sistem layanan Smart Kost
         <br><br>
-        Salam sejahtera Bapak/Ibu, Kami informasikan data dibawah ini melakukan pengajuan sewa terhadap properti anda:
-        <br><br>
-
-        <b>Informasi Penyewa</b>
-        <br>
-        Nama Penyewa: {{ $rent->user->name ?? '-' }}
-        <br>
-        Nomor HP : {{ $rent->user->phone_number ?? '-' }}
-        <br>
-        Pekerjaan : {{ $rent->user->job ?? '-' }}
+        Salam sejahtera Bapak/Ibu, pengajuan sewa anda telah diapprove oleh owner kost :
         <br><br>
 
         <b>Properti yang disewa</b>
@@ -145,11 +136,11 @@
         <b>Total : Rp {{ number_format($rent->total_amount) }}</b>
         <br><br>
         
-        Approval Melalui Link Dibawah Ini
+        Pembayaran Melalui Link Dibawah Ini
         <br><br><br>
 
         <center>
-            <a href="{{ url('/rents/owner/show/'.$rent->id) }}" class="btn-blue">Link Approval</a>
+            <a href="{{ url('/rents/user/show/'.$rent->id) }}" class="btn-blue">Link Pembayaran</a>
         </center>
 
 

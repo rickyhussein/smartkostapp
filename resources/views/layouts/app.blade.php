@@ -333,6 +333,14 @@
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 dom: 'flrtip'
             }).buttons().container().appendTo('#tableprint_wrapper .col-md-6:eq(0)');
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('/service-worker.js')
+                        .then(reg => console.log('SW registered', reg))
+                        .catch(err => console.log('SW failed', err));
+                });
+            }
         });
 
     </script>

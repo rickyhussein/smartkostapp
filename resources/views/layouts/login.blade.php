@@ -57,6 +57,13 @@
           $('form').on('submit', function(){
             $(':input[type="submit"]').prop('disabled', true);
           })
+          if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function () {
+                  navigator.serviceWorker.register('/service-worker.js')
+                      .then(reg => console.log('SW registered', reg))
+                      .catch(err => console.log('SW failed', err));
+              });
+          }
         })
     </script>
     @stack('script')

@@ -29,6 +29,6 @@ class RentMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('rents.mail')->subject('Rent SmartKost');
+        return $this->markdown('rents.mail')->subject('SmartKost');
     }
 }
