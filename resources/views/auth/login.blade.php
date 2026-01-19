@@ -55,7 +55,7 @@
     <div class="auth-line">Or</div>
     <p class="mb-9 fw-3 text-center ">Belum punya akun? <a href="{{ url('/register') }}" class="auth-link-rg" >Daftar Sekarang</a></p>
 
-    <button id="btnInstallPWA" type="submit" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn large"><i class="fa fa-download mr-1"></i> Install App</button>
+    <button id="btnInstallPWA" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36);" class="tf-btn large"><i class="fa fa-download mr-1"></i> Install App</button>
 
     @push('script')
         <script>
