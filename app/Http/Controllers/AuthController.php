@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class authController extends Controller
+class AuthController extends Controller
 {
     public function index()
     {
