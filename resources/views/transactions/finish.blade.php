@@ -7,15 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
-    <link rel="shortcut icon" href="{{ url('assets/img/kos.png') }}" />
-    <link rel="apple-touch-icon-precomposed" href="{{ url('assets/img/kos.png') }}" />
+    <link rel="shortcut icon" href="{{ url('/assets/img/kos.png') }}" />
+    <link rel="apple-touch-icon-precomposed" href="{{ url('/assets/img/kos.png') }}" />
     <link rel="stylesheet" href="{{ url('/myhr/fonts/fonts.css') }}" />
     <link rel="stylesheet" href="{{ url('/myhr/fonts/icons-alipay.css') }}">
     <link rel="stylesheet" href="{{ url('/myhr/styles/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url('/myhr/styles/swiper-bundle.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('/myhr/styles/styles.css') }}" />
     <link rel="manifest" href="{{ url('/manifest.json') }}" data-pwa-version="set_in_manifest_and_pwa_js">
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url('assets/img/kos.png') }}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ url('/icons/icon-192.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ url('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
