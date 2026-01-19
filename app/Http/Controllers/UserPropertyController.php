@@ -30,7 +30,12 @@ class UserPropertyController extends Controller
         $property = $up->property;
         $room = $up->room;
         $rent = $up->rent;
-        $transactions = Transaction::where('user_property_id', $up->id)->get();
+        $transactions = Transaction::where('user_property_id', $up->id)
+        ->where(function ($query) {
+            $query->where('status', 'paid')
+            ->orWhere('status', 'unpaid');
+        })
+        ->get();
         $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
         return view('user-properties.show', compact(
@@ -74,6 +79,18 @@ class UserPropertyController extends Controller
         ]);
 
         return $pdf->stream($filename);
+    }
+    
+    public function cancel($transaction_id)
+    {
+        $transaction = Transaction::find($transaction_id);
+        DB::transaction(function ()  use ($transaction) {
+            $transaction->update([
+                'status' => 'cancel',
+                'active' => 0,
+            ]);
+        });
+        return redirect('/user-properties/show/'.$transaction->user_property_id)->with('success', 'Transaksi Berhasil Dibatalkan');
     }
 
     public function extend(Request $request, $id)

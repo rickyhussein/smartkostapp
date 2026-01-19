@@ -63,25 +63,12 @@
             let deferredPrompt = null;
 
             function isPWAInstalled() {
-                return (
-                    window.matchMedia('(display-mode: standalone)').matches ||
-                    window.navigator.standalone === true ||
-                    localStorage.getItem('pwaInstalled') === 'yes'
-                );
-            }
-
-            function hideInstallButton() {
-                if (btnInstall) btnInstall.style.display = 'none';
-            }
-
-            function showInstallButton() {
-                if (btnInstall) btnInstall.style.display = 'block';
+                return window.matchMedia('(display-mode: standalone)').matches
+                    || window.navigator.standalone === true;
             }
 
             if (isPWAInstalled()) {
-                hideInstallButton();
-            } else {
-                showInstallButton();
+                btnInstall.style.display = 'none';
             }
 
             window.addEventListener('beforeinstallprompt', (e) => {
@@ -89,7 +76,8 @@
 
                 e.preventDefault();
                 deferredPrompt = e;
-                showInstallButton();
+
+                btnInstall.style.display = 'block';
             });
 
             btnInstall.addEventListener('click', async () => {
@@ -99,20 +87,12 @@
                 const { outcome } = await deferredPrompt.userChoice;
 
                 if (outcome === 'accepted') {
-                    localStorage.setItem('pwaInstalled', 'yes');
-                    hideInstallButton();
+                    btnInstall.style.display = 'none';
                 }
 
                 deferredPrompt = null;
             });
-
-            window.addEventListener('appinstalled', () => {
-                localStorage.setItem('pwaInstalled', 'yes');
-                hideInstallButton();
-                console.log('PWA Installed');
-            });
         </script>
     @endpush
-
 
 @endsection

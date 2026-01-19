@@ -78,7 +78,7 @@
 
             <div class="app-section bg_white_color giftcard-detail-section-1">
                 <div class="tf-container">
-                    <div class="voucher-info">
+                    <div class="voucher-desc">
                         <h2 class="fw_6">{{ $property->name ? ucwords(strtolower($property->name)) : '' }} {{ $property->village && $property->village->name ? ucwords(strtolower($property->village->name)) : '' }} - Kamar {{ $room->room_name ?? '-' }} {{ $room->room_type ? ' Tipe ' . $room->room_type : '' }} {{ $room->floor ? '- Lantai ' . $room->floor : '' }}</h2>
                         <br>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-home me-1"></i>{{ $property->category ?? '-' }}</div>
@@ -89,6 +89,7 @@
                             <div class="badge me-2 mb-2" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
                         @endif
                     </div>
+                    <hr style="color: rgb(30, 30, 30)">
 
                     <div class="voucher-desc">
                         <h4 class="fw_6">Informasi Penyewa</h4>
@@ -167,7 +168,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <hr style="color: rgb(180, 180, 180)">
+                    <hr style="color: rgb(30, 30, 30)">
 
                     <div class="voucher-desc">
                         <h4 class="fw_6">Peraturan</h4>
@@ -184,7 +185,7 @@
                             </div>
                         @endif
                     </div>
-                    <hr style="color: rgb(180, 180, 180)">
+                    <hr style="color: rgb(30, 30, 30)">
 
                     <div class="voucher-desc">
                         <h4 class="fw_6">Alamat</h4>
@@ -205,65 +206,68 @@
                     <hr style="color: rgb(30, 30, 30)">
                     
                     @foreach ($transactions as $key => $transaction)
-                        <div class="voucher-desc">
-                            <h4 class="fw_6" style="float: left">Rincian Pembayaran Ke-{{ $key + 1 }}</h4>
-                            @if ($transaction->status == 'paid')
-                                <div class="badge" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x; text-transform: uppercase;float: right;">{{ $transaction->status ?? '-' }}</div>
-                            @else
-                                <div class="badge" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x; text-transform: uppercase;float: right;">{{ $transaction->status ?? '-' }}</div>
-                            @endif
-                            <br>
-                            <br>
-                            <span style="float: left">Tanggal Mulai Sewa</span>
-                            <span style="float: right">
-                                @php
-                                    if ($transaction->start_date) {
-                                        Carbon\Carbon::setLocale('id');
-                                        $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $transaction->start_date);
-                                        $new_start_date = $start_date->translatedFormat('d F Y');
-                                    } else {
-                                        $new_start_date = '-';
-                                    }
-                                @endphp
-                                {{ $new_start_date  }}
-                            </span>
-                            <br>
-                            <span style="float: left">Tanggal Selesai Sewa</span>
-                            <span style="float: right">
-                                @php
-                                    if ($transaction->end_date) {
-                                        Carbon\Carbon::setLocale('id');
-                                        $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $transaction->end_date);
-                                        $new_end_date = $end_date->translatedFormat('d F Y');
-                                    } else {
-                                        $new_end_date = '-';
-                                    }
-                                @endphp
-                                {{ $new_end_date  }}
-                            </span>
-                            <br>
-                            <span style="float: left">Periode Kos</span>
-                            <span style="float: right">
-                                {{ $transaction->period ?? '-' }} Bulan
-                            </span>
-                            <br>
+                        <div class="card mb-4" style="border-radius: 15px;">
+                            <div class="card-body">
+                                <div class="voucher-desc">
+                                    <h4 class="fw_6" style="float: left">Rincian Pembayaran Ke-{{ $key + 1 }}</h4>
+                                    @if ($transaction->status == 'paid')
+                                        <div class="badge" style="color: rgba(20, 78, 7, 0.889); border:1px solid rgba(20, 78, 7, 0.889); background-color:rgb(208, 255, 187); border-radius:5x; text-transform: uppercase;float: right;">{{ $transaction->status ?? '-' }}</div>
+                                    @else
+                                        <div class="badge" style="color: rgba(78, 26, 26, 0.889); border:1px solid rgba(78, 26, 26, 0.889); background-color:rgb(255, 209, 209); border-radius:5x; text-transform: uppercase;float: right;">{{ $transaction->status ?? '-' }}</div>
+                                    @endif
+                                    <br>
+                                    <br>
+                                    <span style="float: left">Tanggal Mulai Sewa</span>
+                                    <span style="float: right">
+                                        @php
+                                            if ($transaction->start_date) {
+                                                Carbon\Carbon::setLocale('id');
+                                                $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $transaction->start_date);
+                                                $new_start_date = $start_date->translatedFormat('d F Y');
+                                            } else {
+                                                $new_start_date = '-';
+                                            }
+                                        @endphp
+                                        {{ $new_start_date  }}
+                                    </span>
+                                    <br>
+                                    <span style="float: left">Tanggal Selesai Sewa</span>
+                                    <span style="float: right">
+                                        @php
+                                            if ($transaction->end_date) {
+                                                Carbon\Carbon::setLocale('id');
+                                                $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $transaction->end_date);
+                                                $new_end_date = $end_date->translatedFormat('d F Y');
+                                            } else {
+                                                $new_end_date = '-';
+                                            }
+                                        @endphp
+                                        {{ $new_end_date  }}
+                                    </span>
+                                    <br>
+                                    <span style="float: left">Periode Kos</span>
+                                    <span style="float: right">
+                                        {{ $transaction->period ?? '-' }} Bulan
+                                    </span>
+                                    <br>
+                                </div>
+                                <hr style="color: rgb(180, 180, 180)">
+                                <span style="float: left">Biaya sewa kos</span>
+                                <h6 id="textAmount" style="float: right">Rp {{ number_format($transaction->amount) }}</h6>
+                                <br>
+                                @if ($key == 0)
+                                    <span style="float: left">Deposit</span>
+                                    <h6 id="textDeposit" style="float: right">Rp {{ number_format($transaction->deposit_price) }}</h6>
+                                    <br>
+                                @endif
+        
+                                <div class="voucher-desc">
+                                    <h3 style="float: left">Total Pembayaran</h3>
+                                    <h3 id="textTotalAmount" style="float: right">Rp {{ number_format($transaction->total_amount) }}</h3>
+                                </div>
+                                <br>
+                            </div>
                         </div>
-                        <hr style="color: rgb(180, 180, 180)">
-                        <span style="float: left">Biaya sewa kos</span>
-                        <h6 id="textAmount" style="float: right">Rp {{ number_format($transaction->amount) }}</h6>
-                        <br>
-                        @if ($key == 0)
-                            <span style="float: left">Deposit</span>
-                            <h6 id="textDeposit" style="float: right">Rp {{ number_format($transaction->deposit_price) }}</h6>
-                            <br>
-                        @endif
-
-                        <div class="voucher-desc">
-                            <h3 style="float: left">Total Pembayaran</h3>
-                            <h3 id="textTotalAmount" style="float: right">Rp {{ number_format($transaction->total_amount) }}</h3>
-                        </div>
-                        <br>
-                        <hr style="color: rgb(30, 30, 30)">
                     @endforeach
 
                 </div>

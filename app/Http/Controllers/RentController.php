@@ -366,21 +366,64 @@ class RentController extends Controller
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([
-                    'status' => 'expired',
+                    'status' => 'expire',
                     'active' => 0,
                 ]);
 
-                $rent->update([
-                    'status' => 'Kadaluarsa',
+                if (!$transaction->up_id) {
+                    $rent = Rent::find($transaction->rent_id);
+                    $rent->update([
+                        'status' => 'Kadaluarsa',
+                    ]);
+                }
+                
+            } else if ($request->transaction_status == 'deny') {
+                $transaction->update([
+                    'status' => 'deny',
+                    'active' => 0,
                 ]);
+
+                if (!$transaction->up_id) {
+                    $rent = Rent::find($transaction->rent_id);
+                    $rent->update([
+                        'status' => 'Ditolak',
+                    ]);
+                }
+            } else if ($request->transaction_status == 'cancel') {
+                $transaction->update([
+                    'status' => 'cancel',
+                    'active' => 0,
+                ]);
+
+                if (!$transaction->up_id) {
+                    $rent = Rent::find($transaction->rent_id);
+                    $rent->update([
+                        'status' => 'Dibatalkan',
+                    ]);
+                }
+            } else if ($request->transaction_status == 'failure') {
+                $transaction->update([
+                    'status' => 'failure',
+                    'active' => 0,
+                ]);
+
+                if (!$transaction->up_id) {
+                    $rent = Rent::find($transaction->rent_id);
+                    $rent->update([
+                        'status' => 'Gagal',
+                    ]);
+                }
             } else {
                 $transaction->update([
                     'status' => 'unpaid',
                 ]);
 
-                $rent->update([
-                    'status' => 'Menunggu Pembayaran',
-                ]);
+                if (!$transaction->up_id) {
+                    $rent = Rent::find($transaction->rent_id);
+                    $rent->update([
+                        'status' => 'Menunggu Pembayaran',
+                    ]);
+                }
             }
         }
     }
