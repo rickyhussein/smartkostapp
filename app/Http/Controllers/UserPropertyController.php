@@ -27,6 +27,7 @@ class UserPropertyController extends Controller
     {
         $title = 'Properti Saya';
         $up = UserProperty::find($id);
+        $up->delete();
         $property = $up->property;
         $room = $up->room;
         $rent = $up->rent;
