@@ -432,25 +432,22 @@
                     success:function(data){
                         if (!isNaN(period)) {
                             if (period == 1) {
-                                var price = data.one_month_price;
+                                var price = parseInt(data.one_month_price);
                             } else if (period == 3) {
-                                var price = data.three_month_price;
+                                var price = parseInt(data.three_month_price);
                             } else if (period == 6) {
-                                var price = data.six_month_price;
+                                var price = parseInt(data.six_month_price);
                             } else {
-                                var price = data.twelve_month_price;
+                                var price = parseInt(data.twelve_month_price);
                             }
                             $('#amount').val(price);
                             $('#textAmount').text('Rp ' + accounting.formatMoney(price, '', 0, ",", "."));
-                            var deposit_price = data.deposit_price;
+                            var deposit_price = parseInt(data.deposit_price);
                             $('#deposit_price').val(deposit_price);
                             $('#textDeposit').text('Rp ' + accounting.formatMoney(deposit_price, '', 0, ",", "."));
                             var total_amount = price + deposit_price;
                             $('#total_amount').val(total_amount);
                             $('#textTotalAmount').text('Rp ' + accounting.formatMoney(total_amount, '', 0, ",", "."));
-
-                            console.log(total_amount);
-                            
                         } else {
                             $('#amount').val(0);
                             $('#textAmount').text('Rp 0');
