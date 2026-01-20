@@ -31,8 +31,11 @@ class UserPropertyController extends Controller
         $room = $up->room;
         $rent = $up->rent;
         $transactions = Transaction::where('user_property_id', $up->id)
-        ->delete();
-        $up->delete();
+        ->where(function ($query) {
+            $query->where('status', 'paid')
+            ->orWhere('status', 'unpaid');
+        })
+        ->get();
         $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
         return view('user-properties.show', compact(
