@@ -448,6 +448,9 @@
                             var total_amount = price + deposit_price;
                             $('#total_amount').val(total_amount);
                             $('#textTotalAmount').text('Rp ' + accounting.formatMoney(total_amount, '', 0, ",", "."));
+
+                            console.log(total_amount);
+                            
                         } else {
                             $('#amount').val(0);
                             $('#textAmount').text('Rp 0');
