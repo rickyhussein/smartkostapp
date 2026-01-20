@@ -51,8 +51,8 @@
                 $status = 'Gagal';
             }
 
-            if ($transaction->up_id) {
-                $url = url('/user-properties/show/'.$transaction->up_id);
+            if ($transaction->user_property_id) {
+                $url = url('/user-properties/show/'.$transaction->user_property_id);
             } else {
                 $url = url('/rents/user/show/'.$transaction->rent_id);
             }
