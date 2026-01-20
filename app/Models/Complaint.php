@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class Complaint extends Model
 {
     use HasFactory;
     protected $guarded = ["id"];
@@ -19,7 +19,7 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
-    
+
     public function room()
     {
         return $this->belongsTo(PropertyRoom::class, 'room_id');

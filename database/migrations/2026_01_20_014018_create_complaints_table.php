@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateComplaintsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('complaints', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users');
+            $table->unsignedBigInteger('property_id')->nullable();
+            $table->foreign('property_id')->references('id')->on('properties');
+            $table->unsignedBigInteger('room_id')->nullable();
+            $table->foreign('room_id')->references('id')->on('property_rooms');
+            $table->unsignedBigInteger('rent_id')->nullable();
+            $table->foreign('rent_id')->references('id')->on('rents');
+            $table->unsignedBigInteger('user_property_id')->nullable();
+            $table->foreign('user_property_id')->references('id')->on('user_properties');
+            $table->date('date')->nullable();
+            $table->string('type')->nullable();
+            $table->text('complaint')->nullable();
+            $table->string('complaint_file_path')->nullable();
+            $table->string('complaint_file_name')->nullable();
+            $table->string('status')->nullable();
+            $table->text('owner_note')->nullable();
+            $table->date('solved_date')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('complaints');
+    }
+}

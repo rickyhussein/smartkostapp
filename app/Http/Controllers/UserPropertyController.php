@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complaint;
 use App\Models\Transaction;
 use App\Models\UserProperty;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class UserPropertyController extends Controller
         $property = $up->property;
         $room = $up->room;
         $rent = $up->rent;
+        $complaints = Complaint::where('user_property_id', $up->id)->get();
         $transactions = Transaction::where('user_property_id', $up->id)
         ->where(function ($query) {
             $query->where('status', 'paid')
@@ -44,6 +46,7 @@ class UserPropertyController extends Controller
             'property',
             'room',
             'rent',
+            'complaints',
             'transactions',
             'up_start_date',
         ));
@@ -80,6 +83,53 @@ class UserPropertyController extends Controller
 
         return $pdf->stream($filename);
     }
+
+    public function complaint($id)
+    {
+        $title = 'Keluhan';
+        $up = UserProperty::find($id);
+        $property = $up->property;
+        $room = $up->room;
+        $rent = $up->rent;
+
+        return view('user-properties.complaint', compact(
+            'title',
+            'up',
+            'property',
+            'room',
+            'rent',
+        ));
+    }
+
+    public function storeComplaint(Request $request, $id)
+    {
+        $up = UserProperty::find($id);
+        DB::transaction(function ()  use ($request, $up) {
+            $validated = $request->validate([
+                'date' => 'required',
+                'type' => 'required',
+                'complaint' => 'required',
+                'complaint_file_path' => 'file|max:5120',
+            ]);
+
+            if ($request->file('complaint_file_path')) {
+                $validated['complaint_file_path'] = $request->file('complaint_file_path')->store('complaint_file_path');
+                $validated['complaint_file_name'] = $request->file('complaint_file_path')->getClientOriginalName();
+            }
+
+            $validated['user_id'] = $up->user_id;
+            $validated['owner_id'] = $up->owner_id;
+            $validated['property_id'] = $up->property_id;
+            $validated['room_id'] = $up->room_id;
+            $validated['rent_id'] = $up->rent_id;
+            $validated['user_property_id'] = $up->id;
+            $validated['status'] = 'Belum Selesai';
+            Complaint::create($validated);
+        });
+
+        return redirect('/user-properties/show/'.$up->id)->with('success', 'Data Berhasil Disimpan.');
+
+    }
     
     public function cancel($transaction_id)
     {
@@ -90,7 +140,7 @@ class UserPropertyController extends Controller
                 'active' => 0,
             ]);
         });
-        return redirect('/user-properties/show/'.$transaction->user_property_id)->with('success', 'Transaksi Berhasil Dibatalkan');
+        return redirect('/user-properties/show/'.$transaction->user_property_id)->with('success', 'Transaksi Berhasil Dibatalkan.');
     }
 
     public function extend(Request $request, $id)

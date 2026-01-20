@@ -726,8 +726,8 @@ class PropertyController extends Controller
                 'deposit_price' => 'nullable',
                 'total_amount' => 'nullable',
                 'owner_fee' => 'nullable',
-                'ktp_photo_transaction' => 'image|file|max:10240',
-                'kk_photo_transaction' => 'image|file|max:10240',
+                'ktp_photo_transaction' => 'required_if:ktp_photo,null|image|file|max:5120',
+                'kk_photo_transaction' => 'required_if:kk_photo,null|image|file|max:5120',
             ]);
 
             if ($request->file('ktp_photo_transaction')) {

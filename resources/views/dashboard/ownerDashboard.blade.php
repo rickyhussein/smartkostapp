@@ -161,6 +161,24 @@
                     </div>
                 </a>
 
+                <a href="{{ url('/complaints/owner') }}" class="col-12 mt-4">
+                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
+                        <div class="row  d-flex align-items-center">
+                            <div class="col-3">
+                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 50px; height: 50px;">
+                                    <img src="{{ url('/assets/img/kritik.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="card-body">
+                                  <h5 class="card-title">Keluhan</h5>
+                                  <p class="card-text">Keluhan Dari Penghuni Kos Anda</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="{{ url('/withdraw/owner') }}" class="col-12 mt-4">
                     <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                         <div class="row  d-flex align-items-center">
@@ -196,24 +214,7 @@
                         </div>
                     </div>
                 </a>
-
-                <a href="{{ url('/kritik-saran/owner') }}" class="col-12 mt-4">
-                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
-                        <div class="row  d-flex align-items-center">
-                            <div class="col-3">
-                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 50px; height: 50px;">
-                                    <img src="{{ url('/assets/img/kritik.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="card-body">
-                                  <h5 class="card-title">Kritik & Saran</h5>
-                                  <p class="card-text">Kritik & Saran dari Penghuni Kos Anda</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                
             </div>
         </div>
     </div>

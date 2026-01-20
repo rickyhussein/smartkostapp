@@ -14,6 +14,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegulationController;
@@ -197,6 +198,8 @@ Route::get('/user-properties/show/{id}', [UserPropertyController::class, 'show']
 Route::get('/user-properties/contract/{id}', [UserPropertyController::class, 'contract'])->middleware('auth');
 Route::post('/user-properties/signature/{id}', [UserPropertyController::class, 'signature'])->middleware('auth');
 Route::post('/user-properties/extend/{id}', [UserPropertyController::class, 'extend'])->middleware('auth');
+Route::get('/user-properties/complaint/{id}', [UserPropertyController::class, 'complaint'])->middleware('auth');
+Route::post('/user-properties/complaint/store/{id}', [UserPropertyController::class, 'storeComplaint'])->middleware('auth');
 Route::get('/user-properties/cancel/{transaction_id}', [UserPropertyController::class, 'cancel'])->middleware('auth');
 
 Route::get('/user-properties/owner', [UserPropertyController::class, 'ownerUp'])->middleware('auth');
@@ -207,11 +210,12 @@ Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyControlle
 
 Route::get('/transaction/finish', [TransactionController::class, 'finish'])->middleware('auth');
 
+Route::get('/complaints/owner', [ComplaintController::class, 'ownerComplaint'])->middleware('auth');
+
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');
 Route::get('/get-village', [PropertyController::class, 'getVillage'])->middleware('auth');
 Route::get('/get-room', [PropertyController::class, 'getRoom'])->middleware('auth');
-
 
 Route::get('/reset', function () {
     Artisan::call('optimize');
