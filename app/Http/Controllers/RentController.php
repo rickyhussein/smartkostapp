@@ -214,8 +214,8 @@ class RentController extends Controller
         if ($hashed == $request->signature_key) {
             $transaction = Transaction::find($request->order_id);
             if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
-                if ($transaction->up_id) {
-                    $up = UserProperty::find($transaction->up_id);
+                if ($transaction->user_property_id) {
+                    $up = UserProperty::find($transaction->user_property_id);
                     $up->update([
                         'period' => $transaction->period,
                         'end_date' => $transaction->end_date,
@@ -287,7 +287,7 @@ class RentController extends Controller
                 }
 
                 $message_user = 'Terimakasih anda telah melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' . ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_user = '/user-properties/show/'.$transaction->up_id;
+                $action_user = '/user-properties/show/'.$transaction->user_property_id;
 
                 $user = User::find($transaction->user_id);
                 $data_user = [
@@ -349,7 +349,7 @@ class RentController extends Controller
                 Http::get($whatsapp_api_url.'?session='.$whatsapp_api_session.'&to='.$user->whatsapp($user->phone_number).'&text='.$message.'&key='.$whatsapp_api_key);
 
                 $message_owner = $transaction->user->name . ' berhasil melakukan pembayaran sewa Kos ' . ucwords(strtolower($property_name)) . ' ' .  ucwords(strtolower($village_name)) . ' sebesar Rp ' . number_format($transaction->total_amount);
-                $action_owner = '/user-properties/owner/show/'.$transaction->up_id;
+                $action_owner = '/user-properties/owner/show/'.$transaction->user_property_id;
 
                 $owner = User::find($transaction->owner_id);
                 $data_owner = [
@@ -370,7 +370,7 @@ class RentController extends Controller
                     'active' => 0,
                 ]);
 
-                if (!$transaction->up_id) {
+                if (!$transaction->user_property_id) {
                     $rent = Rent::find($transaction->rent_id);
                     $rent->update([
                         'status' => 'Kadaluarsa',
@@ -383,7 +383,7 @@ class RentController extends Controller
                     'active' => 0,
                 ]);
 
-                if (!$transaction->up_id) {
+                if (!$transaction->user_property_id) {
                     $rent = Rent::find($transaction->rent_id);
                     $rent->update([
                         'status' => 'Ditolak',
@@ -395,7 +395,7 @@ class RentController extends Controller
                     'active' => 0,
                 ]);
 
-                if (!$transaction->up_id) {
+                if (!$transaction->user_property_id) {
                     $rent = Rent::find($transaction->rent_id);
                     $rent->update([
                         'status' => 'Dibatalkan',
@@ -407,7 +407,7 @@ class RentController extends Controller
                     'active' => 0,
                 ]);
 
-                if (!$transaction->up_id) {
+                if (!$transaction->user_property_id) {
                     $rent = Rent::find($transaction->rent_id);
                     $rent->update([
                         'status' => 'Gagal',
@@ -418,7 +418,7 @@ class RentController extends Controller
                     'status' => 'unpaid',
                 ]);
 
-                if (!$transaction->up_id) {
+                if (!$transaction->user_property_id) {
                     $rent = Rent::find($transaction->rent_id);
                     $rent->update([
                         'status' => 'Menunggu Pembayaran',
