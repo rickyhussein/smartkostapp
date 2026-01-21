@@ -43,6 +43,17 @@ class TransactionController extends Controller
         ));
     }
 
+    public function showUserTransactions($id)
+    {
+        $title = 'Transaksi';
+        $transaction = Transaction::find($id);
+
+        return view('transactions.showUserTransactions' , compact(
+            'title',
+            'transaction',
+        ));
+    }
+
     public function finishUserTransactions()
     {
         $transaction = Transaction::find(request('order_id'));

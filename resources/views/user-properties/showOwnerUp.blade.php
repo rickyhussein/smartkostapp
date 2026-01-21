@@ -247,7 +247,7 @@
                                         {{ $new_end_date  }}
                                     </span>
                                     <br>
-                                    <span style="float: left">Periode Kos</span>
+                                    <span style="float: left">Periode Sewa</span>
                                     <span style="float: right">
                                         {{ $transaction->period ?? '-' }} Bulan
                                     </span>
@@ -258,7 +258,7 @@
                                 <h6 id="textAmount" style="float: right">Rp {{ number_format($transaction->amount) }}</h6>
                                 <br>
                                 @if ($key == 0)
-                                    <span style="float: left">Deposit</span>
+                                    <span style="float: left">Biaya Deposit</span>
                                     <h6 id="textDeposit" style="float: right">Rp {{ number_format($transaction->deposit_price) }}</h6>
                                     <br>
                                 @endif

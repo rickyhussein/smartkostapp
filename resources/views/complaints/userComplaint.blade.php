@@ -28,11 +28,11 @@
                 <ul class="mt-6">
                     @foreach ($complaints as $complaint)
                         <li class="list-card-invoice">
-                            <div class="logo">
+                            <div class="logo" style="border: 0px;">
                                 @if($complaint->user && $complaint->user->profile_photo)
-                                    <img src="{{ url('/storage/'.$complaint->user->profile_photo) }}" style="width: 30px; height: 30px; border-radius: 100px; object-fit: cover;" alt="image">
+                                    <img src="{{ url('/storage/'.$complaint->user->profile_photo) }}" style="width: 35px; height: 35px; border-radius: 100px; object-fit: cover; margin-top: 30px;" alt="image">
                                 @else
-                                    <img src="{{ url('/assets/img/foto_default.jpg') }}" style="width: 30px; height: 30px; border-radius: 100px; object-fit: cover;" alt="image">
+                                    <img src="{{ url('/assets/img/foto_default.jpg') }}" style="width: 35px; height: 35px; border-radius: 100px; object-fit: cover; margin-top: 30px;" alt="image">
                                 @endif
                             </div>
                             <div class="content-right">

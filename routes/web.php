@@ -224,6 +224,7 @@ Route::get('/history/user', [HistoryController::class, 'userHistory'])->middlewa
 Route::get('/history/user/show/{id}', [HistoryController::class, 'showUserHistory'])->middleware('auth');
 
 Route::get('/transactions/user', [TransactionController::class, 'userTransactions'])->middleware('auth');
+Route::get('/transactions/user/show/{id}', [TransactionController::class, 'showUserTransactions'])->middleware('auth');
 Route::get('/transactions/user/finish', [TransactionController::class, 'finishUserTransactions'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');

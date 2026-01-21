@@ -69,7 +69,7 @@
     @stack('head')
 </head>
 
-<body>
+<body class="{{ Request::is('transactions/user/show*') ? 'bg_surface_color' : '' }}">
      <div class="preload preload-container">
         <div class="preload-logo"></div>
     </div>

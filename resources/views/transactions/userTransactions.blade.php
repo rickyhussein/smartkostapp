@@ -28,27 +28,31 @@
                 <ul class="mt-6">
                     @foreach ($transactions as $transaction)
                         <li class="list-card-invoice">
-                            <div class="logo">
+                            <div class="logo" style="border: 0px;">
                                 @if ($transaction->status == 'paid')
-                                    <img src="{{ url('/assets/img/success.png') }}" style="width: 30px; height: 30px; border-radius: 100px; object-fit: cover;">
+                                    <img src="{{ url('/assets/img/success.png') }}" style="width: 30px; height: 30px; border-radius: 100px; object-fit: cover; margin-top: 30px;">
+                                @elseif ($transaction->status == 'unpaid')
+                                    <img src="{{ url('/assets/img/pending.png') }}" style="width: 30px; height: 30px; border-radius: 100px; object-fit: cover; margin-top: 30px;">
                                 @else
-                                    <img src="{{ url('/assets/img/failed.png') }}" style="width: 40px; height: 40px; border-radius: 100px; object-fit: cover;">
+                                    <img src="{{ url('/assets/img/failed.png') }}" style="width: 40px; height: 40px; border-radius: 100px; object-fit: cover; margin-top: 30px;">
                                 @endif
                             </div>
                             <div class="content-right">
                                 <h4>
                                     <a href="{{ url('/transactions/user/show/'.$transaction->id) }}">
-                                        {{ $transaction->type ?? '-' }}
+                                        {{ $transaction->property && $transaction->property->name ? ucwords(strtolower($transaction->property->name)) : '' }} - Kamar {{ $transaction->room && $transaction->room->room_name ? ucwords(strtolower($transaction->room->room_name)) : '' }} 
                                         <span class="critical_color">
                                             @if ($transaction->status == 'paid')
-                                                <div class="badge" style="color: rgba(87, 169, 69, 0.889); border:1px solid rgba(87, 169, 69, 0.889); border-radius:5x; float: right;">{{ $transaction->status ?? '-' }}</div>
+                                                <div class="badge" style="color: rgba(87, 169, 69, 0.889); border:1px solid rgba(87, 169, 69, 0.889); border-radius:5x; float: right; text-transform: uppercase;">{{ $transaction->status ?? '-' }}</div>
+                                            @elseif ($transaction->status == 'unpaid')
+                                                <div class="badge" style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); border-radius:5x; float: right; text-transform: uppercase;">{{ $transaction->status ?? '-' }}</div>
                                             @else
-                                                <div class="badge" style="color: rgba(208, 43, 43, 0.889); border:1px solid rgba(208, 43, 43, 0.889);  border-radius:5x; float: right;">{{ $transaction->status ?? '-' }}</div>
+                                                <div class="badge" style="color: rgba(208, 43, 43, 0.889); border:1px solid rgba(208, 43, 43, 0.889);  border-radius:5x; float: right; text-transform: uppercase;">{{ $transaction->status ?? '-' }}</div>
                                             @endif
                                         </span>
                                     </a>
                                     <a style="font-size: 12px; font-weight:100;" href="{{ url('/transactions/user/show/'.$transaction->id) }}">
-                                        {{ $transaction->user->name ?? '-' }}
+                                        Rp {{ number_format($transaction->total_amount) }}
                                         <br>
                                         @php
                                             if ($transaction->date) {
