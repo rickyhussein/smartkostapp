@@ -54,13 +54,13 @@ class TransactionController extends Controller
         ));
     }
 
-    public function finishUserTransactions()
+    public function finishTransactions()
     {
         $transaction = Transaction::find(request('order_id'));
         $transaction_status = request('transaction_status');
         $title = $transaction_status;
 
-        return view('transactions.finishUserTransactions' , compact(
+        return view('transactions.finishTransactions' , compact(
             'title',
             'transaction',
             'transaction_status',
