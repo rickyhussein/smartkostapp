@@ -16,20 +16,45 @@ use App\Notifications\UserNotification;
 
 class TransactionController extends Controller
 {
-    public function finish()
+    public function userTransactions()
+    {
+        $title = 'Transaksi';
+        $search = request()->input('search');
+
+        $transactions = Transaction::where('user_id', auth()->user()->id)
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($subquery) use ($search) {
+                $subquery->where('status', 'LIKE', '%' . $search . '%')
+                ->orWhereHas('property', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('room', function ($q) use ($search) {
+                    $q->where('room_name', 'LIKE', '%' . $search . '%');
+                });
+            });
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10)
+        ->withQueryString();
+
+        return view('transactions.userTransactions' , compact(
+            'title',
+            'transactions',
+        ));
+    }
+
+    public function finishUserTransactions()
     {
         $transaction = Transaction::find(request('order_id'));
         $transaction_status = request('transaction_status');
         $title = $transaction_status;
 
-        return view('transactions.finish' , compact(
+        return view('transactions.finishUserTransactions' , compact(
             'title',
             'transaction',
             'transaction_status',
         ));
     }
-
-
 
     public function callback(Request $request)
     {
@@ -53,6 +78,7 @@ class TransactionController extends Controller
                     ]);
 
                     $transaction->update([
+                        'midtrans_status' => $request->transaction_status,
                         'status' => 'paid',
                         'payment_source' => 'midtrans',
                         'payment_method' => $request->payment_type,
@@ -89,6 +115,7 @@ class TransactionController extends Controller
     
                     $transaction->update([
                         'user_property_id' => $up->id,
+                        'midtrans_status' => $request->transaction_status,
                         'status' => 'paid',
                         'payment_source' => 'midtrans',
                         'payment_method' => $request->payment_type,
@@ -190,6 +217,7 @@ class TransactionController extends Controller
                 ]);
             } else if ($request->transaction_status == 'expire') {
                 $transaction->update([
+                    'midtrans_status' => $request->transaction_status,
                     'status' => 'expire',
                     'active' => 0,
                 ]);
@@ -203,6 +231,7 @@ class TransactionController extends Controller
                 
             } else if ($request->transaction_status == 'deny') {
                 $transaction->update([
+                    'midtrans_status' => $request->transaction_status,
                     'status' => 'deny',
                     'active' => 0,
                 ]);
@@ -215,6 +244,7 @@ class TransactionController extends Controller
                 }
             } else if ($request->transaction_status == 'cancel') {
                 $transaction->update([
+                    'midtrans_status' => $request->transaction_status,
                     'status' => 'cancel',
                     'active' => 0,
                 ]);
@@ -227,6 +257,7 @@ class TransactionController extends Controller
                 }
             } else if ($request->transaction_status == 'failure') {
                 $transaction->update([
+                    'midtrans_status' => $request->transaction_status,
                     'status' => 'failure',
                     'active' => 0,
                 ]);
@@ -239,6 +270,7 @@ class TransactionController extends Controller
                 }
             } else {
                 $transaction->update([
+                    'midtrans_status' => $request->transaction_status,
                     'status' => 'unpaid',
                 ]);
 

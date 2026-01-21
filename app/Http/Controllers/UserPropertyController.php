@@ -272,7 +272,7 @@ class UserPropertyController extends Controller
                     'gross_amount' => $transaction->total_amount,
                 ),
                 'callbacks' => array(
-                    'finish' => url('/transactions/finish'),
+                    'finish' => url('/transactions/user/finish'),
                 ),
                 'expiry' => array(
                     'start_time' => date("Y-m-d H:i:s O"),

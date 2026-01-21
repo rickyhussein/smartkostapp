@@ -223,7 +223,8 @@ Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyControlle
 Route::get('/history/user', [HistoryController::class, 'userHistory'])->middleware('auth');
 Route::get('/history/user/show/{id}', [HistoryController::class, 'showUserHistory'])->middleware('auth');
 
-Route::get('/transactions/finish', [TransactionController::class, 'finish'])->middleware('auth');
+Route::get('/transactions/user', [TransactionController::class, 'userTransactions'])->middleware('auth');
+Route::get('/transactions/user/finish', [TransactionController::class, 'finishUserTransactions'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

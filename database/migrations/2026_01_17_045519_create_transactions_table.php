@@ -41,6 +41,7 @@ class CreateTransactionsTable extends Migration
             $table->bigInteger('expired')->nullable();
             $table->string('in_out')->nullable();
             $table->string('status')->nullable();
+            $table->string('midtrans_status')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable();
