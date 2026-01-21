@@ -42,13 +42,13 @@ class UpdateStatusProperty extends Command
         $user_properties = UserProperty::orderBy('id', 'DESC')->get();
         foreach($user_properties as $up) {
             $up->update([
-                'is_active' => null,
-                'status' => 'Non Aktif',
+                'is_active' => 1,
+                'status' => 'Aktif',
             ]);
     
             $room = PropertyRoom::find($up->room_id);
             $room->update([
-                'is_available' => null,
+                'is_available' => 1,
             ]);
         }
     }
