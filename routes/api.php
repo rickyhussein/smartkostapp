@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RentController;
-use App\Http\Controllers\API\UsersController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +15,4 @@ use App\Http\Controllers\API\UsersController;
 |
 */
 
-Route::post('/transactions/callback', [RentController::class, 'callback']);
+Route::post('/transactions/callback', [TransactionController::class, 'callback']);
