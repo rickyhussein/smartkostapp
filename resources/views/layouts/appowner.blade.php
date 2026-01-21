@@ -66,6 +66,7 @@
         }
     </style>
     @stack('style')
+    @stack('head')
 </head>
 
 <body>
@@ -316,6 +317,7 @@
     </script>
     @include('sweetalert::alert')
     @stack('script')
+    @stack('foot')
 
 
 </body>

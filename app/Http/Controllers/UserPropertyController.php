@@ -104,7 +104,8 @@ class UserPropertyController extends Controller
     public function storeComplaint(Request $request, $id)
     {
         $up = UserProperty::find($id);
-        DB::transaction(function ()  use ($request, $up) {
+        $result = null;
+        DB::transaction(function ()  use ($request, $up, $result) {
             $validated = $request->validate([
                 'date' => 'required',
                 'type' => 'required',
@@ -124,11 +125,65 @@ class UserPropertyController extends Controller
             $validated['rent_id'] = $up->rent_id;
             $validated['user_property_id'] = $up->id;
             $validated['status'] = 'Belum Selesai';
-            Complaint::create($validated);
+            $complaint = Complaint::create($validated);
+            $this->result = $complaint->id;
         });
 
-        return redirect('/user-properties/show/'.$up->id)->with('success', 'Data Berhasil Disimpan.');
+        return redirect('/user-properties/complaint/show/'.$this->result.'/'.$up->id)->with('success', 'Data Berhasil Disimpan.');
 
+    }
+
+    public function showComplaint($complaint_id, $up_id)
+    {
+        $title = 'Keluhan';
+        $up = UserProperty::find($up_id);
+        $property = $up->property;
+        $room = $up->room;
+        $rent = $up->rent;
+        $complaint = Complaint::find($complaint_id);
+
+        return view('user-properties.showComplaint', compact(
+            'title',
+            'up',
+            'property',
+            'room',
+            'rent',
+            'complaint',
+        ));
+    }
+
+    public function updateComplaint(Request $request, $complaint_id, $up_id)
+    {
+        $up = UserProperty::find($up_id);
+        $complaint = Complaint::find($complaint_id);
+        DB::transaction(function ()  use ($request, $complaint) {
+            $validated = $request->validate([
+                'date' => 'required',
+                'type' => 'required',
+                'complaint' => 'required',
+                'complaint_file_path' => 'file|max:5120',
+            ]);
+
+            if ($request->file('complaint_file_path')) {
+                $validated['complaint_file_path'] = $request->file('complaint_file_path')->store('complaint_file_path');
+                $validated['complaint_file_name'] = $request->file('complaint_file_path')->getClientOriginalName();
+            }
+
+            $complaint->update($validated);
+        });
+
+        return redirect('/user-properties/complaint/show/'.$complaint->id.'/'.$up->id)->with('success', 'Data Berhasil Diupdate.');
+    }
+    
+    public function deleteComplaint($complaint_id, $up_id)
+    {
+        $up = UserProperty::find($up_id);
+        $complaint = Complaint::find($complaint_id);
+        DB::transaction(function ()  use ($complaint) {
+            $complaint->delete();
+        });
+
+        return redirect('/user-properties/show/'.$up->id)->with('success', 'Data Berhasil Dihapus.');
     }
     
     public function cancel($transaction_id)

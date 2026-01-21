@@ -217,56 +217,57 @@
                 <a style="color: rgb(255, 135, 36); border:1px solid rgb(255, 135, 36); " id="btn-popup-down" class="tf-btn large" disabled>Approval</a>
             </div>
         </div>
-    @endif
-
-    <div class="tf-panel down">
-        <div class="panel_overlay"></div>
-        <div class="panel-box panel-down">
-            <div class="header">
-                <div class="tf-container">
-                    <div class="tf-statusbar d-flex justify-content-center align-items-center">
-                        <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
-                        <h3>Approval</h3>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="mt-5">
-                <div class="tf-container">
-                    <form class="tf-form" action="{{ url('/rents/owner/approval/'.$rent->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="group-input">
-                            <label for="status" style="z-index: 1000;">Status</label>
-                            <select style="width: 100%" name="status" id="status" class="select2 @error('status') is-invalid @enderror">
-                                <option value="">-- Pilih Status --</option>
-                                <option value="Setuju" {{ 'Setuju' == old('status') ? 'selected="selected"' : '' }}>Setuju</option>
-                                <option value="Tolak" {{ 'Tolak' == old('status') ? 'selected="selected"' : '' }}>Tolak</option>
-                            </select>
-                            @error('status')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
+        
+        <div class="tf-panel down">
+            <div class="panel_overlay"></div>
+            <div class="panel-box panel-down">
+                <div class="header">
+                    <div class="tf-container">
+                        <div class="tf-statusbar d-flex justify-content-center align-items-center">
+                            <a href="#" class="clear-panel"> <i class="icon-close1"></i> </a>
+                            <h3>Approval</h3>
                         </div>
-
-                        <div class="group-input">
-                            <label for="owner_note">Catatan</label>
-                            <textarea name="owner_note" id="owner_note" class="@error('owner_note') is-invalid @enderror" cols="30" rows="5">{{ old('owner_note') }}</textarea>
-                            @error('owner_note')
+    
+                    </div>
+                </div>
+    
+                <div class="mt-5">
+                    <div class="tf-container">
+                        <form class="tf-form" action="{{ url('/rents/owner/approval/'.$rent->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="group-input">
+                                <label for="status" style="z-index: 1000;">Status</label>
+                                <select style="width: 100%" name="status" id="status" class="select2 @error('status') is-invalid @enderror">
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="Setuju" {{ 'Setuju' == old('status') ? 'selected="selected"' : '' }}>Setuju</option>
+                                    <option value="Tolak" {{ 'Tolak' == old('status') ? 'selected="selected"' : '' }}>Tolak</option>
+                                </select>
+                                @error('status')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="mt-7 mb-6">
-                            <button type="submit" class="tf-btn accent">Submit</button>
-                        </div>
-                </form>
+                                @enderror
+                            </div>
+    
+                            <div class="group-input">
+                                <label for="owner_note">Catatan</label>
+                                <textarea name="owner_note" id="owner_note" class="@error('owner_note') is-invalid @enderror" cols="30" rows="5">{{ old('owner_note') }}</textarea>
+                                @error('owner_note')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mt-7 mb-6">
+                                <button type="submit" class="tf-btn accent">Submit</button>
+                            </div>
+                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
 
     <br>
     <br>

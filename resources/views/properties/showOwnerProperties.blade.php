@@ -293,20 +293,21 @@
                 </div>
             </div>
         </div>
-    @endif
 
-    <div class="tf-panel logout">
-        <div class="panel_overlay"></div>
-        <div class="panel-box panel-center panel-logout">
+        <div class="tf-panel logout">
+            <div class="panel_overlay"></div>
+            <div class="panel-box panel-center panel-logout">
                 <div class="heading">
                     <h2 class="text-center">Anda yakin ingin menghapus data ini?</h2>
                 </div>
                 <div class="bottom">
-                    <a class="clear-panel" href="#">Cancel</a>
-                    <a class="clear-panel critical_color" href="{{ url('/properties/owner/delete/'.$property->id) }}">Delete</a>
+                    <a class="clear-panel" href="#">Tidak</a>
+                    <a class="clear-panel critical_color" href="{{ url('/properties/owner/delete/'.$property->id) }}">Ya</a>
                 </div>
+            </div>
         </div>
-    </div>
+    @endif
+
 
     <br>
     <br>

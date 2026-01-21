@@ -198,9 +198,17 @@ Route::get('/user-properties/show/{id}', [UserPropertyController::class, 'show']
 Route::get('/user-properties/contract/{id}', [UserPropertyController::class, 'contract'])->middleware('auth');
 Route::post('/user-properties/signature/{id}', [UserPropertyController::class, 'signature'])->middleware('auth');
 Route::post('/user-properties/extend/{id}', [UserPropertyController::class, 'extend'])->middleware('auth');
+Route::get('/user-properties/cancel/{transaction_id}', [UserPropertyController::class, 'cancel'])->middleware('auth');
+
 Route::get('/user-properties/complaint/{id}', [UserPropertyController::class, 'complaint'])->middleware('auth');
 Route::post('/user-properties/complaint/store/{id}', [UserPropertyController::class, 'storeComplaint'])->middleware('auth');
-Route::get('/user-properties/cancel/{transaction_id}', [UserPropertyController::class, 'cancel'])->middleware('auth');
+Route::get('/user-properties/complaint/show/{complaint_id}/{up_id}', [UserPropertyController::class, 'showComplaint'])->middleware('auth');
+Route::put('/user-properties/complaint/update/{complaint_id}/{up_id}', [UserPropertyController::class, 'updateComplaint'])->middleware('auth');
+Route::get('/user-properties/complaint/delete/{complaint_id}/{up_id}', [UserPropertyController::class, 'deleteComplaint'])->middleware('auth');
+
+Route::get('/complaints/owner', [ComplaintController::class, 'ownerComplaint'])->middleware('auth');
+Route::get('/complaints/owner/show/{id}', [ComplaintController::class, 'showOwnerComplaint'])->middleware('auth');
+Route::post('/complaints/owner/approval/{id}', [ComplaintController::class, 'approvalOwnerComplaint'])->middleware('auth');
 
 Route::get('/user-properties/owner', [UserPropertyController::class, 'ownerUp'])->middleware('auth');
 Route::get('/user-properties/owner/show/{id}', [UserPropertyController::class, 'showOwnerUp'])->middleware('auth');
@@ -209,8 +217,6 @@ Route::get('/user-properties/owner/contract/edit/{id}', [UserPropertyController:
 Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyController::class, 'updateContractOwnerUp'])->middleware('auth');
 
 Route::get('/transaction/finish', [TransactionController::class, 'finish'])->middleware('auth');
-
-Route::get('/complaints/owner', [ComplaintController::class, 'ownerComplaint'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

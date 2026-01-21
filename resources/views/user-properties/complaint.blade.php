@@ -26,15 +26,13 @@
                         </div>
 
                         <div class="group-input">
-                            <div class="group-input">
-                                <label for="date">Tanggal</label>
-                                <input type="date" class="date @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date', date('Y-m-d')) }}" placeholder="yyyy-mm-dd">
-                                @error('date')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label for="date">Tanggal</label>
+                            <input type="date" class="date @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date', date('Y-m-d')) }}" placeholder="yyyy-mm-dd">
+                            @error('date')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         <div class="group-input">
@@ -53,7 +51,7 @@
 
                         <div class="group-input">
                             <label for="complaint">Keluhan</label>
-                            <textarea name="complaint" id="complaint" class="@error('complaint') is-invalid @enderror" cols="30" rows="5" style="resize: vertical;" onblur="this.style.boxShadow='none'" placeholder="Ceritakan hal yang menarik tentang Kos Anda">{{ old('complaint') }}</textarea>
+                            <textarea name="complaint" id="complaint" class="@error('complaint') is-invalid @enderror" cols="30" rows="5" style="resize: vertical;" onblur="this.style.boxShadow='none'">{{ old('complaint') }}</textarea>
                             @error('complaint')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -64,7 +62,7 @@
                         <label for="complaint_file_path">File (Optional)</label>
                         <div class="group-input">
                             <div class="file-input-wrapper">
-                                <input class="form-control @error('complaint_file_path') is-invalid @enderror" type="file" id="complaint_file_path" name="complaint_file_path">
+                                <input class="form-control @error('complaint_file_path') is-invalid @enderror" type="file" id="complaint_file_path" name="complaint_file_path" accept="image/*">
                                 <div class="file-name-display">
                                     <span class="complaint_display">Belum ada file dipilih</span>
                                 </div>
