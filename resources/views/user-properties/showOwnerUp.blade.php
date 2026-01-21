@@ -85,8 +85,10 @@
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-map-marker-alt me-1"></i>{{ $property->district && $property->district->name ? ucwords(strtolower($property->district->name)) : '' }}</div>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white;"><i class="fas fa-location-arrow me-1"></i>{{ $property->city && $property->city->name ? ucwords(strtolower($property->city->name)) : '' }}</div>
                         <div class="badge me-2 mb-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $room->room_height ?? '-' }} x {{ $room->room_width ?? '-' }} Meter</div>
-                        @if ($up->status == 'Tanda Tangan Kontrak')
-                            <div class="badge me-2 mb-2" style="color: rgb(21, 47, 118); border:1px solid rgb(21, 47, 118); background-color:rgba(210, 229, 255, 0.889); border-radius:5x;">{{ $up->status ?? '-' }}</div>
+                        @if ($up->status == 'Aktif')
+                            <div class="badge me-2 mb-2" style="color: rgba(87, 169, 69, 0.889); border:1px solid rgba(87, 169, 69, 0.889); border-radius:5x;"><i class="fa fa-check me-1"></i>{{ $up->status ?? '-' }}</div>
+                        @else
+                            <div class="badge me-2 mb-2" style="color: rgba(208, 43, 43, 0.889); border:1px solid rgba(208, 43, 43, 0.889);  border-radius:5x;"><i class="fa fa-times me-1"></i>{{ $up->status ?? '-' }}</div>
                         @endif
                     </div>
                     <hr style="color: rgb(30, 30, 30)">

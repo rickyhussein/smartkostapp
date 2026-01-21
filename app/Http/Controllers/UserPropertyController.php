@@ -15,13 +15,30 @@ class UserPropertyController extends Controller
     public function index()
     {
         $title = 'Properti Saya';
-        $user_properties = UserProperty::where('user_id', auth()->user()->id)->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
+        $search = request()->input('search');
+
+        $user_properties = UserProperty::where('user_id', auth()->user()->id)
+        ->where('is_active', 1)
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($subquery) use ($search) {
+                $subquery->whereHas('property', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('category', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('room', function ($q) use ($search) {
+                    $q->where('room_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('room_type', 'LIKE', '%' . $search . '%');
+                });
+            });
+
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10);
 
         return view('user-properties.index', compact(
             'title',
             'user_properties',
         ));
-
     }
     
     public function show($id)
@@ -255,7 +272,7 @@ class UserPropertyController extends Controller
                     'gross_amount' => $transaction->total_amount,
                 ),
                 'callbacks' => array(
-                    'finish' => url('/transaction/finish'),
+                    'finish' => url('/transactions/finish'),
                 ),
                 'expiry' => array(
                     'start_time' => date("Y-m-d H:i:s O"),
@@ -283,13 +300,33 @@ class UserPropertyController extends Controller
     public function ownerUp()
     {
         $title = 'Kamar Terisi';
-        $user_properties = UserProperty::where('owner_id', auth()->user()->id)->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
+        $search = request()->input('search');
+
+        $user_properties = UserProperty::where('owner_id', auth()->user()->id)
+        ->where('is_active', 1)
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($subquery) use ($search) {
+                $subquery->whereHas('property', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('category', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('room', function ($q) use ($search) {
+                    $q->where('room_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('room_type', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%');
+                });
+            });
+
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10);
 
         return view('user-properties.ownerUp', compact(
             'title',
             'user_properties',
         ));
-
     }
 
     public function showOwnerUp($id)

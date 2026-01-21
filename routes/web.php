@@ -9,6 +9,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FacilityController;
@@ -219,7 +220,10 @@ Route::get('/user-properties/owner/contract/print/{id}', [UserPropertyController
 Route::get('/user-properties/owner/contract/edit/{id}', [UserPropertyController::class, 'editContractOwnerUp'])->middleware('auth');
 Route::put('/user-properties/owner/contract/update/{id}', [UserPropertyController::class, 'updateContractOwnerUp'])->middleware('auth');
 
-Route::get('/transaction/finish', [TransactionController::class, 'finish'])->middleware('auth');
+Route::get('/history/user', [HistoryController::class, 'userHistory'])->middleware('auth');
+Route::get('/history/user/show/{id}', [HistoryController::class, 'showUserHistory'])->middleware('auth');
+
+Route::get('/transactions/finish', [TransactionController::class, 'finish'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

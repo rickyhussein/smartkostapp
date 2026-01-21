@@ -16,4 +16,4 @@ use App\Http\Controllers\API\UsersController;
 |
 */
 
-Route::post('/transaction/callback', [RentController::class, 'transactionCallback']);
+Route::post('/transactions/callback', [RentController::class, 'callback']);

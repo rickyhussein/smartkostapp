@@ -1,11 +1,11 @@
-@extends('layouts.appowner')
+@extends('layouts.app')
 @section('back')
-    <a href="{{ url('/dashboard/owner') }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url('/dashboard/user') }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap" class="style1">
         <div class="tf-container">
-            <form action="{{ url('/user-properties/owner') }}" class="mt-4">
+            <form action="{{ url('/history/user') }}" class="mt-4">
                 <div class="row">
                     <div class="col-10">
                         <input type="text" name="search" placeholder="Search.." id="search" value="{{ request('search') }}">
@@ -26,7 +26,7 @@
                 </div>
             @else
                 @foreach ($user_properties as $key => $up)
-                    <a href="{{ url('/user-properties/owner/show/'.$up->id) }}" style="color: black; text-decoration: none;">
+                    <a href="{{ url('/history/user/show/'.$up->id) }}" style="color: black; text-decoration: none;">
                         <div class="card mt-4" style="border-radius: 15px; width: 100%;">
                             <img style="max-height: 150px; border-top-left-radius: 15px; border-top-right-radius: 15px; width: 100%; object-fit: cover;" src="{{ url('/storage/'.$up->room->room_file_path) }}" class="card-img-top" alt="">
                             <div class="card-body">
@@ -53,7 +53,16 @@
                                     {{ Str::limit($facility, 70, '...') }}
                                 </p>
                                 <p class="card-text" style="font-size: 8px;">{{ Str::limit($up->property->address, 150, '...') }}</p>
-                                <h6 style="font-size: 10px;" class="mt-1">
+                                <h6 style="font-size: 10px;" class="mt-1 critical_color">
+                                    @php
+                                        if ($up->start_date) {
+                                            Carbon\Carbon::setLocale('id');
+                                            $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $up->start_date);
+                                            $new_start_date = $start_date->translatedFormat('d F Y');
+                                        } else {
+                                            $new_start_date = '-';
+                                        }
+                                    @endphp
                                     @php
                                         if ($up->end_date) {
                                             Carbon\Carbon::setLocale('id');
@@ -63,8 +72,7 @@
                                             $new_end_date = '-';
                                         }
                                     @endphp
-                                    <span class="critical_color" style="float:left;">Berakhir pada {{ $new_end_date }}</span>
-                                    <span style="float:right;">Diisi Oleh : {{ $up->user->name ?? '-' }}</span>
+                                    Periode {{ $new_start_date }} - {{ $new_end_date }}
                                 </h6>
                             </div>
                         </div>

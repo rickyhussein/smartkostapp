@@ -34,6 +34,11 @@
                                 <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-home me-1"></i>{{ $up->property->category ?? '-' }}</div>
                                 <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; font-size:8px"><i class="fas fa-map-marker-alt me-1"></i>{{ $up->property && $up->property->district && $up->property->district->name ? ucwords(strtolower($up->property->district->name)) : '' }}</div>
                                 <div class="badge me-2" style="color: gray; border:1px solid gray; background-color:white; "><i class="far fa-square me-1"></i>{{ $up->room->room_height ?? '-' }} x {{ $up->room->room_width ?? '-' }} Meter</div>
+                                @if ($up->status == 'Aktif')
+                                    <div class="badge" style="color: rgba(87, 169, 69, 0.889); border:1px solid rgba(87, 169, 69, 0.889); border-radius:5x; float: right;"><i class="fa fa-check me-1"></i>{{ $up->status ?? '-' }}</div>
+                                @else
+                                    <div class="badge" style="color: rgba(208, 43, 43, 0.889); border:1px solid rgba(208, 43, 43, 0.889);  border-radius:5x; float: right;"><i class="fa fa-times me-1"></i>{{ $up->status ?? '-' }}</div>
+                                @endif
                                 <br>
                                 <p class="text-muted" style="font-size: 8px;">
                                     @php
