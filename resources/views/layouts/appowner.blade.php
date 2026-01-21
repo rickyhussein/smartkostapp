@@ -202,7 +202,7 @@
                                 </g>
                             </g>
                             </svg>
-                            Keuangan
+                            <span style="color:#{{ Request::is('transactions/owner/report*') ? '0000FF' : '000000' }}" class="ms-2">Pengajuan</span>
                         </a>
                     </li>
 
