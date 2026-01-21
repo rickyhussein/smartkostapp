@@ -13,7 +13,7 @@ class UpdateStatusProperty extends Command
      *
      * @var string
      */
-    protected $signature = 'command:updatestatusproperty';
+    protected $signature = 'update:updatestatusproperty';
 
     /**
      * The console command description.
@@ -39,7 +39,7 @@ class UpdateStatusProperty extends Command
      */
     public function handle()
     {
-        $up = UserProperty::find(5);
+        $up = UserProperty::find(1);
         $up->update([
             'is_active' => null,
             'status' => 'Non Aktif',
