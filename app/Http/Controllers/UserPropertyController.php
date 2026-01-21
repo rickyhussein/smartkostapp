@@ -55,7 +55,6 @@ class UserPropertyController extends Controller
             ->orWhere('status', 'unpaid');
         })
         ->get();
-        $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
         return view('user-properties.show', compact(
             'title',
@@ -65,7 +64,6 @@ class UserPropertyController extends Controller
             'rent',
             'complaints',
             'transactions',
-            'up_start_date',
         ));
     }
 
@@ -337,7 +335,6 @@ class UserPropertyController extends Controller
         $room = $up->room;
         $rent = $up->rent;
         $transactions = Transaction::where('user_property_id', $up->id)->get();
-        $up_start_date = date('Y-m-d', strtotime($up->end_date . ' +1 day'));
 
         return view('user-properties.showOwnerUp', compact(
             'title',
@@ -346,7 +343,6 @@ class UserPropertyController extends Controller
             'room',
             'rent',
             'transactions',
-            'up_start_date',
         ));
     }
 

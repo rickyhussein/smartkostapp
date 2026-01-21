@@ -388,7 +388,7 @@
 
                                         <div class="group-input">
                                             <label for="start_date">Tanggal Mulai Sewa</label>
-                                            <input type="date" class="@error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $up_start_date) }}" placeholder="yyyy-mm-dd" onchange="calculateDate()">
+                                            <input type="date" class="@error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $up->end_date) }}" placeholder="yyyy-mm-dd" onchange="calculateDate()">
                                             @error('start_date')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
