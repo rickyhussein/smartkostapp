@@ -39,28 +39,20 @@ class UpdateStatusProperty extends Command
      */
     public function handle()
     {
-        $up = UserProperty::find(1);
-        $up->update([
-            'is_active' => 1,
-            'status' => 'Aktif',
-        ]);
-
-        $room = PropertyRoom::find($up->room_id);
-        $room->update([
-            'is_available' => 1,
-        ]);
-
-        // $user_properties = UserProperty::orderBy('id', 'DESC')->get();
-        // foreach($user_properties as $up) {
-        //     $up->update([
-        //         'is_active' => null,
-        //         'status' => 'Non Aktif',
-        //     ]);
+        $user_properties = UserProperty::where('is_active', 1)
+        ->whereRaw('DATE_ADD(end_date, INTERVAL 3 DAY) <= ?', [date('Y-m-d')])
+        ->orderBy('id', 'DESC')
+        ->get();
+        foreach($user_properties as $up) {
+            $up->update([
+                'is_active' => null,
+                'status' => 'Non Aktif',
+            ]);
     
-        //     $room = PropertyRoom::find($up->room_id);
-        //     $room->update([
-        //         'is_available' => null,
-        //     ]);
-        // }
+            $room = PropertyRoom::find($up->room_id);
+            $room->update([
+                'is_available' => null,
+            ]);
+        }
     }
 }
