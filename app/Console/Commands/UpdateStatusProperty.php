@@ -45,7 +45,7 @@ class UpdateStatusProperty extends Command
             'status' => 'Non Aktif',
         ]);
 
-        $room = PropertyRoom::find($up->id);
+        $room = PropertyRoom::find($up->room_id);
         $room->update([
             'is_available' => null,
         ]);
