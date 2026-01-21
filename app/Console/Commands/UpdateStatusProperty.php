@@ -39,16 +39,27 @@ class UpdateStatusProperty extends Command
      */
     public function handle()
     {
+        // $up = UserProperty::find(1);
+        // $up->update([
+        //     'is_active' => null,
+        //     'status' => 'Non Aktif',
+        // ]);
+
+        // $room = PropertyRoom::find($up->room_id);
+        // $room->update([
+        //     'is_available' => null,
+        // ]);
+
         $user_properties = UserProperty::orderBy('id', 'DESC')->get();
         foreach($user_properties as $up) {
             $up->update([
-                'is_active' => 1,
-                'status' => 'Aktif',
+                'is_active' => null,
+                'status' => 'Non Aktif',
             ]);
     
             $room = PropertyRoom::find($up->room_id);
             $room->update([
-                'is_available' => 1,
+                'is_available' => null,
             ]);
         }
     }
