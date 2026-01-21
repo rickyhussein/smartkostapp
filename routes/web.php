@@ -210,6 +210,9 @@ Route::get('/complaints/owner', [ComplaintController::class, 'ownerComplaint'])-
 Route::get('/complaints/owner/show/{id}', [ComplaintController::class, 'showOwnerComplaint'])->middleware('auth');
 Route::post('/complaints/owner/approval/{id}', [ComplaintController::class, 'approvalOwnerComplaint'])->middleware('auth');
 
+Route::get('/complaints/user', [ComplaintController::class, 'userComplaint'])->middleware('auth');
+Route::get('/complaints/user/show/{id}', [ComplaintController::class, 'showUserComplaint'])->middleware('auth');
+
 Route::get('/user-properties/owner', [UserPropertyController::class, 'ownerUp'])->middleware('auth');
 Route::get('/user-properties/owner/show/{id}', [UserPropertyController::class, 'showOwnerUp'])->middleware('auth');
 Route::get('/user-properties/owner/contract/print/{id}', [UserPropertyController::class, 'printContractOwnerUp'])->middleware('auth');

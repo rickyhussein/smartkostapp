@@ -49,6 +49,47 @@ class ComplaintController extends Controller
         ));
     }
 
+    public function userComplaint()
+    {
+        $title = 'Keluhan';
+        $search = request()->input('search');
+
+        $complaints = Complaint::where('user_id', auth()->user()->id)
+        ->when($search, function ($query) use ($search) {
+            $query->where('complaint', 'LIKE', '%' . $search . '%')
+            ->orWhere('type', 'LIKE', '%' . $search . '%')
+            ->orWhere('status', 'LIKE', '%' . $search . '%')
+            ->orWhereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            })
+            ->orWhereHas('property', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            })
+            ->orWhereHas('room', function ($q) use ($search) {
+                $q->where('room_name', 'LIKE', '%' . $search . '%');
+            });
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10)
+        ->withQueryString();
+
+        return view('complaints.userComplaint', compact(
+            'title',
+            'complaints',
+        ));
+    }
+
+    public function showUserComplaint($id)
+    {
+        $title = 'Keluhan';
+        $complaint = Complaint::find($id);
+
+        return view('complaints.showUserComplaint', compact(
+            'title',
+            'complaint',
+        ));
+    }
+
     public function approvalOwnerComplaint(Request $request, $id)
     {
         $complaint = Complaint::find($id);
