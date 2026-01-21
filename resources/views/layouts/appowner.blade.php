@@ -180,9 +180,9 @@
                         </a>
                     </li>
 
-                    <li class="{{ Request::is('keuangan/owner*') ? 'active' : '' }}">
-                        <a class="fw_4 d-flex justify-content-center align-items-center flex-column" href="{{ url('/laporan-keuangan/owner') }}">
-                            <svg style="width: 22px;" fill="#{{ Request::is('keuangan/owner*') ? '0000FF' : '000000' }}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    <li class="{{ Request::is('transactions/owner/report*') ? 'active' : '' }}">
+                        <a class="fw_4 d-flex justify-content-center align-items-center flex-column" href="{{ url('/transactions/owner/report') }}">
+                            <svg style="width: 22px;" fill="#{{ Request::is('transactions/owner/report*') ? '0000FF' : '000000' }}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 184.153 184.153" xml:space="preserve">
                             <g>
                                 <g>
