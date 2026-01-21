@@ -127,4 +127,54 @@
     <br>
     <br>
 
+    @if ($transaction->status == 'unpaid')
+        <div class="bottom-navigation-bar st1 bottom-btn-fixed" style="bottom:65px">
+            <div class="tf-container">
+                <button  id="pay-button" class="tf-btn accent large">Bayar Sekarang</button>
+            </div>
+        </div>
+
+        @push('style')
+            <script type="text/javascript" src="{{ config('midtrans.snap_url') }}" data-client-key="{{ config('midtrans.client_key') }}"></script>
+        @endpush
+
+        @push('script')
+            <script type="text/javascript">
+                var payButton = document.getElementById('pay-button');
+                payButton.addEventListener('click', function () {
+                    window.snap.pay('{{ $transaction->snaptoken }}', {
+                        onSuccess: function(result){
+                            Swal.fire('Payment Success!', '', 'success');
+                            setTimeout(() => location.reload(), 3000);
+                        },
+                        onPending: function(result){
+                            Swal.fire({
+                                title: "Pending",
+                                text: "Waiting For Your Payment",
+                                icon: "info"
+                            });
+                            setTimeout(() => location.reload(), 3000);
+                        },
+                        onError: function(result){
+                            Swal.fire({
+                                title: "Failed",
+                                text: "Payment Failed",
+                                icon: "error"
+                            });
+                            setTimeout(() => location.reload(), 3000);
+                        },
+                        onClose: function(){
+                            Swal.fire({
+                                title: "Closed",
+                                text: "You closed The Popup Without Finishing The Payment",
+                                icon: "warning"
+                            });
+                            setTimeout(() => location.reload(), 3000);
+                        }
+                    })
+                });
+            </script>
+        @endpush
+    @endif
+
 @endsection
