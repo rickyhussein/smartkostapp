@@ -176,6 +176,8 @@ Route::get('/properties/owner/show/{id}', [PropertyController::class, 'showOwner
 Route::get('/properties/owner/edit/{id}', [PropertyController::class, 'editOwnerProperties'])->middleware('auth');
 Route::put('/properties/owner/update/{id}', [PropertyController::class, 'updateOwnerProperties'])->middleware('auth');
 Route::delete('/properties/owner/delete/{id}', [PropertyController::class, 'deleteOwnerProperties'])->middleware('auth');
+Route::get('/properties/owner/nonaktif/{id}', [PropertyController::class, 'nonaktifOwnerProperties'])->middleware('auth');
+Route::get('/properties/owner/aktif/{id}', [PropertyController::class, 'aktifOwnerProperties'])->middleware('auth');
 
 Route::get('/properties/owner/room/show/{room_id}/{property_id}', [PropertyController::class, 'showRoomOwnerProperties'])->middleware('auth');
 Route::get('/properties/owner/room/create/{room_id}/{property_id}', [PropertyController::class, 'createRoomOwnerProperties'])->middleware('auth');
@@ -226,6 +228,8 @@ Route::get('/history/user/show/{id}', [HistoryController::class, 'showUserHistor
 Route::get('/transactions/user', [TransactionController::class, 'userTransactions'])->middleware('auth');
 Route::get('/transactions/user/show/{id}', [TransactionController::class, 'showUserTransactions'])->middleware('auth');
 Route::get('/transactions/finish', [TransactionController::class, 'finishTransactions'])->middleware('auth');
+
+Route::get('/transactions/owner/report', [TransactionController::class, 'reportOwnerTransactions'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

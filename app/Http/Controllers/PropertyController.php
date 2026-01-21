@@ -545,6 +545,28 @@ class PropertyController extends Controller
         ));
     }
 
+    public function nonaktifOwnerProperties($id)
+    {
+        $property = Property::find($id);
+        DB::transaction(function ()  use ($property) {
+            $property->update([
+                'status' => 'Non Aktif'
+            ]);
+        });
+        return redirect('/properties/owner/show/'.$property->id)->with('success', 'Data Berhasil Diubah');
+    }
+
+    public function aktifOwnerProperties($id)
+    {
+        $property = Property::find($id);
+        DB::transaction(function ()  use ($property) {
+            $property->update([
+                'status' => 'Disetujui'
+            ]);
+        });
+        return redirect('/properties/owner/show/'.$property->id)->with('success', 'Data Berhasil Diubah');
+    }
+
     public function showRoomOwnerProperties($room_id, $property_id)
     {
         $room = PropertyRoom::find($room_id);

@@ -280,7 +280,7 @@
         </div>
     </div>
 
-    @if ($property->status !== 'Disetujui')
+    @if ($property->status == 'Menunggu Persetujuan Admin')
         <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
             <div class="tf-container">
                 <div class="row">
@@ -303,6 +303,48 @@
                 <div class="bottom">
                     <a class="clear-panel" href="#">Tidak</a>
                     <a class="clear-panel critical_color" href="{{ url('/properties/owner/delete/'.$property->id) }}">Ya</a>
+                </div>
+            </div>
+        </div>
+    @endif
+    
+    @if ($property->status == 'Disetujui')
+        <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
+            <div class="tf-container">
+                <a id="btn-logout" href="#" class="tf-btn small" style="color: red; border:1px solid red; background-color:white;">Non Aktifkan Properti</a>
+            </div>
+        </div>
+
+        <div class="tf-panel logout">
+            <div class="panel_overlay"></div>
+            <div class="panel-box panel-center panel-logout">
+                <div class="heading">
+                    <h2 class="text-center">Anda yakin ingin menonaktifkan properti ini?</h2>
+                </div>
+                <div class="bottom">
+                    <a class="clear-panel" href="#">Tidak</a>
+                    <a class="clear-panel critical_color" href="{{ url('/properties/owner/nonaktif/'.$property->id) }}">Ya</a>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if ($property->status == 'Non Aktif')
+        <div class="bottom-navigation-bar st2 bottom-btn-fixed" style="bottom:65px">
+            <div class="tf-container">
+                <a id="btn-logout" href="#" class="tf-btn small" style="color: green; border:1px solid green; background-color:white;">Aktifkan Properti</a>
+            </div>
+        </div>
+
+        <div class="tf-panel logout">
+            <div class="panel_overlay"></div>
+            <div class="panel-box panel-center panel-logout">
+                <div class="heading">
+                    <h2 class="text-center">Anda yakin ingin mengaktifkan properti ini?</h2>
+                </div>
+                <div class="bottom">
+                    <a class="clear-panel" href="#">Tidak</a>
+                    <a class="clear-panel" style="color: green;" href="{{ url('/properties/owner/aktif/'.$property->id) }}">Ya</a>
                 </div>
             </div>
         </div>

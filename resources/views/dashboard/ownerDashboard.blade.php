@@ -179,25 +179,9 @@
                     </div>
                 </a>
 
-                <a href="{{ url('/withdraw/owner') }}" class="col-12 mt-4">
-                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
-                        <div class="row  d-flex align-items-center">
-                            <div class="col-3">
-                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 50px; height: 50px;">
-                                    <img src="{{ url('/assets/img/donasi5.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="card-body">
-                                  <h5 class="card-title">Withdraw</h5>
-                                  <p class="card-text">Withdraw Saldo Anda</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                
 
-                <a href="{{ url('/laporan-keuangan/owner') }}" class="col-12 mt-4">
+                <a href="{{ url('/transactions/owner/report') }}" class="col-12 mt-4">
                     <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                         <div class="row  d-flex align-items-center">
                             <div class="col-3">
@@ -209,6 +193,24 @@
                                 <div class="card-body">
                                   <h5 class="card-title">Laporan Keuangan</h5>
                                   <p class="card-text">Laporan Statistik Keuangan Anda</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="col-12 mt-4">
+                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
+                        <div class="row  d-flex align-items-center">
+                            <div class="col-3">
+                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 50px; height: 50px;">
+                                    <img src="{{ url('/assets/img/donasi5.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="card-body">
+                                  <h5 class="card-title">Withdraw</h5>
+                                  <p class="card-text">Withdraw Saldo Anda</p>
                                 </div>
                             </div>
                         </div>
