@@ -154,7 +154,7 @@
                             <div class="col-9">
                                 <div class="card-body">
                                   <h5 class="card-title">Kamar Terisi</h5>
-                                  <p class="card-text">Kelola Kamar Yang Sedang Terisi</p>
+                                  <p class="card-text">Kelola Kamar Terisi</p>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                             <div class="col-9">
                                 <div class="card-body">
                                   <h5 class="card-title">Kamar Kosong</h5>
-                                  <p class="card-text">List Kamar Kosong</p>
+                                  <p class="card-text">Kelola Kamar Kosong</p>
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,7 @@ class PropertyRoomController extends Controller
 {
     public function ownerPropertyRoom()
     {
-        $title = 'Kamar Terisi';
+        $title = 'Kamar Kosong';
         $search = request()->input('search');
 
         $property_rooms = PropertyRoom::select('property_rooms.*')
