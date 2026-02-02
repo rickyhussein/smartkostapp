@@ -240,17 +240,17 @@
                             <h4 class="fw_6">Rincian Pembayaran</h4>
                             <br>
                             <span style="float: left">Biaya sewa</span>
-                            <h6 id="textAmount" style="float: right">Rp {{ old('amount', '0') }}</h6>
+                            <h6 id="textAmount" style="float: right">Rp {{ number_format(old('amount', '0')) }}</h6>
                             <br>
                             <span style="float: left">Biaya Deposit</span>
-                            <h6 id="textDeposit" style="float: right">Rp {{ old('deposit_price', '0') }}</h6>
+                            <h6 id="textDeposit" style="float: right">Rp {{ number_format(old('deposit_price', '0')) }}</h6>
                             <br>
                         </div>
                         <hr style="color: rgb(180, 180, 180)">
 
                         <div class="voucher-desc">
                             <h3 style="float: left">Total Pembayaran Pertama</h3>
-                            <h3 id="textTotalAmount" style="float: right">Rp {{ old('total_amount', '0') }}</h3>
+                            <h3 id="textTotalAmount" style="float: right">Rp {{ number_format(old('total_amount', '0')) }}</h3>
                         </div>
 
                         <input type="hidden" name="user_id" id="user_id" class="user_id" value="{{ old('user_id', auth()->user()->id) }}">
@@ -328,7 +328,8 @@
             $('.select2').select2();
 
             flatpickr("#start_date", {
-                disableMobile: true
+                disableMobile: true,
+                minDate: "today"
             });
 
             flatpickr("#end_date", {
