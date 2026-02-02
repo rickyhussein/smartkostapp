@@ -4,7 +4,7 @@
         <div class="tf-container">
             <div class="tf-statusbar d-flex justify-content-between align-items-center position-relative" style="height: 50px;">
                 <div class="flex-item start" style="width: 50px; margin-top: -50px">
-                    <a href="{{ url()->previous() ?? url('/') }}" class="back-btn"> <i class="icon-left"></i> </a>
+                    <a href="{{ url()->previous() == url('/login') ? url('/') : url()->previous() }}" class="back-btn"> <i class="icon-left"></i> </a>
                 </div>
             </div>
         </div>

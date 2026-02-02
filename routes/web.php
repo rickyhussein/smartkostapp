@@ -21,6 +21,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PropertyRoomController;
 use App\Http\Controllers\UserPropertyController;
 
 /*
@@ -230,6 +231,8 @@ Route::get('/transactions/user/show/{id}', [TransactionController::class, 'showU
 Route::get('/transactions/finish', [TransactionController::class, 'finishTransactions'])->middleware('auth');
 
 Route::get('/transactions/owner/report', [TransactionController::class, 'reportOwnerTransactions'])->middleware('auth');
+
+Route::get('/property-room/owner', [PropertyRoomController::class, 'ownerPropertyRoom'])->middleware('auth');
 
 Route::get('/get-city', [PropertyController::class, 'getCity'])->middleware('auth');
 Route::get('/get-district', [PropertyController::class, 'getDistrict'])->middleware('auth');

@@ -754,6 +754,10 @@ class PropertyController extends Controller
 
             if ($request->file('ktp_photo_transaction')) {
                 $validated['ktp_photo_transaction'] = $request->file('ktp_photo_transaction')->store('ktp_photo_transaction');
+                $user = User::find(auth()->user()->id);
+                $user->update([
+                    'ktp_photo' => $validated['ktp_photo_transaction']
+                ]);
             } else {
                 if (auth()->user()->ktp_photo) {
                     $validated['ktp_photo_transaction'] = auth()->user()->ktp_photo;
@@ -762,6 +766,10 @@ class PropertyController extends Controller
 
             if ($request->file('kk_photo_transaction')) {
                 $validated['kk_photo_transaction'] = $request->file('kk_photo_transaction')->store('kk_photo_transaction');
+                $user = User::find(auth()->user()->id);
+                $user->update([
+                    'kk_photo' => $validated['kk_photo_transaction']
+                ]);
             } else {
                 if (auth()->user()->kk_photo) {
                     $validated['kk_photo_transaction'] = auth()->user()->kk_photo;

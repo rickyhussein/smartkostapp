@@ -161,6 +161,24 @@
                     </div>
                 </a>
 
+                <a href="{{ url('/property-room/owner') }}" class="col-12 mt-4">
+                    <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
+                        <div class="row  d-flex align-items-center">
+                            <div class="col-3">
+                                <div class="ms-4 d-flex justify-content-center align-items-center text-white rounded" style="width: 70px; height: 70px;">
+                                    <img src="{{ url('/assets/img/kamar2.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="card-body">
+                                  <h5 class="card-title">Kamar Kosong</h5>
+                                  <p class="card-text">List Kamar Kosong</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="{{ url('/complaints/owner') }}" class="col-12 mt-4">
                     <div class="card text-dark bg-light mb-3" style="border-radius: 15px;">
                         <div class="row  d-flex align-items-center">

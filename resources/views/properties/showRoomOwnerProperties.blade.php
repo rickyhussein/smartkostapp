@@ -1,6 +1,6 @@
 @extends('layouts.appowner')
 @section('back')
-    <a href="{{ url('/properties/owner/show/'.$property->id) }}" class="back-btn"> <i class="icon-left"></i> </a>
+    <a href="{{ url()->previous() == url('/properties/owner/room/show/'.$room->id.'/'.$property->id) ? url('/properties/owner/show/'.$property->id) : url()->previous() }}" class="back-btn"> <i class="icon-left"></i> </a>
 @endsection
 @section('container')
     <div id="app-wrap">
